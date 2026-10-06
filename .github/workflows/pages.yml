@@ -1,0 +1,58 @@
+name: 部署到 GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 版本由 package.json 的 packageManager 決定。
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: 安裝相依套件
+        run: pnpm install --frozen-lockfile
+
+      - name: 型別檢查
+        run: pnpm check
+
+      # vite.config.ts 的 base 為 "./"，網站放在 /<repo>/ 子路徑下也能正常載入資產。
+      - name: 建置靜態網站
+        run: pnpm exec vite build
+
+      - name: 準備 Pages 產物
+        run: |
+          rm -rf dist/public/__manus__
+          touch dist/public/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

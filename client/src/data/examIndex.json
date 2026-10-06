@@ -1,0 +1,72 @@
+[
+  {
+    "year": 2016,
+    "status": "available",
+    "question_source": "https://cte.nptu.edu.tw/app/index.php?Action=downloadfile&file=WVhSMFlXTm9MekkwTDNCMFlWOHhNVEU0T1RKZk16RXdNakEyTWw4d05ERTNPUzV3WkdZPQ==&fname=LOGGVWOKUS0011XXLOLKTSXTXS30OOKKWS34YSGCNP5110A5YSA4YS5450OKOKSWPOWW4501FG2405XT14JCMK2534ROGGMKVXYTMLFCXWA4VSPPECSWB5PKGCPO4415A4NO41WTXSPKHGICKLICYW1044UXQPFGLKECZSDG20OKROTTYW542100EDXWPK10&cg=10325",
+    "answer_source": "https://littletree.ndhu.edu.tw/var/file/23/1023/img/4653/573781383.pdf",
+    "label": "可互動作答：官方／大學師培中心鏡像 PDF"
+  },
+  {
+    "year": 2017,
+    "status": "available",
+    "question_source": "https://cte.nptu.edu.tw/app/index.php?Action=downloadfile&file=WVhSMFlXTm9MekkwTDNCMFlWOHhNVEU0T1RKZk16RXdNakEyTWw4d05ERTNPUzV3WkdZPQ==&fname=LOGGVWOKUS0011XXLOLKTSXTXS30OOKKWS34YSGCNP5110A5YSA4YS5450OKOKSWPOWW4501FG2405XT14JCMK2534ROGGMKVXYTMLFCXWA4VSPPECSWB5PKGCPO4415A4NO41WTXSPKHGICKLICYW1044UXQPFGLKECZSDG20OKROTTYW542100EDXWPK10&cg=10325",
+    "answer_source": "https://littletree.ndhu.edu.tw/var/file/23/1023/img/4653/169328641.pdf",
+    "label": "可互動作答：官方／大學師培中心鏡像 PDF"
+  },
+  {
+    "year": 2018,
+    "status": "official_lookup",
+    "question_source": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+    "answer_source": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+    "label": "官方歷屆試題查詢：動態下載入口"
+  },
+  {
+    "year": 2019,
+    "status": "available",
+    "question_source": "https://cte.nptu.edu.tw/app/index.php?Action=downloadfile&file=WVhSMFlXTm9MekkwTDNCMFlWOHhNVEU0T1RKZk16RXdNakEyTWw4d05ERTNPUzV3WkdZPQ==&fname=LOGGVWOKUS0011XXLOLKTSXTXS30OOKKWS34YSGCNP5110A5YSA4YS5450OKOKSWPOWW4501FG2405XT14JCMK2534ROGGMKVXYTMLFCXWA4VSPPECSWB5PKGCPO4415A4NO41WTXSPKHGICKLICYW1044UXQPFGLKECZSDG20OKROTTYW542100EDXWPK10&cg=10325",
+    "answer_source": "https://littletree.ndhu.edu.tw/var/file/23/1023/img/4653/532573992.pdf",
+    "label": "可互動作答：官方／大學師培中心鏡像 PDF"
+  },
+  {
+    "year": 2020,
+    "status": "available",
+    "question_source": "https://littletree.ndhu.edu.tw/var/file/23/1023/img/4651/481109552.pdf",
+    "answer_source": "https://littletree.ndhu.edu.tw/var/file/23/1023/img/4653/564088572.pdf",
+    "label": "可互動作答：官方／大學師培中心鏡像 PDF"
+  },
+  {
+    "year": 2021,
+    "status": "available",
+    "question_source": "https://phpweb.nutn.edu.tw/cte/download/newsFile_20240411111658.pdf",
+    "answer_source": "https://phpweb.nutn.edu.tw/cte/download/newsFile_20240411111757.pdf",
+    "label": "可互動作答：官方／大學師培中心鏡像 PDF"
+  },
+  {
+    "year": 2022,
+    "status": "available",
+    "question_source": "https://littletree.ndhu.edu.tw/var/file/23/1023/img/4654/388050732.pdf",
+    "answer_source": "https://littletree.ndhu.edu.tw/var/file/23/1023/img/4653/641698346.pdf",
+    "label": "可互動作答：官方／大學師培中心鏡像 PDF"
+  },
+  {
+    "year": 2023,
+    "status": "available",
+    "question_source": "https://littletree.ndhu.edu.tw/var/file/23/1023/img/4651/863586584.pdf",
+    "answer_source": "https://littletree.ndhu.edu.tw/var/file/23/1023/img/4653/484641599.pdf",
+    "label": "可互動作答：官方／大學師培中心鏡像 PDF"
+  },
+  {
+    "year": 2024,
+    "status": "official_lookup",
+    "question_source": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+    "answer_source": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+    "label": "官方歷屆試題查詢：動態下載入口"
+  },
+  {
+    "year": 2025,
+    "status": "official_lookup",
+    "question_source": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+    "answer_source": "https://tqa.rcpet.edu.tw/TEA_Exam/TEA03.aspx",
+    "label": "官方歷屆試題查詢：動態下載入口"
+  }
+]
