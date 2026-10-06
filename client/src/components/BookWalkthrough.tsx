@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Maximize2, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown, Maximize2, X } from "lucide-react";
 import { guideChapters, type GuideChapter } from "../data/guideChapters";
 import Neuro3DLab from "./Neuro3DLab";
 import ChapterExamples from "./ChapterExamples";
 import ChapterDepth from "./ChapterDepth";
-import { bookScenes } from "../data/bookScenes";
 import type { Mode } from "../data/neuroLessons";
+import { sceneByChapter } from "../data/islandScenes";
+import IslandScene, { SceneTranscript } from "./IslandScene";
 
 const chapterModels: Record<string, { mode: Mode; id: string }> = {
   "confirmation-bias": { mode: "attention", id: "attention-animation" },
@@ -52,32 +53,54 @@ const phases = [
   },
 ];
 
-function FourPoints({ chapter }: { chapter: GuideChapter }) {
+function ChapterGist({ chapter }: { chapter: GuideChapter }) {
   return (
-    <div className="walk-four">
-      <div>
-        <h4>這章在講什麼</h4>
-        <p>{chapter.summary}</p>
-      </div>
-      <div>
-        <h4>重要概念</h4>
-        <p>{chapter.concepts}</p>
-      </div>
-      <div>
-        <h4>可以問讀者</h4>
-        <p>{chapter.question}</p>
-      </div>
-      <div className="walk-takeaway">
-        <h4>一句話帶走</h4>
-        <p>{chapter.takeaway}</p>
-      </div>
+    <div className="walk-gist">
+      <h4>這章在說什麼</h4>
+      <p>{chapter.summary}</p>
     </div>
+  );
+}
+
+function ChapterMore({ chapter }: { chapter: GuideChapter }) {
+  const scene = sceneByChapter[chapter.id];
+  return (
+    <details className="walk-more">
+      <summary>
+        展開看更多
+        <small>重要概念、重點與工具、書中例子、動畫文字版</small>
+        <ChevronDown size={18} aria-hidden="true" />
+      </summary>
+      <div className="walk-more-body">
+        <div className="walk-concepts">
+          <h4>重要概念</h4>
+          <p>{chapter.concepts}</p>
+        </div>
+        <ChapterDepth chapterId={chapter.id} />
+        <ChapterExamples chapterId={chapter.id} />
+        {scene && (
+          <div className="walk-transcript">
+            <h4>動畫文字版</h4>
+            <SceneTranscript script={scene} question={chapter.question} />
+          </div>
+        )}
+      </div>
+    </details>
+  );
+}
+
+function SceneOrGist({ chapter }: { chapter: GuideChapter }) {
+  const scene = sceneByChapter[chapter.id];
+  return scene ? (
+    <IslandScene key={chapter.id} script={scene} question={chapter.question} chapterLabel={chapter.no} />
+  ) : (
+    <ChapterGist chapter={chapter} />
   );
 }
 
 export default function BookWalkthrough() {
   const [presented, setPresented] = useState<number | null>(null);
-  const [slideView, setSlideView] = useState<"outline" | "depth" | "example">("outline");
+  const [slideView, setSlideView] = useState<"scene" | "outline" | "depth">("scene");
   const dialog = useRef<HTMLDivElement>(null);
   const origin = useRef<HTMLButtonElement | null>(null);
   const close = () => {
@@ -202,7 +225,7 @@ export default function BookWalkthrough() {
                           <button
                             onClick={event => {
                               origin.current = event.currentTarget;
-                              setSlideView("outline");
+                              setSlideView("scene");
                               setPresented(index);
                             }}
                             aria-label={`滿版解說：${ch.title}`}
@@ -211,9 +234,9 @@ export default function BookWalkthrough() {
                             滿版解說
                           </button>
                         </header>
-                        <FourPoints chapter={ch} />
-                        <ChapterDepth chapterId={ch.id} />
-                        <ChapterExamples chapterId={ch.id} />
+                        <SceneOrGist chapter={ch} />
+                        {sceneByChapter[ch.id] && <ChapterGist chapter={ch} />}
+                        <ChapterMore chapter={ch} />
                         {chapterModels[ch.id] && (
                           <a
                             className="example-model-link"
@@ -281,10 +304,16 @@ export default function BookWalkthrough() {
           <p className="walk-slide-english">{guideChapters[presented].en}</p>
           <div className="walk-slide-views" role="group" aria-label="解說內容">
             <button
+              aria-pressed={slideView === "scene"}
+              onClick={() => setSlideView("scene")}
+            >
+              情境動畫
+            </button>
+            <button
               aria-pressed={slideView === "outline"}
               onClick={() => setSlideView("outline")}
             >
-              章節提綱
+              這章在說什麼
             </button>
             <button
               aria-pressed={slideView === "depth"}
@@ -292,25 +321,19 @@ export default function BookWalkthrough() {
             >
               重點與工具
             </button>
-            {bookScenes.some(s => s.chapter === guideChapters[presented].id) && (
-              <button
-                aria-pressed={slideView === "example"}
-                onClick={() => setSlideView("example")}
-              >
-                書中例子
-              </button>
-            )}
           </div>
-          {slideView === "example" &&
-          bookScenes.some(s => s.chapter === guideChapters[presented].id) ? (
-            <ChapterExamples
-              key={guideChapters[presented].id}
-              chapterId={guideChapters[presented].id}
-            />
+          {slideView === "scene" ? (
+            <SceneOrGist chapter={guideChapters[presented]} />
           ) : slideView === "depth" ? (
             <ChapterDepth chapterId={guideChapters[presented].id} />
           ) : (
-            <FourPoints chapter={guideChapters[presented]} />
+            <div className="walk-slide-outline">
+              <ChapterGist chapter={guideChapters[presented]} />
+              <div className="walk-concepts">
+                <h4>重要概念</h4>
+                <p>{guideChapters[presented].concepts}</p>
+              </div>
+            </div>
           )}
           <footer>
             <span>← → 換章 · Esc 返回</span>

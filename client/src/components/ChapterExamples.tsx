@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, MessageCircle, BookOpen } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { bookScenes } from "../data/bookScenes";
 
 export default function ChapterExamples({ chapterId }: { chapterId: string }) {
@@ -11,7 +11,7 @@ export default function ChapterExamples({ chapterId }: { chapterId: string }) {
     <div className="chapter-examples">
       <h4>
         <BookOpen size={20} />
-        從書中例子理解
+        書中例子
       </h4>
       {scenes.length > 1 && (
         <div className="example-switch" role="group" aria-label="選擇書中例子">
@@ -27,30 +27,9 @@ export default function ChapterExamples({ chapterId }: { chapterId: string }) {
         </div>
       )}
       <article className="example-story" aria-live="polite" aria-atomic="true">
-        <span className="example-kind">{scene.kind} · 摘要改寫</span>
         <h5>{scene.title}</h5>
         <p>{scene.story}</p>
-        <ol className="example-chain" aria-label="情境如何發展">
-          {scene.chain.map((part, index) => (
-            <li key={part}>
-              <span>{part}</span>
-              {index < scene.chain.length - 1 && (
-                <ArrowRight size={18} aria-hidden="true" />
-              )}
-            </li>
-          ))}
-        </ol>
-        <div className="example-insight">
-          <strong>連回本章</strong>
-          <p>{scene.insight}</p>
-        </div>
-        <div className="example-prompt">
-          <MessageCircle size={20} />
-          <div>
-            <strong>導讀提問</strong>
-            <p>{scene.question}</p>
-          </div>
-        </div>
+        <p className="example-insight">{scene.insight}</p>
       </article>
     </div>
   );

@@ -4,7 +4,6 @@ import {
   ArrowRight,
   BookOpen,
   MessageCircle,
-  Sparkles,
   Search,
   Maximize2,
   X,
@@ -108,7 +107,7 @@ export default function TeachingGuide() {
             </h2>
           </div>
           <p className="section-intro">
-            依原書導言、三階段與尾聲排列，每一章都提供重點、概念、提問與一句話帶走。
+            依原書導言、三階段與尾聲排列。每一章先看在說什麼、有哪些概念，最後留一個問題給自己。
           </p>
         </div>
         <div className="guide-filters">
@@ -205,13 +204,8 @@ export default function TeachingGuide() {
                 </div>
                 <div>
                   <MessageCircle size={21} />
-                  <span>03 / 問問讀者</span>
+                  <span>03 / 想想看</span>
                   <p>{chapter.question}</p>
-                </div>
-                <div>
-                  <Sparkles size={21} />
-                  <span>04 / 一句話帶走</span>
-                  <p>{chapter.takeaway}</p>
                 </div>
               </div>
               <div className="guide-footer">

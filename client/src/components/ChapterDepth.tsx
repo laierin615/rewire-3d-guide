@@ -1,42 +1,18 @@
 import { GraduationCap, Layers3, ListChecks } from "lucide-react";
-import {
-  chapterDepth,
-  sourceKindNotes,
-  type SourceKind,
-} from "../data/chapterDepth";
+import { chapterDepth, type SourceKind } from "../data/chapterDepth";
 import { examDeepQA } from "../data/examDeepQA";
 
-const kindClass: Record<SourceKind, string> = {
-  書中觀點: "view",
-  作者經驗: "author",
-  書中案例: "case",
-  書中研究: "research",
-  書中比喻: "metaphor",
-  書中方法: "method",
-  導讀延伸: "guide",
-};
-
+/** 書中內容不加標籤，只有導讀另外補充的內容才標示。 */
 export function SourceTag({ kind }: { kind: SourceKind }) {
-  return (
-    <span className={`source-tag tag-${kindClass[kind]}`} title={sourceKindNotes[kind]}>
-      {kind}
-    </span>
-  );
+  if (kind !== "導讀延伸") return null;
+  return <span className="source-tag tag-guide">導讀補充</span>;
 }
 
 export function SourceLegend() {
   return (
-    <div className="source-legend" aria-label="閱讀標示說明">
-      <strong>閱讀標示</strong>
-      <ul>
-        {(Object.keys(sourceKindNotes) as SourceKind[]).map(kind => (
-          <li key={kind}>
-            <SourceTag kind={kind} />
-            <span>{sourceKindNotes[kind]}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <p className="source-legend">
+      沒有標示的內容都來自原書；標「<span className="source-tag tag-guide">導讀補充</span>」的，是本導讀另外補充的說明。
+    </p>
   );
 }
 

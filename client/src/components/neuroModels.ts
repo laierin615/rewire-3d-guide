@@ -25,11 +25,11 @@ type Tools = {
   ) => void;
 };
 const c = {
-  coral: 0xf18069,
-  teal: 0x34a89b,
-  gold: 0xf2bc4c,
-  ink: 0x284854,
-  pale: 0xd4e1df,
+  coral: 0xf7927a,
+  teal: 0x6cc7a8,
+  gold: 0xffcf55,
+  ink: 0x8a6a4c,
+  pale: 0xf1e4c4,
 };
 const v = (x: number, y: number, z = 0) => new THREE.Vector3(x, y, z);
 
@@ -46,7 +46,7 @@ export function buildExtraModel(
       color,
       transparent: opacity < 1,
       opacity,
-      roughness: 0.45,
+      roughness: 0.9,
     });
   const add = (
     geometry: THREE.BufferGeometry,

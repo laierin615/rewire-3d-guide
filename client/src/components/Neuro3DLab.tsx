@@ -15,11 +15,11 @@ import {
 import { lessons, type Mode } from "../data/neuroLessons";
 import { buildExtraModel } from "./neuroModels";
 const colors = {
-  coral: 0xf18069,
-  teal: 0x34a89b,
-  gold: 0xf2bc4c,
-  ink: 0x284854,
-  pale: 0xd4e1df,
+  coral: 0xf7927a,
+  teal: 0x6cc7a8,
+  gold: 0xffcf55,
+  ink: 0x8a6a4c,
+  pale: 0xf1e4c4,
 };
 
 /** Conceptual geometry, not an anatomical or quantitative simulation. */
@@ -69,8 +69,8 @@ function Scene({
     const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 80);
     camera.position.set(0, 2.8, 11.7);
     camera.lookAt(0, 0, 0);
-    scene.add(new THREE.HemisphereLight(0xffffff, 0x8aa3a4, 2.8));
-    const light = new THREE.DirectionalLight(0xffffff, 3);
+    scene.add(new THREE.HemisphereLight(0xfff6e0, 0x9ccf7a, 2.6));
+    const light = new THREE.DirectionalLight(0xfff0d2, 2.8);
     light.position.set(-3, 5, 4);
     scene.add(light);
     const fill = new THREE.DirectionalLight(0xffe2a9, 1.2);
@@ -82,8 +82,8 @@ function Scene({
     const material = (color: number, opacity = 1) =>
       new THREE.MeshStandardMaterial({
         color,
-        roughness: 0.38,
-        metalness: 0.08,
+        roughness: 0.9,
+        metalness: 0,
         transparent: opacity < 1,
         opacity,
       });
@@ -309,13 +309,20 @@ function Scene({
         objects.push(halo);
       });
     }
-    // Ground plane grid gives a depth reference without suggesting anatomical coordinates.
-    const grid = new THREE.GridHelper(10, 20, 0xa9c8c4, 0xdce9e6);
-    grid.position.y = -1.9;
-    scene.add(grid);
-    const gridMat = grid.material as THREE.Material;
-    gridMat.transparent = true;
-    gridMat.opacity = 0.42;
+    // 小島底座：給深度參考，不代表解剖座標。
+    const base = new THREE.Group();
+    const grass = new THREE.Mesh(
+      new THREE.CylinderGeometry(3.3, 3.4, 0.32, 56),
+      new THREE.MeshStandardMaterial({ color: 0x9bd773, roughness: 1 })
+    );
+    const sand = new THREE.Mesh(
+      new THREE.CylinderGeometry(3.75, 3.85, 0.26, 56),
+      new THREE.MeshStandardMaterial({ color: 0xf7e6b8, roughness: 1 })
+    );
+    sand.position.y = -0.1;
+    base.add(grass, sand);
+    base.position.y = -2.3;
+    scene.add(base);
     let y = -0.13,
       x = 0.08,
       dragging = false,
@@ -580,7 +587,7 @@ export default function Neuro3DLab({
               </h2>
             </div>
             <p className="section-intro">
-              選一個概念，旋轉觀察，再按步驟解說。用一個生活問題開始，把理解帶回自己的下一次選擇。
+              選一個主題，拖曳轉一轉，再一步一步看它怎麼運作。
             </p>
           </div>
         )}
@@ -740,7 +747,7 @@ export default function Neuro3DLab({
               <div className="lab-question">
                 <Sparkles size={17} />
                 <div>
-                  <strong>問問讀者</strong>
+                  <strong>想想看</strong>
                   <p>{current.question}</p>
                 </div>
               </div>
@@ -753,11 +760,11 @@ export default function Neuro3DLab({
         </div>
         <div className="lab-bottom">
           <p>
-            <strong>一句話帶走</strong>
+            <strong>重點</strong>
             {lesson.takeaway}
           </p>
           <small>
-            動畫依書中概念重整；形狀、線粗與亮點為解說符號，不表示真實解剖位置、測量數值或改變所需時間。
+            這是示意動畫：形狀、線條和亮點只是幫忙理解，不代表真實的大腦位置、數值或改變需要的時間。
           </small>
         </div>
         {mode === "regulation" && (
