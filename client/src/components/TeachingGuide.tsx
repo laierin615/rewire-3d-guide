@@ -99,7 +99,7 @@ export default function TeachingGuide() {
       <div className="container-wide">
         <div className="lab-heading">
           <div>
-            <div className="section-label eyebrow">06 / 把一本書說清楚</div>
+            <div className="section-label eyebrow">06 / 每一章的重點</div>
             <h2 className="section-title" id="teaching-title">
               每一章，
               <br />
@@ -107,11 +107,11 @@ export default function TeachingGuide() {
             </h2>
           </div>
           <p className="section-intro">
-            依原書導言、三階段與尾聲排列。每一章先看在說什麼、有哪些概念，最後留一個問題給自己。
+            依導言、三階段與尾聲排列。每一章先看在說什麼、有哪些概念，最後留一個問題給自己。
           </p>
         </div>
         <div className="guide-filters">
-          <div aria-label="依原書階段篩選">
+          <div aria-label="依階段篩選">
             {stages.map(([id, label]) => (
               <button
                 key={id}
@@ -141,7 +141,7 @@ export default function TeachingGuide() {
           </label>
         </div>
         <div className="guide-layout">
-          <aside className="guide-index" aria-label="原書完整章節">
+          <aside className="guide-index" aria-label="完整章節">
             <span className="guide-count" aria-live="polite">
               章節目錄
             </span>
@@ -210,7 +210,7 @@ export default function TeachingGuide() {
               </div>
               <div className="guide-footer">
                 <p>
-                  依原章改寫摘要{presenting ? " · ← → 換章 · Esc 離開" : ""}
+                  章節摘要{presenting ? " · ← → 換章 · Esc 離開" : ""}
                 </p>
                 <div>
                   <button

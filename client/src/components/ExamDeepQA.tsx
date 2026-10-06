@@ -169,7 +169,7 @@ export default function ExamDeepQAPanel() {
         </div>
         <p>
           每一題都先整理「書中說法」，再補上教師資格考常考的理論與答題要點。
-          <strong>書中說法</strong>只來自原書；<strong>教檢延伸</strong>是本導讀補充，不是作者的主張。
+          <strong>書中說法</strong>整理自作者的內容；<strong>教檢延伸</strong>是延伸補充，不是作者的主張。
         </p>
       </header>
       <div className="exam-qa-groups" role="group" aria-label="依考點分類">

@@ -622,24 +622,24 @@ function Home() {
           <div className="hero-soft-shape shape-a"/><div className="hero-soft-shape shape-b"/>
           <div className="container-wide hero-story-layout">
             <div className="hero-copy">
-              <div className="eyebrow hero-kicker"><span/>一本書，一段重新選擇的旅程</div>
+              <div className="eyebrow hero-kicker"><span/>一段重新選擇的旅程</div>
               <h1 className="hero-title" id="hero-title"><small>REWIRE</small>神經可塑性<br/><em>看見大腦，<br/>也看見改變的可能。</em></h1>
               <p className="hero-lede">用神經科學突破行為模式迴圈，終結焦慮、恐慌和憂鬱，實現最佳的心理健康。</p>
               <p className="hero-core">看見舊反應 → 練習新選擇 → 讓改變走進日常</p>
-              <div className="hero-actions"><button className="btn btn-primary" onClick={()=>scrollToId("journey")}><BookOpen size={18}/>開始導覽這本書<ArrowRight size={17}/></button><button className="btn btn-ghost" onClick={()=>scrollToId("intro")}><ArrowRight size={17}/>從導言讀起</button></div>
+              <div className="hero-actions"><button className="btn btn-primary" onClick={()=>scrollToId("journey")}><BookOpen size={18}/>開始閱讀<ArrowRight size={17}/></button><button className="btn btn-ghost" onClick={()=>scrollToId("intro")}><ArrowRight size={17}/>從導言讀起</button></div>
               <div className="hero-meta"><div className="meta-item"><strong>Nicole Vignola</strong>作者</div><div className="meta-item"><strong>梁永安</strong>譯者</div></div>
             </div>
             <div className="hero-book-world" aria-label="Rewire 書籍導讀視覺">
               <div className="book-world-ring ring-a"/><div className="book-world-ring ring-b"/>
               <span className="world-ball ball-coral"/><span className="world-ball ball-gold"/><span className="world-ball ball-teal"/>
-              <div className="guide-book"><div className="guide-book-spine">REWIRE · Nicole Vignola</div><img src={coverImage} alt="《Rewire－神經可塑性》繁體中文版原書封面"/></div>
+              <div className="guide-book"><div className="guide-book-spine">REWIRE · Nicole Vignola</div><img src={coverImage} alt="《Rewire－神經可塑性》繁體中文版封面"/></div>
               <div className="world-note note-neuron"><Network size={19}/><div><b>注意 × 重複 × 經驗</b><small>新的反應，可以被練習。</small></div></div>
               <span className="world-tag">YOUR BRAIN CAN CHANGE ↗</span>
             </div>
           </div>
           <div className="container-wide hero-phase-strip"><a href="#stage1"><span>01</span><div><strong>擺脫負面情緒</strong><small>Ditch the Negative</small></div><ArrowRight size={19}/></a><a href="#stage2"><span>02</span><div><strong>改變你的敘事</strong><small>Shift Your Narrative</small></div><ArrowRight size={19}/></a><a href="#stage3"><span>03</span><div><strong>增強積極性</strong><small>Boost the Positive</small></div><ArrowRight size={19}/></a></div>
         </section>
-        <section className="section book-route" id="journey" aria-labelledby="book-route-title"><div className="container-wide"><span className="section-label">全書地圖</span><h2 className="section-title" id="book-route-title">從看見舊模式，到練習新的自己。</h2><p className="section-intro">先理解大腦，再鬆動舊循環、改變敘事，最後支持新的生活方式。</p><ol className="original-book-map" aria-label="原書全書地圖">{[["intro","導言","Introduction","理解改變的基礎"],["stage1","擺脫負面情緒","Ditch the Negative","辨識舊循環"],["stage2","改變你的敘事","Shift Your Narrative","練習新的反應"],["stage3","增強積極性","Boost the Positive","支援持久改變"],["outro","尾聲","Epilogue","把理解帶回日常"]].map(([id,title,en,note],i)=><li key={id}><a href={`#${id}`}><span>{i===0?"導言":i===4?"尾聲":`階段 ${i}`}</span><strong>{title}</strong><small>{en}</small><p>{note}</p><ArrowRight size={18} aria-hidden="true"/></a></li>)}</ol><div className="book-core" aria-label="全書核心"><article><span>核心提問</span><p>我們的習慣和行為，是自己選的，還是環境無意中給的？作者的答案是：兩者兼有。</p></article><article><span>核心機制</span><p>一起放電的神經元會彼此連結。重複的想法會走成自動反應；不再使用的路徑，也會慢慢變弱。</p></article><article><span>核心方法</span><p>重複＋注意力＋刻意＝持久的改變。先看見舊循環，再練習新反應，最後用身體、睡眠與自我信賴讓改變站穩。</p></article></div><SourceLegend /></div></section>
+        <section className="section book-route" id="journey" aria-labelledby="book-route-title"><div className="container-wide"><span className="section-label">全書地圖</span><h2 className="section-title" id="book-route-title">從看見舊模式，到練習新的自己。</h2><p className="section-intro">先理解大腦，再鬆動舊循環、改變敘事，最後支持新的生活方式。</p><ol className="original-book-map" aria-label="全書地圖">{[["intro","導言","Introduction","理解改變的基礎"],["stage1","擺脫負面情緒","Ditch the Negative","辨識舊循環"],["stage2","改變你的敘事","Shift Your Narrative","練習新的反應"],["stage3","增強積極性","Boost the Positive","支援持久改變"],["outro","尾聲","Epilogue","把理解帶回日常"]].map(([id,title,en,note],i)=><li key={id}><a href={`#${id}`}><span>{i===0?"導言":i===4?"尾聲":`階段 ${i}`}</span><strong>{title}</strong><small>{en}</small><p>{note}</p><ArrowRight size={18} aria-hidden="true"/></a></li>)}</ol><div className="book-core" aria-label="全書核心"><article><span>核心提問</span><p>我們的習慣和行為，是自己選的，還是環境無意中給的？作者的答案是：兩者兼有。</p></article><article><span>核心機制</span><p>一起放電的神經元會彼此連結。重複的想法會走成自動反應；不再使用的路徑，也會慢慢變弱。</p></article><article><span>核心方法</span><p>重複＋注意力＋刻意＝持久的改變。先看見舊循環，再練習新反應，最後用身體、睡眠與自我信賴讓改變站穩。</p></article></div><SourceLegend /></div></section>
         <BookWalkthrough />
         <section className="section exam-section walk-phase" id="exam" aria-labelledby="exam-title">
           <div className="container-wide">
@@ -688,18 +688,18 @@ function Home() {
         <section className="section book-section" id="book">
           <div className="container-wide book-layout">
             <div className="reveal">
-              <div className="section-label eyebrow">本書與作者</div>
+              <div className="section-label eyebrow">書籍與作者</div>
               <h2 className="section-title serif">「我們的習慣和行為，<br />是自己選擇，還是透過環境無意中獲得？」</h2>
               <p className="section-intro">作者 Nicole Vignola 以神經科學與組織心理學背景，把行為改變拆成三層：先看見壓力與負面迴路，再以重複和新經驗重寫預測，最後用睡眠、運動與環境支撐新路徑。</p>
               <div className="author-facts">
                 <div><span>作者</span><strong>妮可・維諾拉</strong><small>Nicole Vignola</small></div>
-                <div><span>原文出版</span><strong>2024</strong><small>Michael Joseph / Penguin</small></div>
+                <div><span>英文版出版</span><strong>2024</strong><small>Michael Joseph / Penguin</small></div>
                 <div><span>中文版譯者</span><strong>梁永安</strong><small>繁體中文版</small></div>
               </div>
               <div className="precision-note"><Microscope size={18} /><p><strong>讀懂大腦</strong>：腦區各有主要功能，但記憶、情緒與控制都來自多個網絡的協作。</p></div>
             </div>
             <div className="book-visual reveal">
-              <div className="cover-halo" /><img className="book-cover" src={coverImage} alt="《Rewire－神經可塑性》繁體中文版原書封面" />
+              <div className="cover-halo" /><img className="book-cover" src={coverImage} alt="《Rewire－神經可塑性》繁體中文版封面" />
               <div className="book-spine-note"><span className="eyebrow">書中核心提問</span><strong className="serif">「我們的習慣和行為，是自己選擇，還是透過環境無意中獲得？」</strong><small>《Rewire》導言</small></div>
             </div>
           </div>

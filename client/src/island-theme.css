@@ -643,3 +643,14 @@ input:focus-visible,
 .lab-visual-header .eyebrow {
   color: #5d7f8f;
 }
+
+/* 讀懂這一章：書中內容不加標籤，文字佔滿整行 */
+.depth-points li {
+  display: block;
+}
+.depth-points .source-tag {
+  margin: 0 8px 0 0;
+}
+.depth-points li > p {
+  display: inline;
+}

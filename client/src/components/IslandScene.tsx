@@ -30,8 +30,9 @@ export default function IslandScene({ script, question, chapterLabel }: { script
   const last = beats.length - 1;
   const [idx, setIdx] = useState(0);
   const [typed, setTyped] = useState(0);
-  const [auto, setAuto] = useState(false);
+  const [auto, setAuto] = useState(true);
   const [near, setNear] = useState(false);
+  const [inView, setInView] = useState(false);
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
   const wrapRef = useRef<HTMLElement>(null);
@@ -49,8 +50,14 @@ export default function IslandScene({ script, question, chapterLabel }: { script
     const el = wrapRef.current;
     if (!el) return;
     const io = new IntersectionObserver(([e]) => setNear(e.isIntersecting), { rootMargin: "320px 0px" });
+    // 畫面看得到才開始自動播放對話
+    const seen = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.45 });
     io.observe(el);
-    return () => io.disconnect();
+    seen.observe(el);
+    return () => {
+      io.disconnect();
+      seen.disconnect();
+    };
   }, []);
 
   useEffect(() => {
@@ -93,20 +100,17 @@ export default function IslandScene({ script, question, chapterLabel }: { script
       engineRef.current?.setSpeaking(false);
       return;
     }
-    const id = window.setTimeout(() => setTyped(n => n + 1), 32);
+    if (!inView) return;
+    const id = window.setTimeout(() => setTyped(n => n + 1), 40);
     return () => window.clearTimeout(id);
-  }, [typed, done]);
+  }, [typed, done, inView]);
 
   // 自動播放
   useEffect(() => {
-    if (!auto || !done) return;
-    if (idx >= last) {
-      setAuto(false);
-      return;
-    }
-    const id = window.setTimeout(() => setIdx(i => Math.min(last, i + 1)), 1300 + beat.text.length * 45);
+    if (!auto || !done || !inView || idx >= last) return;
+    const id = window.setTimeout(() => setIdx(i => Math.min(last, i + 1)), 1600 + beat.text.length * 90);
     return () => window.clearTimeout(id);
-  }, [auto, done, idx, last, beat.text.length]);
+  }, [auto, done, inView, idx, last, beat.text.length]);
 
   const advance = useCallback(() => {
     if (!done) setTyped(beat.text.length);
@@ -117,7 +121,7 @@ export default function IslandScene({ script, question, chapterLabel }: { script
     prevIdx.current = -1;
     setIdx(0);
     setTyped(0);
-    setAuto(false);
+    setAuto(true);
     engineRef.current?.go(0, false);
   };
 

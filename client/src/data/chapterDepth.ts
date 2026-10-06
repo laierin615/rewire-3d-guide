@@ -18,7 +18,7 @@ export const sourceKindNotes: Record<SourceKind, string> = {
   書中研究: "書中引用的研究或實驗",
   書中比喻: "作者用來幫助理解的比喻，不是生理結構本身",
   書中方法: "書中建議讀者練習的工具與步驟",
-  導讀延伸: "本導讀為了理解或教學所補充，不是原書內容",
+  導讀延伸: "為了理解或教學所補充的延伸說明",
 };
 
 export type DepthPoint = { kind: SourceKind; text: string };
@@ -543,7 +543,7 @@ export const chapterDepth: Record<string, ChapterDepthEntry> = {
         "每週 2 到 3 回重量訓練。",
         "盡可能加入平衡與協調的神經運動訓練。",
       ],
-      note: "本書為一般讀者寫成，不是個人運動處方；身體有狀況時請先諮詢醫療專業人員。",
+      note: "書中內容為一般讀者寫成，不是個人運動處方；身體有狀況時請先諮詢醫療專業人員。",
     },
     exam: ["exercise-learning"],
   },

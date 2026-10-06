@@ -11,7 +11,7 @@ export function SourceTag({ kind }: { kind: SourceKind }) {
 export function SourceLegend() {
   return (
     <p className="source-legend">
-      沒有標示的內容都來自原書；標「<span className="source-tag tag-guide">導讀補充</span>」的，是本導讀另外補充的說明。
+      標「<span className="source-tag tag-guide">導讀補充</span>」的是延伸說明，其餘都是作者在書裡談到的內容。
     </p>
   );
 }

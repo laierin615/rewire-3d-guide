@@ -13,7 +13,7 @@ export function TermLibrary() {
         <div>
           <span className="eyebrow">CONCEPT LIBRARY</span>
           <h3 id="term-title">先懂詞語，再懂整個過程。</h3>
-          <p>展開查看白話解釋與本書脈絡。</p>
+          <p>展開查看白話解釋與書中脈絡。</p>
         </div>
         <label className="guide-search">
           <Search size={16} />
@@ -39,7 +39,7 @@ export function TermLibrary() {
             <div>
               <span>白話解釋</span>
               <p>{explain}</p>
-              <span>本書脈絡</span>
+              <span>書中脈絡</span>
               <p>{context}</p>
             </div>
           </details>

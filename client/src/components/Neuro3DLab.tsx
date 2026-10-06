@@ -769,7 +769,7 @@ export default function Neuro3DLab({
         </div>
         {mode === "regulation" && (
           <details className="stress-cycle">
-            <summary>展開原書的完整壓力迴圈</summary>
+            <summary>展開完整的壓力迴圈</summary>
             <ol>
               {[
                 "壓力",
