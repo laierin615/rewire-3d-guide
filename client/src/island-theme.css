@@ -779,6 +779,19 @@ input:focus-visible,
 }
 @media (max-width: 720px) {
   .world-qr {
+    top: 18px;
+    left: 0;
+    padding: 7px 7px 6px;
+    border-radius: 16px;
+  }
+  .world-qr img {
+    width: 78px;
+    height: 78px;
+  }
+  .world-qr b {
+    font-size: 11px;
+  }
+  .world-qr small {
     display: none;
   }
   .brand-tag {
