@@ -487,6 +487,16 @@ function SignalTracker() {
   );
 }
 
+const guideTeam: [string, string][] = [
+  ["F114006", "余俊誠"],
+  ["F114036", "黃瑞雲"],
+  ["F114001", "于立舫"],
+  ["F114045", "賴奕芸"],
+  ["F114049", "蘇宛菁"],
+  ["F114018", "邱雅姿"],
+  ["F114010", "沈佳"],
+];
+
 function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [roadmapPhase, setRoadmapPhase] = useState(0);
@@ -606,7 +616,7 @@ function Home() {
     <div className="site-shell">
       <header className={`top-nav ${scrolled ? "scrolled" : ""}`}>
         <div className="container-wide nav-inner">
-          <a className="brand-mark" href="#top" aria-label="回到首頁"><span className="brand-dot" />REWIRE / 深度閱讀</a>
+          <a className="brand-mark" href="#top" aria-label="回到首頁"><span className="brand-dot" /><span className="brand-book" title="《Rewire－神經可塑性：用神經科學突破行為模式迴圈，終結焦慮、恐慌和憂鬱，實現最佳的心理健康》">《Rewire－神經可塑性：用神經科學突破行為模式迴圈，終結焦慮、恐慌和憂鬱，實現最佳的心理健康》</span><span className="brand-tag">專書導讀</span></a>
           <nav className="nav-links" aria-label="快速導覽">
             <a href="#intro">開始閱讀</a><a href="#reference" onClick={event=>{event.preventDefault();openReference("reference")}}>搜尋與延伸</a>
             <a className="nav-pill" href="#exam">教檢連結</a>
@@ -626,8 +636,9 @@ function Home() {
               <h1 className="hero-title" id="hero-title"><small>REWIRE</small>神經可塑性<br/><em>看見大腦，<br/>也看見改變的可能。</em></h1>
               <p className="hero-lede">用神經科學突破行為模式迴圈，終結焦慮、恐慌和憂鬱，實現最佳的心理健康。</p>
               <p className="hero-core">看見舊反應 → 練習新選擇 → 讓改變走進日常</p>
-              <div className="hero-actions"><button className="btn btn-primary" onClick={()=>scrollToId("journey")}><BookOpen size={18}/>開始閱讀<ArrowRight size={17}/></button><button className="btn btn-ghost" onClick={()=>scrollToId("intro")}><ArrowRight size={17}/>從導言讀起</button></div>
+              <div className="hero-actions"><button className="btn btn-primary" onClick={()=>scrollToId("intro")}><BookOpen size={18}/>開始閱讀<ArrowRight size={17}/></button></div>
               <div className="hero-meta"><div className="meta-item"><strong>Nicole Vignola</strong>作者</div><div className="meta-item"><strong>梁永安</strong>譯者</div></div>
+              <div className="hero-team" aria-label="導讀小組成員"><span className="hero-team-label">導讀小組</span><ul>{guideTeam.map(([id, name]) => <li key={id}><b>{name}</b><small>{id}</small></li>)}</ul></div>
             </div>
             <div className="hero-book-world" aria-label="Rewire 書籍導讀視覺">
               <div className="book-world-ring ring-a"/><div className="book-world-ring ring-b"/>
@@ -635,6 +646,7 @@ function Home() {
               <div className="guide-book"><div className="guide-book-spine">REWIRE · Nicole Vignola</div><img src={coverImage} alt="《Rewire－神經可塑性》繁體中文版封面"/></div>
               <div className="world-note note-neuron"><Network size={19}/><div><b>注意 × 重複 × 經驗</b><small>新的反應，可以被練習。</small></div></div>
               <span className="world-tag">YOUR BRAIN CAN CHANGE ↗</span>
+              <figure className="world-qr"><img src="site-qr.svg" alt="本網站網址 QR code" width="104" height="104" /><figcaption><b>掃描帶走導讀</b><small>手機開啟本網站</small></figcaption></figure>
             </div>
           </div>
           <div className="container-wide hero-phase-strip"><a href="#stage1"><span>01</span><div><strong>擺脫負面情緒</strong><small>Ditch the Negative</small></div><ArrowRight size={19}/></a><a href="#stage2"><span>02</span><div><strong>改變你的敘事</strong><small>Shift Your Narrative</small></div><ArrowRight size={19}/></a><a href="#stage3"><span>03</span><div><strong>增強積極性</strong><small>Boost the Positive</small></div><ArrowRight size={19}/></a></div>
@@ -843,7 +855,7 @@ function Home() {
         </div></details>
       </main>
 
-      <footer className="footer"><div className="container-wide"><div className="footer-grid"><div><div className="eyebrow">《REWIRE》書中重點金句</div><h2 className="serif">「勇於創造<br /><em>你自己吧。」</em></h2></div><p>從書中的案例出發，理解壓力、記憶、情緒與習慣如何在大腦網絡中彼此影響，也看見改變如何從一次新的經驗開始。</p><figure className="footer-qr"><img src="site-qr.svg" alt="本網站網址 QR code" width="132" height="132" /><figcaption>掃描開啟本網站</figcaption></figure></div><div className="footer-bottom"><span>《Rewire－神經可塑性》互動深度閱讀</span><span>Book evidence · Brain atlas · Neurobiology</span></div></div></footer>
+      <footer className="footer"><div className="container-wide"><div className="footer-grid"><div><div className="eyebrow">《REWIRE》書中重點金句</div><h2 className="serif">「勇於創造<br /><em>你自己吧。」</em></h2></div><p>從書中的案例出發，理解壓力、記憶、情緒與習慣如何在大腦網絡中彼此影響，也看見改變如何從一次新的經驗開始。</p></div><div className="footer-bottom"><span>《Rewire－神經可塑性》互動深度閱讀</span><span>Book evidence · Brain atlas · Neurobiology</span></div></div></footer>
     </div>
   );
 }
