@@ -616,7 +616,7 @@ function Home() {
     <div className="site-shell">
       <header className={`top-nav ${scrolled ? "scrolled" : ""}`}>
         <div className="container-wide nav-inner">
-          <a className="brand-mark" href="#top" aria-label="回到首頁"><span className="brand-dot" /><span className="brand-book" title="《Rewire－神經可塑性：用神經科學突破行為模式迴圈，終結焦慮、恐慌和憂鬱，實現最佳的心理健康》">《Rewire－神經可塑性：用神經科學突破行為模式迴圈，終結焦慮、恐慌和憂鬱，實現最佳的心理健康》</span><span className="brand-tag">專書導讀</span></a>
+          <a className="brand-mark" href="#top" aria-label="回到首頁"><span className="brand-dot" /><span className="brand-book">《Rewire－神經可塑性》</span><span className="brand-tag">專書導讀</span></a>
           <nav className="nav-links" aria-label="快速導覽">
             <a href="#intro">開始閱讀</a><a href="#reference" onClick={event=>{event.preventDefault();openReference("reference")}}>搜尋與延伸</a>
             <a className="nav-pill" href="#exam">教檢連結</a>
