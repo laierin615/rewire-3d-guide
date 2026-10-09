@@ -294,6 +294,28 @@ input:focus-visible,
   margin-inline: auto;
   width: 100%;
 }
+/* 依視窗高度縮小舞台，讓動畫、對話框與控制鈕一起留在畫面內（投影、線上分享畫面） */
+@media (min-width: 721px) {
+  .walk-presentation .isl {
+    width: min(100%, max(640px, calc((100vh - 500px) * 16 / 9)));
+  }
+}
+@media (min-width: 721px) and (max-height: 900px) {
+  .walk-presentation {
+    padding-block: 16px;
+  }
+  .walk-presentation h2 {
+    font-size: clamp(28px, 3vw, 40px);
+    margin: 8px 0 4px;
+  }
+  .walk-presentation .walk-slide-english {
+    display: none;
+  }
+  .walk-presentation .isl {
+    margin-top: 12px;
+    width: min(100%, max(560px, calc((100vh - 380px) * 16 / 9)));
+  }
+}
 .walk-slide-outline {
   display: grid;
   gap: 8px;
