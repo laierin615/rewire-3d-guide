@@ -843,7 +843,7 @@ function Home() {
         </div></details>
       </main>
 
-      <footer className="footer"><div className="container-wide"><div className="footer-grid"><div><div className="eyebrow">《REWIRE》書中重點金句</div><h2 className="serif">「勇於創造<br /><em>你自己吧。」</em></h2></div><p>從書中的案例出發，理解壓力、記憶、情緒與習慣如何在大腦網絡中彼此影響，也看見改變如何從一次新的經驗開始。</p></div><div className="footer-bottom"><span>《Rewire－神經可塑性》互動深度閱讀</span><span>Book evidence · Brain atlas · Neurobiology</span></div></div></footer>
+      <footer className="footer"><div className="container-wide"><div className="footer-grid"><div><div className="eyebrow">《REWIRE》書中重點金句</div><h2 className="serif">「勇於創造<br /><em>你自己吧。」</em></h2></div><p>從書中的案例出發，理解壓力、記憶、情緒與習慣如何在大腦網絡中彼此影響，也看見改變如何從一次新的經驗開始。</p><figure className="footer-qr"><img src="site-qr.svg" alt="本網站網址 QR code" width="132" height="132" /><figcaption>掃描開啟本網站</figcaption></figure></div><div className="footer-bottom"><span>《Rewire－神經可塑性》互動深度閱讀</span><span>Book evidence · Brain atlas · Neurobiology</span></div></div></footer>
     </div>
   );
 }

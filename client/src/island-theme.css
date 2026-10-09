@@ -676,3 +676,13 @@ input:focus-visible,
 .depth-points li > p {
   display: inline;
 }
+
+/* 頁尾 QR code：分享畫面時可直接掃描 */
+.footer-grid { grid-template-columns: 1fr 1fr auto; }
+.footer-qr { margin: 0; display: grid; justify-items: center; gap: 8px; }
+.footer-qr img { width: 132px; height: 132px; padding: 8px; background: #fff; border-radius: 16px; }
+.footer-qr figcaption { font-size: 14px; color: rgba(247, 242, 233, 0.8); }
+@media (max-width: 720px) {
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-qr { justify-items: start; }
+}
