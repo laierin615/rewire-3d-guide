@@ -1,4 +1,5 @@
 import GuideFunnel from "../components/GuideFunnel";
+import HeroIntro, { RewireWordmark } from "../components/HeroIntro";
 import { guideLayers, layerChapterOrder, topicLabel, topicNumber } from "../data/guideLayers";
 import BookWalkthrough from "../components/BookWalkthrough";
 import ExamDeepQAPanel from "../components/ExamDeepQA";
@@ -637,7 +638,7 @@ function Home() {
           <div className="container-wide hero-story-layout">
             <div className="hero-copy">
               <div className="eyebrow hero-kicker"><span/>一段重新選擇的旅程</div>
-              <h1 className="hero-title" id="hero-title"><small>REWIRE</small>神經可塑性<br/><em>看見大腦，<br/>也看見改變的可能。</em></h1>
+              <h1 className="hero-title" id="hero-title"><small><RewireWordmark /></small>神經可塑性<br/><em>看見大腦，<br/>也看見改變的可能。</em></h1>
               <p className="hero-lede">用神經科學突破行為模式迴圈，終結焦慮、恐慌和憂鬱，實現最佳的心理健康。</p>
               <p className="hero-core">看見舊反應 → 練習新選擇 → 讓改變走進日常</p>
               <div className="hero-actions"><button className="btn btn-primary" onClick={()=>scrollToId("journey")}><BookOpen size={18}/>開始閱讀<ArrowRight size={17}/></button></div>
@@ -653,6 +654,7 @@ function Home() {
               <figure className="world-qr"><img src="site-qr.svg" alt="本網站網址 QR code" width="104" height="104" /><figcaption><b>掃描帶走導讀</b><small>手機開啟本網站</small></figcaption></figure>
             </div>
           </div>
+          <HeroIntro />
           <div className="container-wide hero-phase-strip">{guideLayers.map(l=><a key={l.id} href={`#${l.id}`}><span>{l.no}</span><div><strong>{l.title}</strong><small>{l.en}</small></div><ArrowRight size={19}/></a>)}</div>
         </section>
         <GuideFunnel />
