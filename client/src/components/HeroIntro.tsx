@@ -88,7 +88,7 @@ function PlasticAnimation() {
   );
 }
 
-function DecodeCards() {
+export function DecodeCards() {
   return (
     <div className="decode-cards">
       <article className="decode-card rewire">

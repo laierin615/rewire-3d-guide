@@ -56,7 +56,6 @@ export default function GuideFunnel() {
             <p>先看見舊循環，再刻意練習新反應，最後用身體、睡眠與自我信賴讓改變站穩。</p>
           </article>
         </div>
-        <p className="key-lines-note">這三句在全站出現時，都會用同樣的螢光標記。</p>
       </div>
     </section>
   );

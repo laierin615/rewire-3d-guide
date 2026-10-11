@@ -4,9 +4,13 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import SlideDeck from "./pages/SlideDeck";
 import NotFound from "./pages/NotFound";
 
+const slideMode = new URLSearchParams(window.location.search).has("slides");
+
 function Router() {
+  if (slideMode) return <SlideDeck />;
   return (
     <Switch>
       <Route path="/404" component={NotFound} />
