@@ -162,10 +162,33 @@ export default function BookWalkthrough() {
                   <small>{phase.en}</small>
                 </span>
                 <h2 id={`${phase.id}-title`}>{phase.title}</h2>
+                {(phase.id === "intro" || phase.id === "outro") && (
+                  <button
+                    className="walk-phase-present"
+                    onClick={event => {
+                      origin.current = event.currentTarget;
+                      setSlideView("scene");
+                      setPresented(guideChapters.findIndex(ch => ch.stage === phase.id));
+                    }}
+                    aria-label={`滿版解說：${phase.label}`}
+                  >
+                    <Maximize2 size={18} />
+                    滿版解說
+                  </button>
+                )}
               </div>
               <p>{phase.lead}</p>
             </header>
+            {phase.id === "outro" && (
+              <div className="walk-intro" id="chapter-closing">
+                <SceneOrGist chapter={guideChapters[guideChapters.length - 1]} />
+                <ChapterGist chapter={guideChapters[guideChapters.length - 1]} />
+                <ChapterMore chapter={guideChapters[guideChapters.length - 1]} />
+              </div>
+            )}
             {phase.id === "intro" && (
+              <div className="walk-intro" id="chapter-intro">
+              <SceneOrGist chapter={guideChapters[0]} />
               <div className="intro-essentials">
                 <article>
                   <span>Neuroplasticity</span>
@@ -189,6 +212,8 @@ export default function BookWalkthrough() {
                   </p>
                 </article>
               </div>
+              <ChapterMore chapter={guideChapters[0]} />
+              </div>
             )}
             {phase.id === "intro" && (
               <Neuro3DLab initialMode="synapse" embedded id="lab3d" />
@@ -202,7 +227,7 @@ export default function BookWalkthrough() {
             )}
             <div className="walk-chapters">
               {guideChapters
-                .filter(ch => ch.stage === phase.id)
+                .filter(ch => ch.stage === phase.id && ch.stage !== "intro" && ch.stage !== "outro")
                 .map(ch => {
                   const index = guideChapters.findIndex(
                     item => item.id === ch.id

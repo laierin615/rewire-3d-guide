@@ -798,3 +798,360 @@ input:focus-visible,
     padding: 2px 9px;
   }
 }
+
+/* ===== 這章的大腦角色 ===== */
+.depth-terms {
+  margin-top: 22px;
+}
+.depth-terms h5 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  font-size: 20px;
+  color: #6b4a2f;
+}
+.depth-terms-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.depth-terms-grid article {
+  --t: #5cb176;
+  padding: 18px 18px 16px;
+  border-radius: 20px;
+  background: #fffdf6;
+  border: 2px solid color-mix(in srgb, var(--t) 35%, #fff);
+  box-shadow: 0 3px 0 color-mix(in srgb, var(--t) 25%, #fff);
+}
+.depth-terms-grid .term-0 { --t: #5aa3d6; }
+.depth-terms-grid .term-1 { --t: #e0795f; }
+.depth-terms-grid .term-2 { --t: #b48ad6; }
+.depth-terms-grid header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 12px;
+  border-left: 5px solid var(--t);
+}
+.depth-terms-grid header strong {
+  font-size: 19px;
+  color: color-mix(in srgb, var(--t) 60%, #3a2c22);
+}
+.depth-terms-grid header small {
+  font-size: 13px;
+  color: #9a8a78;
+  letter-spacing: 0.02em;
+}
+.depth-terms-grid .term-where {
+  margin: 10px 0 0;
+  font-size: 15px;
+  color: #8a7663;
+}
+.depth-terms-grid dl {
+  margin: 10px 0 0;
+}
+.depth-terms-grid dt {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 1px 10px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 700;
+  background: color-mix(in srgb, var(--t) 16%, #fff);
+  color: color-mix(in srgb, var(--t) 65%, #3a2c22);
+}
+.depth-terms-grid dd {
+  margin: 6px 0 0;
+  line-height: 1.75;
+  color: #4a3b2f;
+}
+@media (max-width: 900px) {
+  .depth-terms-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== 生理性嘆息示意動畫 ===== */
+.sigh {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 18px;
+  margin-top: 14px;
+  padding: 16px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #f3fbff, #fffdf6);
+  border: 2px solid #d8ecd0;
+}
+.sigh-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sigh-svg {
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+}
+.sigh-lobe {
+  fill: url(#sighLung);
+  stroke: #e48a7b;
+  stroke-width: 2.5;
+}
+.sigh-bronchi {
+  fill: none;
+  stroke: #c9665a;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+}
+.sigh-inlet {
+  fill: none;
+  stroke: #c9665a;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+}
+.sigh-sac circle {
+  fill: #fff2ee;
+  stroke: #d0705f;
+  stroke-width: 1.6;
+}
+.sigh-port rect {
+  fill: #fff;
+  stroke: #cfe3c5;
+  stroke-width: 2;
+  transition: fill 0.25s, stroke 0.25s;
+}
+.sigh-port text {
+  font-size: 13px;
+  text-anchor: middle;
+  fill: #8a7663;
+  font-weight: 700;
+}
+.sigh-port.on rect {
+  fill: #e3f3ff;
+  stroke: #5aa3d6;
+}
+.sigh-port.out.on rect {
+  fill: #fff0e0;
+  stroke: #e0a25f;
+}
+.sigh-port.on text {
+  fill: #2f5f80;
+}
+.sigh-port.out.on text {
+  fill: #8a5520;
+}
+.sigh-o2 {
+  fill: #5aa3d6;
+}
+.sigh-co2 {
+  fill: #9a8a78;
+}
+.sigh-heart path {
+  fill: #e0795f;
+  transform-origin: 0 0;
+  animation: sigh-beat 0.62s ease-in-out infinite;
+}
+.sigh-heart.calm path {
+  animation-duration: 1.05s;
+}
+@keyframes sigh-beat {
+  0%, 100% { transform: scale(1); }
+  30% { transform: scale(1.25); }
+}
+.sigh-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 14px;
+  font-size: 13.5px;
+  color: #8a7663;
+}
+.sigh-legend .dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+  border-radius: 50%;
+  vertical-align: -1px;
+}
+.sigh-legend .o2 { background: #5aa3d6; }
+.sigh-legend .co2 { background: #9a8a78; }
+.sigh-legend .sac { background: #fff2ee; border: 1.6px solid #d0705f; }
+.sigh-side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+.sigh-now {
+  min-height: 132px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 3px 0 #e8dfcf;
+}
+.sigh-badge {
+  display: inline-block;
+  padding: 1px 10px;
+  border-radius: 999px;
+  background: #e9f6df;
+  color: #3f7d4f;
+  font-size: 13px;
+  font-weight: 700;
+}
+.sigh-now strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 24px;
+  color: #3a2c22;
+}
+.sigh-now p {
+  margin: 4px 0 0;
+  line-height: 1.7;
+  color: #5a4a3c;
+}
+.walk-presentation .sigh-steps,
+.sigh-steps {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: sigh;
+}
+.sigh-steps li {
+  counter-increment: sigh;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  border-radius: 14px;
+  color: #8a7663;
+  background: transparent;
+  transition: background 0.25s, color 0.25s;
+}
+.sigh-steps li::before {
+  content: counter(sigh);
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #efe7da;
+  color: #8a7663;
+  font-size: 13px;
+  font-weight: 700;
+}
+.sigh-steps li.on {
+  background: #e9f6df;
+  color: #2f5a3c;
+  font-weight: 700;
+}
+.sigh-steps li.on::before {
+  background: #5cb176;
+  color: #fff;
+}
+.sigh-steps li.done::before {
+  background: #cfe8c4;
+  color: #3f7d4f;
+}
+.sigh-curve {
+  width: 100%;
+  height: auto;
+}
+.sigh-curve-bg {
+  fill: none;
+  stroke: #e8dfcf;
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+.sigh-curve-fg {
+  fill: none;
+  stroke: #5aa3d6;
+  stroke-width: 3.5;
+  stroke-linejoin: round;
+}
+.sigh-cursor {
+  stroke: #5aa3d6;
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+}
+.sigh-curve text {
+  font-size: 11px;
+  text-anchor: middle;
+  fill: #b3a492;
+}
+.sigh-curve text.on {
+  fill: #2f5f80;
+  font-weight: 700;
+}
+.sigh-ctrl {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.sigh-ctrl button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: #5a4a3c;
+  font: inherit;
+  font-size: 15px;
+  box-shadow: 0 2px 0 #e0d5c3;
+  cursor: pointer;
+}
+.sigh-ctrl button[aria-pressed="true"] {
+  background: #ffe9a8;
+}
+.sigh-ctrl small {
+  font-size: 12.5px;
+  color: #a8998a;
+}
+@media (max-width: 760px) {
+  .sigh {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+  .sigh-now {
+    min-height: 0;
+  }
+}
+
+/* 導言：階段標題與章節合併，直接接動畫 */
+.walk-phase-present {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 7px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: #6b4a2f;
+  font: inherit;
+  font-size: 15px;
+  box-shadow: 0 2px 0 #e0d5c3;
+  cursor: pointer;
+}
+.walk-intro {
+  display: grid;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+.walk-intro .intro-essentials {
+  margin: 0;
+}
+.walk-intro > * {
+  width: 100%;
+  min-width: 0;
+}
+.walk-intro > .isl {
+  margin: 0 auto;
+}
