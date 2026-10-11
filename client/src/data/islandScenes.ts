@@ -91,32 +91,28 @@ const MARTHA = v("瑪莎", { species: "mouse", fur: 0xd9d2cc, shirt: 0xffd65c, p
 const BACK_TREES: [number, number][] = [[-3.7, -2.1], [3.8, -1.9], [-2.4, -3.5], [2.6, -3.4], [0.2, -4.0]];
 
 export const islandScenes: SceneScript[] = [
-  /* 導言：刷牙與廚房門 */
+  /* 第一層前導：刷牙與開車，大腦的自動駕駛 */
   {
     chapter: "intro",
-    title: "改用另一隻手刷牙",
+    title: "刷牙和開車：大腦的自動駕駛",
     seed: 11,
     cam: [-0.4, 0.2],
-    actors: [
-      { id: "you", cast: YOU, at: [-1.3, 0.2], turn: -90 },
-      { id: "nicole", cast: AUTHOR, at: [3.4, 1.4], turn: -90 },
-      { id: "mate", cast: ROOMMATE, at: [2.0, 0.2], turn: 90, pose: "hold" },
-    ],
+    actors: [{ id: "you", cast: YOU, at: [-1.3, 0.2], turn: -90 }],
     props: [
       { id: "sink", kind: "sink", at: [-2.05, 0, 0.2], turn: 90 },
       { id: "brush", kind: "toothbrush", at: [-1.95, 0.9, 0.5] },
-      { id: "stove", kind: "stove", at: [2.75, 0, 0.2], turn: -90 },
-      { id: "house", kind: "cottage", at: [3.0, 0, -2.4], turn: -20 },
+      { id: "car", kind: "car", at: [2.2, 0, 0.6], turn: -35 },
+      { id: "sign", kind: "sign", at: [3.6, 0, -0.6], label: "駕訓班" },
     ],
     beats: [
       { who: NARRATOR, text: "每天早上刷牙，你大概想都不用想，就刷完了。", cam: [-1.4, 0.2, 0.75], act: { you: { pose: "brush", hold: "brush" } } },
       { who: NARRATOR, text: "假設你習慣用右手。現在，換左手試試看。", act: { you: { pose: "brushL", hold: null, holdL: "brush", face: "worried", icon: "sweat" } } },
       { who: "你", text: "好彆扭……每一下都要想著才做得到。", act: { you: { pose: "brushL", face: "worried", icon: "dots" } } },
       { who: NARRATOR, text: "到了隔天早上，手又自己換回右手了。", act: { you: { pose: "brush", holdL: null, hold: "brush", face: "surprised", icon: "!" } } },
-      { who: "妮可", text: "我也請室友做飯時關上廚房的門，說了好幾次。", cam: [1.2, 0.3, 0.8], act: { you: { pose: "idle", hold: null, face: "smile" }, nicole: { to: [0.8, 0.5], turn: 55, pose: "talk" } } },
-      { who: "室友", text: "啊！又忘了！", act: { mate: { turn: "nicole", face: "surprised", icon: "!", pose: "idle" } } },
-      { who: "妮可", text: "他們不是壞人。做飯早就是一套自動流程，新規則還插不進去。", act: { nicole: { face: "smile", pose: "shrug" }, mate: { face: "smile", icon: "sweat" } } },
-      { who: NARRATOR, text: "熟悉的動作走的是大腦省力的老路。想換新做法，得先注意到它，再多練幾次。", cam: [0, 0.2, 1], act: { you: { turn: 0, icon: "bulb" }, nicole: { turn: 0 }, mate: { turn: 0 } } },
+      { who: NARRATOR, text: "再想想第一次學開車：一直盯著後視鏡、留意盲點，每個動作都要想。", cam: [2.0, 0.5, 0.8], act: { you: { hold: null, to: [2.2, 0.6], on: "car", pose: "drive", face: "worried", icon: "think" } } },
+      { who: "你", text: "後視鏡、盲點……現在要踩哪一個踏板？", act: { you: { face: "surprised", icon: "sweat" } } },
+      { who: NARRATOR, text: "重複夠多次以後，該踩哪個踏板，腳自己就知道了。", act: { you: { face: "happy", icon: "note" } } },
+      { who: NARRATOR, text: "大腦大部分時間像開著自動駕駛：熟悉，讓大腦省力。想換新做法，得先注意到老路。", cam: [0.4, 0.3, 1], act: { you: { face: "smile", icon: "bulb" } } },
     ],
   },
 

@@ -82,7 +82,7 @@ export const chapterDepth: Record<string, ChapterDepthEntry> = {
       },
       {
         kind: "作者經驗",
-        text: "第一層的低電量模式提過：硬體電量不足時，大腦沒有餘力更新習慣這套軟體。想建立新連結，得先照顧好身體。",
+        text: "1.1 提過的低電量模式說明了：硬體電量不足時，大腦沒有餘力更新習慣這套軟體。想建立新連結，得先照顧好身體。",
       },
       {
         kind: "書中觀點",

@@ -2515,3 +2515,6 @@ input:focus-visible,
 .brain-atlas-fold.open .brain-atlas-toggle{margin-bottom:24px}
 .brain-atlas-toggle{border:2px dashed #b9cfa3;background:var(--card);color:#2b3a33;box-shadow:0 5px 0 #eadfbf}
 .brain-atlas-toggle > svg{color:var(--leaf);flex:none}
+.layer-section > .layer-bridge.section-bridge{display:block;margin:22px auto 0;padding:10px 18px;max-width:none;border:0;border-left:4px solid #e9c46a;border-radius:0 12px 12px 0;background:rgba(255,255,255,.55);font-size:16px;color:#5a5141}
+.layer-section > .layer-bridge.section-bridge::before{position:static;content:"接下來 → ";font-weight:700;color:#b9852a}
+.layer-transition{max-width:820px;margin:6px 0 22px;padding:14px 20px;border-radius:16px;background:#fff8e6;border-left:6px solid #e9c46a;font-size:17px;line-height:1.85;color:#4a4030}

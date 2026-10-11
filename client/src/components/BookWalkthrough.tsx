@@ -7,13 +7,13 @@ import ChapterDepth from "./ChapterDepth";
 import type { Mode } from "../data/neuroLessons";
 import { sceneByChapter as allScenes } from "../data/islandScenes";
 
-/** 主題卡上播放的情境：已移到層前導或理論節點的不再重複 */
-const sceneByChapter = Object.fromEntries(Object.entries(allScenes).filter(([id]) => !relocatedScenes.has(id)));
+/** 主題卡上播放的情境：已移到層前導或理論節點的、或精簡掉的不再顯示 */
+const sceneByChapter = Object.fromEntries(Object.entries(allScenes).filter(([id]) => !relocatedScenes.has(id) && !hiddenScenes.has(id)));
 import IslandScene from "./IslandScene";
 import StressCycle from "./StressCycle";
 import FormulaShowcase from "./FormulaShowcase";
 import { markKeys } from "./KeyMark";
-import { guideLayers, layerChapterOrder, relocatedScenes, topicNumber, type GuideLayer } from "../data/guideLayers";
+import { guideLayers, hiddenScenes, layerChapterOrder, relocatedScenes, topicNumber, type GuideLayer } from "../data/guideLayers";
 
 const chapterModels: Record<string, { mode: Mode; id: string }> = {
   muscles: { mode: "muscle", id: "muscle-animation" },
@@ -259,10 +259,6 @@ export default function BookWalkthrough({ slots }: { slots?: Record<string, Reac
                 </div>
                 <p>{layer.intro}</p>
               </header>
-              <p className="layer-key-banner">
-                <span>這一層要帶走的一句話</span>
-                {layer.recap.key}
-              </p>
               <LayerLead layer={layer} />
               {layer.id === "layer3" && (
                 <>
@@ -279,7 +275,6 @@ export default function BookWalkthrough({ slots }: { slots?: Record<string, Reac
                 </>
               )}
               <LayerNodes layer={layer} />
-              {layer.id === "layer1" && <StressCycle />}
               {layer.sections.map((sec, si) => {
                 const last = si === layer.sections.length - 1;
                 return (
@@ -294,24 +289,21 @@ export default function BookWalkthrough({ slots }: { slots?: Record<string, Reac
                       </div>
                     </header>
                     {slots?.[`${layer.id}:${si}`]}
+                    {layer.id === "layer1" && si === 0 && (
+                      <>
+                        <p className="layer-transition">
+                          自動駕駛本來是為了省力。但長期壓力沒有恢復時，大腦會進入作者說的「低電量模式」：只顧撐過眼前，最熟悉的老路跑得最快。
+                        </p>
+                        <StressCycle />
+                      </>
+                    )}
                     <div className="walk-chapters">
                       {sec.chapters.map(id => {
                         const ch = guideChapters.find(item => item.id === id);
                         return ch ? renderTopic(ch) : null;
                       })}
                     </div>
-                    <aside className="layer-recap section-recap">
-                      <h4>
-                        <span>小結</span>
-                        {sec.title}
-                      </h4>
-                      <ul>
-                        {sec.recap.map(point => (
-                          <li key={point}>{markKeys(point)}</li>
-                        ))}
-                      </ul>
-                      {!last && <p className="layer-bridge">{sec.bridge}</p>}
-                    </aside>
+                    {!last && <p className="layer-bridge section-bridge">{sec.bridge}</p>}
                   </div>
                 );
               })}
@@ -328,6 +320,7 @@ export default function BookWalkthrough({ slots }: { slots?: Record<string, Reac
                     <li key={point}>{markKeys(point)}</li>
                   ))}
                 </ul>
+                <p className="layer-recap-key">{layer.recap.key}</p>
               </aside>
               {!next && (
                 <aside className="layer-recap guide-summary">
