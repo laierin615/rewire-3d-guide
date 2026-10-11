@@ -640,10 +640,10 @@ function Home() {
               <h1 className="hero-title" id="hero-title"><small>REWIRE</small>神經可塑性<br/><em>看見大腦，<br/>也看見改變的可能。</em></h1>
               <p className="hero-lede">用神經科學突破行為模式迴圈，終結焦慮、恐慌和憂鬱，實現最佳的心理健康。</p>
               <p className="hero-core">看見舊反應 → 練習新選擇 → 讓改變走進日常</p>
-              <div className="hero-actions"><button className="btn btn-primary" onClick={()=>scrollToId("intro")}><BookOpen size={18}/>開始閱讀<ArrowRight size={17}/></button></div>
+              <div className="hero-actions"><button className="btn btn-primary" onClick={()=>scrollToId("journey")}><BookOpen size={18}/>開始閱讀<ArrowRight size={17}/></button></div>
               <div className="hero-meta"><div className="meta-item"><strong>Nicole Vignola</strong>作者</div><div className="meta-item"><strong>梁永安</strong>譯者</div></div>
-              <div className="hero-team" aria-label="導讀小組成員"><span className="hero-team-label">導讀小組</span><ul>{guideTeam.map(([id, name]) => <li key={id}><b>{name}</b><small>{id}</small></li>)}</ul></div>
             </div>
+            <div className="hero-team" aria-label="導讀小組成員"><span className="hero-team-label">導讀小組</span><ul>{guideTeam.map(([id, name]) => <li key={id}><b>{name}</b><small>{id}</small></li>)}</ul></div>
             <div className="hero-book-world" aria-label="Rewire 書籍導讀視覺">
               <div className="book-world-ring ring-a"/><div className="book-world-ring ring-b"/>
               <span className="world-ball ball-coral"/><span className="world-ball ball-gold"/><span className="world-ball ball-teal"/>
