@@ -34,6 +34,8 @@ export type ChapterStudy = {
   id: string;
   number: string;
   phase: "phase1" | "phase2" | "phase3";
+  /** 對應導讀主題的 id，用來排序與編號 */
+  topic: string;
   title: string;
   english: string;
   thesis: string;
@@ -72,7 +74,7 @@ export const bookQuotes: BookQuote[] = [
 export const bookExamples: BookExample[] = [
   {
     id: "brain-lab",
-    label: "導言／第一次觸摸人腦",
+    label: "作者經驗／第一次觸摸人腦",
     title: "額葉皮質承載的，不只是一個腦區名稱",
     page: "PDF p.3–4",
     scene: "作者回憶大一神經解剖課第一次雙手捧著人腦。她的手指觸到額葉皮質時，想到腦主人一生的記憶、愛、悲傷與選擇，於是追問：我們的習慣究竟是自己選擇，還是環境逐步寫入？",
@@ -215,6 +217,7 @@ export const brainRegions: BrainRegion[] = [
 export const chapters: ChapterStudy[] = [
   {
     id: "negativity",
+    topic: "negative-bias",
     number: "01",
     phase: "phase1",
     title: "負面偏見",
@@ -230,6 +233,7 @@ export const chapters: ChapterStudy[] = [
   },
   {
     id: "thoughts",
+    topic: "thought-power",
     number: "02",
     phase: "phase1",
     title: "思想的力量",
@@ -245,6 +249,7 @@ export const chapters: ChapterStudy[] = [
   },
   {
     id: "normality",
+    topic: "creeping-normality",
     number: "03",
     phase: "phase1",
     title: "漸進的常態",
@@ -260,6 +265,7 @@ export const chapters: ChapterStudy[] = [
   },
   {
     id: "subconscious",
+    topic: "subconscious",
     number: "04",
     phase: "phase2",
     title: "重組潛意識",
@@ -275,6 +281,7 @@ export const chapters: ChapterStudy[] = [
   },
   {
     id: "space",
+    topic: "make-space",
     number: "05",
     phase: "phase2",
     title: "重複與戰略性休息",
@@ -290,6 +297,7 @@ export const chapters: ChapterStudy[] = [
   },
   {
     id: "boundaries",
+    topic: "boundaries",
     number: "06",
     phase: "phase2",
     title: "突破界線",
@@ -298,13 +306,14 @@ export const chapters: ChapterStudy[] = [
     explanation: "舒適圈可被逐步擴張，但劑量很重要。任務需要明確、可拆分且有回饋，才能形成成功預測，而不是再度確認失敗敘事。",
     example: "書中以公開表現、運動與新目標說明：先把挑戰拆到願意開始的大小，再讓完成經驗成為下一次嘗試的記憶模板。",
     evidence: "「勇於創造你自己吧。」",
-    page: "PDF p.8、第二階段相關章節",
+    page: "PDF p.8",
     mechanism: "壓力劑量、自我效能、預測誤差",
     education: "同一學習目標提供不同入口與難度，讓學生累積可辨認的進步證據。",
     keywords: ["可恢復挑戰", "自我效能", "預測更新"],
   },
   {
     id: "setbacks",
+    topic: "strategy",
     number: "07",
     phase: "phase2",
     title: "挫折與自我破壞",
@@ -320,6 +329,7 @@ export const chapters: ChapterStudy[] = [
   },
   {
     id: "resilience",
+    topic: "resilience",
     number: "08",
     phase: "phase3",
     title: "提升心理韌性",
@@ -335,6 +345,7 @@ export const chapters: ChapterStudy[] = [
   },
   {
     id: "growth",
+    topic: "growth",
     number: "09",
     phase: "phase3",
     title: "成長心態",
@@ -350,6 +361,7 @@ export const chapters: ChapterStudy[] = [
   },
   {
     id: "optimization",
+    topic: "muscles",
     number: "10",
     phase: "phase3",
     title: "運動、睡眠與最佳化",
@@ -366,8 +378,9 @@ export const chapters: ChapterStudy[] = [
 ];
 
 export const phaseLabels = {
-  all: "全部章節",
-  phase1: "階段一｜擺脫負面情緒",
-  phase2: "階段二｜改變你的敘事",
-  phase3: "階段三｜增強積極性",
+  all: "全部主題",
+  layer1: "第一層｜覺察陷阱",
+  layer2: "第二層｜解碼大腦",
+  layer3: "第三層｜阻斷與重建",
+  layer4: "第四層｜教育現場落地",
 } as const;

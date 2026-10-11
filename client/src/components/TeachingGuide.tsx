@@ -9,16 +9,14 @@ import {
   X,
   Layers3,
 } from "lucide-react";
-import { guideChapters } from "../data/guideChapters";
+import { guideChapters, type GuideChapter } from "../data/guideChapters";
+import { guideLayers, layerChapterOrder, topicNumber } from "../data/guideLayers";
 
-const stages = [
-  ["all", "全部"],
-  ["intro", "導言"],
-  ["stage1", "01 擺脫負面情緒"],
-  ["stage2", "02 改變你的敘事"],
-  ["stage3", "03 增強積極性"],
-  ["outro", "尾聲"],
-] as const;
+const ordered = layerChapterOrder
+  .map(id => guideChapters.find(ch => ch.id === id))
+  .filter((ch): ch is GuideChapter => !!ch);
+const layerOf = (id: string) => guideLayers.find(l => l.chapters.includes(id));
+const stages = [["all", "全部"], ...guideLayers.map(l => [l.id, `${l.no} ${l.title}`])] as const;
 export default function TeachingGuide() {
   const [stage, setStage] = useState("all");
   const [query, setQuery] = useState("");
@@ -28,9 +26,9 @@ export default function TeachingGuide() {
   const launch = useRef<HTMLButtonElement>(null);
   const filtered = useMemo(
     () =>
-      guideChapters.filter(
+      ordered.filter(
         ch =>
-          (stage === "all" || ch.stage === stage) &&
+          (stage === "all" || layerOf(ch.id)?.id === stage) &&
           [ch.title, ch.en, ch.summary, ch.concepts]
             .join(" ")
             .toLowerCase()
@@ -99,19 +97,19 @@ export default function TeachingGuide() {
       <div className="container-wide">
         <div className="lab-heading">
           <div>
-            <div className="section-label eyebrow">06 / 每一章的重點</div>
+            <div className="section-label eyebrow">06 / 每個主題的重點</div>
             <h2 className="section-title" id="teaching-title">
-              每一章，
+              每個主題，
               <br />
               <span>都有清楚的解說起點。</span>
             </h2>
           </div>
           <p className="section-intro">
-            依導言、三階段與尾聲排列。每一章先看在說什麼、有哪些概念，最後留一個問題給自己。
+            依導讀的四個層次排列。每個主題先看重點摘要、有哪些概念，最後留一個問題給自己。
           </p>
         </div>
         <div className="guide-filters">
-          <div aria-label="依階段篩選">
+          <div aria-label="依層次篩選">
             {stages.map(([id, label]) => (
               <button
                 key={id}
@@ -135,15 +133,15 @@ export default function TeachingGuide() {
                 setQuery(e.target.value);
                 setActive(0);
               }}
-              placeholder="搜尋章節或概念"
-              aria-label="搜尋完整章節導讀"
+              placeholder="搜尋主題或概念"
+              aria-label="搜尋主題導讀"
             />
           </label>
         </div>
         <div className="guide-layout">
-          <aside className="guide-index" aria-label="完整章節">
+          <aside className="guide-index" aria-label="全部主題">
             <span className="guide-count" aria-live="polite">
-              章節目錄
+              主題目錄
             </span>
             {filtered.map((ch, i) => (
               <button
@@ -152,7 +150,7 @@ export default function TeachingGuide() {
                 onClick={() => setActive(i)}
                 aria-pressed={index === i}
               >
-                <span>{ch.no}</span>
+                <span>{topicNumber(ch.id)}</span>
                 <strong>{ch.title}</strong>
                 <ArrowRight size={15} />
               </button>
@@ -163,12 +161,12 @@ export default function TeachingGuide() {
               className={`guide-card ${presenting ? "guide-present" : ""}`}
               role={presenting ? "dialog" : undefined}
               aria-modal={presenting ? true : undefined}
-              aria-label={presenting ? "章節滿版導讀" : undefined}
+              aria-label={presenting ? "主題滿版導讀" : undefined}
             >
               <div className="guide-card-top">
-                <span>{stages.find(([id]) => id === chapter.stage)?.[1]}</span>
+                <span>{layerOf(chapter.id) ? `${layerOf(chapter.id)!.label}｜${layerOf(chapter.id)!.title}` : ""}</span>
                 <div>
-                  <span>{chapter.no}</span>
+                  <span>{topicNumber(chapter.id)}</span>
                   {presenting ? (
                     <button
                       ref={exit}
@@ -194,7 +192,7 @@ export default function TeachingGuide() {
               <div className="guide-four">
                 <div>
                   <BookOpen size={21} />
-                  <span>01 / 這章在講什麼</span>
+                  <span>01 / 重點摘要</span>
                   <p>{chapter.summary}</p>
                 </div>
                 <div>
@@ -210,7 +208,7 @@ export default function TeachingGuide() {
               </div>
               <div className="guide-footer">
                 <p>
-                  章節摘要{presenting ? " · ← → 換章 · Esc 離開" : ""}
+                  主題摘要{presenting ? " · ← → 切換主題 · Esc 離開" : ""}
                 </p>
                 <div>
                   <button
@@ -218,7 +216,7 @@ export default function TeachingGuide() {
                     onClick={() => setActive(i => Math.max(0, i - 1))}
                   >
                     <ArrowLeft size={15} />
-                    上一章
+                    上一個
                   </button>
                   <button
                     disabled={index === filtered.length - 1}
@@ -226,7 +224,7 @@ export default function TeachingGuide() {
                       setActive(i => Math.min(filtered.length - 1, i + 1))
                     }
                   >
-                    下一章
+                    下一個
                     <ArrowRight size={15} />
                   </button>
                 </div>
@@ -234,7 +232,7 @@ export default function TeachingGuide() {
             </article>
           ) : (
             <div className="guide-empty">
-              沒有符合的章節，請試試其他關鍵字。
+              沒有符合的主題，請試試其他關鍵字。
             </div>
           )}
         </div>

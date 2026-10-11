@@ -1,12 +1,10 @@
-import { ArrowRight, ChevronDown } from "lucide-react";
-import { guideChapters } from "../data/guideChapters";
-import { bookStages, guideLayers } from "../data/guideLayers";
+import { ArrowRight } from "lucide-react";
+import { guideLayers } from "../data/guideLayers";
 
 const depthTags = ["生理與現象", "生理機制", "認知與策略", "教育實務"];
 
-/** 首頁的導讀主軸：四層漏斗，加上原書章節對照 */
+/** 首頁的導讀主軸：四層漏斗 */
 export default function GuideFunnel() {
-  const layerOf = (id: string) => guideLayers.find(l => l.chapters.includes(id));
   return (
     <section className="section book-route" id="journey" aria-labelledby="book-route-title">
       <div className="container-wide">
@@ -14,9 +12,6 @@ export default function GuideFunnel() {
         <h2 className="section-title" id="book-route-title">
           從「大腦重塑」到「學習賦能」
         </h2>
-        <p className="section-intro">
-          原書以故事、反思提問和科學名詞交錯書寫。這份導讀把全書重新排成四層：從為什麼改變這麼難，到大腦怎麼改變，再到怎麼練、在教室裡怎麼用。
-        </p>
         <ol className="guide-funnel" aria-label="導讀四層漏斗">
           {guideLayers.map((l, i) => (
             <li key={l.id} className={`funnel-${i}`}>
@@ -35,11 +30,6 @@ export default function GuideFunnel() {
             </li>
           ))}
         </ol>
-        <p className="funnel-path">
-          覺察 <ArrowRight size={14} aria-hidden="true" /> 科學解碼 <ArrowRight size={14} aria-hidden="true" /> 策略重建{" "}
-          <ArrowRight size={14} aria-hidden="true" /> 實務落地
-          <small>對應教檢複習：生理學基礎 → 訊息處理 → 認知行為輔導</small>
-        </p>
         <div className="book-core" aria-label="全書核心">
           <article>
             <span>核心提問</span>
@@ -54,36 +44,6 @@ export default function GuideFunnel() {
             <p>重複＋注意力＋刻意＝持久的改變。先看見舊循環，再練習新反應，最後用身體、睡眠與自我信賴讓改變站穩。</p>
           </article>
         </div>
-        <details className="book-order">
-          <summary>
-            原書章節對照
-            <small>想照原書順序讀，從這裡找每一章在導讀的哪一層</small>
-            <ChevronDown size={18} aria-hidden="true" />
-          </summary>
-          <div className="book-order-grid">
-            {Object.entries(bookStages).map(([stage, name]) => (
-              <section key={stage}>
-                <h3>{name}</h3>
-                <ul>
-                  {guideChapters
-                    .filter(ch => ch.stage === stage)
-                    .map(ch => {
-                      const layer = layerOf(ch.id);
-                      return (
-                        <li key={ch.id}>
-                          <a href={`#chapter-${ch.id}`}>
-                            {stage !== "intro" && stage !== "outro" && <b>{ch.no}</b>}
-                            {ch.title}
-                            {layer && <span className={`book-order-layer ${layer.id}`}>{layer.title}</span>}
-                          </a>
-                        </li>
-                      );
-                    })}
-                </ul>
-              </section>
-            ))}
-          </div>
-        </details>
       </div>
     </section>
   );

@@ -1,3 +1,4 @@
+import { topicLabel } from "../data/guideLayers";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   AlertTriangle,
@@ -226,7 +227,7 @@ export default function ExamDeepQAPanel() {
               <div className="qa-chapter-links">
                 {active.chapters.map(chapter => (
                   <a key={chapter.id} href={`#chapter-${chapter.id}`}>
-                    回到 {chapter.label} <ArrowRight size={15} aria-hidden="true" />
+                    回到 {topicLabel(chapter.id)} <ArrowRight size={15} aria-hidden="true" />
                   </a>
                 ))}
               </div>

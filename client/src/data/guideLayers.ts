@@ -1,10 +1,12 @@
+import { guideChapters } from "./guideChapters";
+
 // 導讀敘事主軸：把原書的「故事、提問、科學名詞」重新排成四層漏斗。
 // 從底層的生理機制，推到中層的認知心智，最後收斂在教育實務與行動。
-// 每個節點都標明出自原書哪一章；不在書裡的延伸說明一律放在 note（顯示為「導讀補充」）。
+// source 只作內部核對；不在書裡的延伸說明一律放在 note（顯示為「導讀補充」）。
 
 export type LayerNode = {
   title: string;
-  /** 原書章節編號，例如 "1.3" */
+  /** 內部備註：取材自原書哪一段（不顯示） */
   source: string;
   text: string;
   /** 導讀補充：教育心理學或教學現場的延伸，不是作者的說法 */
@@ -20,7 +22,7 @@ export type GuideLayer = {
   question: string;
   lead: string;
   nodes: LayerNode[];
-  /** 這一層底下接的完整章節（依導讀順序，不依原書順序） */
+  /** 這一層底下的主題（依導讀順序） */
   chapters: string[];
 };
 
@@ -32,12 +34,12 @@ export const guideLayers: GuideLayer[] = [
     en: "The Problem",
     title: "覺察陷阱",
     question: "為什麼改變這麼難？",
-    lead: "先從書中的現象引發共鳴。很多讓人困住的反應，不只是態度問題，而是大腦把重複的經驗走成了熟悉的路，在背景裡自動執行。",
+    lead: "很多讓人困住的反應，不只是態度問題，而是大腦把重複的經驗走成了熟悉的路，在背景裡自動執行。",
     nodes: [
       {
         title: "阻礙你的是什麼故事？",
         source: "1.3",
-        text: "作者在書中問讀者：「你反覆對自己講述並因此阻礙你表現傑出的是什麼故事？」「你是如何的畫地為牢以致你的生活被困在四面牆壁之內？」",
+        text: "「你反覆對自己講述並因此阻礙你表現傑出的是什麼故事？」「你是如何的畫地為牢以致你的生活被困在四面牆壁之內？」",
         note: "帶入教學現場：想想班上那些總說「我不會」就放棄，或一點小事就情緒失控的孩子。他們身上，可能也有一個反覆被講述的故事。",
       },
       {
@@ -94,7 +96,7 @@ export const guideLayers: GuideLayer[] = [
     en: "The Strategy",
     title: "阻斷與重建",
     question: "如何設計成長迴路？",
-    lead: "把作者散落各章的方法收成一套：辨識提示、掌握公式、重新架構，再一步步練出新的反應。",
+    lead: "把作者散落在書中各處的方法收成一套：辨識提示、掌握公式、重新架構，再一步步練出新的反應。",
     nodes: [
       {
         title: "拆解觸發提示",
@@ -151,12 +153,15 @@ export const guideLayers: GuideLayer[] = [
 /** 依導讀順序排好的章節 id */
 export const layerChapterOrder = guideLayers.flatMap(l => l.chapters);
 
-/** 原書的階段名稱，用來標示每章在書中的位置 */
-export const bookStages: Record<string, string> = {
-  intro: "導言",
-  stage1: "階段一",
-  stage2: "階段二",
-  stage3: "階段三",
-  outro: "尾聲",
+
+/** 主題編號，例如第二層第三個主題是 "2-3" */
+export const topicNumber = (id: string) => {
+  const li = guideLayers.findIndex(l => l.chapters.includes(id));
+  return li < 0 ? "" : `${li + 1}-${guideLayers[li].chapters.indexOf(id) + 1}`;
 };
 
+/** 給連結用的主題名稱，例如「1-1 打破循環」 */
+export const topicLabel = (id: string) => {
+  const ch = guideChapters.find(c => c.id === id);
+  return ch ? `${topicNumber(id)} ${ch.title}` : id;
+};

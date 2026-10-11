@@ -24,10 +24,10 @@ export default function ChapterDepth({ chapterId }: { chapterId: string }) {
     .map(id => examDeepQA.find(item => item.id === id))
     .filter(item => item !== undefined);
   return (
-    <section className="chapter-depth" aria-label="讀懂這一章">
+    <section className="chapter-depth" aria-label="深入理解">
       <h4>
         <Layers3 size={20} aria-hidden="true" />
-        讀懂這一章
+        深入理解
       </h4>
       <ul className="depth-points">
         {depth.points.map(point => (
@@ -45,7 +45,7 @@ export default function ChapterDepth({ chapterId }: { chapterId: string }) {
         <div className="depth-terms">
           <h5>
             <Brain size={20} aria-hidden="true" />
-            {depth.termsTitle ?? "這章的大腦角色"}
+            {depth.termsTitle ?? "相關腦區"}
           </h5>
           <div className="depth-terms-grid">
             {depth.terms.map((term, i) => (

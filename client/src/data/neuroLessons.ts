@@ -27,7 +27,7 @@ export const lessons: Record<
     title: "同一間咖啡館，注意力如何換焦點？",
     en: "ATTENTION & RAS",
     situation: "朋友、鄰桌、窗外的狗吠都在。你此刻聽見的是哪一個？",
-    source: "導言：心理捷思法／確認偏誤：網狀活化系統",
+    source: "心理捷思法／網狀活化系統",
     takeaway: "注意力像聚光燈；你注意到的，只是環境裡的一部分。",
     steps: [
       {
@@ -65,8 +65,8 @@ export const lessons: Record<
     title: "身體活動，如何支持大腦的改變？",
     en: "MUSCLE–BRAIN AXIS & BDNF",
     situation:
-      "作者把走路、遛狗與騎車，也放進照顧大腦的討論裡。肌肉為什麼是這一章的主角？",
-    source: "你的肌肉直接與你的大腦溝通：肌腦軸／腦源性神經營養因子",
+      "作者把走路、遛狗與騎車，也放進照顧大腦的討論裡。肌肉為什麼是這裡的主角？",
+    source: "肌腦軸／腦源性神經營養因子",
     takeaway: "身體與大腦互相溝通，活動是支持改變的條件之一。",
     steps: [
       {
@@ -104,7 +104,7 @@ export const lessons: Record<
     en: "SLEEP & MEMORY CONSOLIDATION",
     situation:
       "書中提到學新語言後可能更疲倦、忘了帶鑰匙。新學習為什麼也需要睡眠？",
-    source: "睡眠是你的頭號最優化工具：新資訊鞏固／深度睡眠／快速動眼睡眠",
+    source: "新資訊鞏固／深度睡眠／快速動眼睡眠",
     takeaway: "反覆練習與睡眠恢復，共同支持新的學習。",
     steps: [
       {
@@ -117,7 +117,7 @@ export const lessons: Record<
       {
         title: "深睡與恢復",
         explain:
-          "本章把深度睡眠與身體恢復、新記憶鞏固連在一起；它是改變計畫的基礎之一。",
+          "作者把深度睡眠與身體恢復、新記憶鞏固連在一起；它是改變計畫的基礎之一。",
         observe: "月亮符號亮起，左側資訊走向中央；月亮只是睡眠的符號。",
         question: "你的學習安排有沒有把恢復時間也算進去？",
       },
@@ -143,7 +143,7 @@ export const lessons: Record<
     en: "REWARD SEEKING & DOPAMINE",
     situation:
       "再看一集、再吃一口、再滑一下。書中用蹺蹺板比喻獎勵之後想要更多的感覺。",
-    source: "多巴胺──你的快樂是在當下：利用無聊（書中轉述《多巴胺國度》比喻）",
+    source: "利用無聊（書中轉述《多巴胺國度》比喻）",
     takeaway: "察覺想要更多的衝動，也練習容許一點無聊。",
     steps: [
       {
@@ -180,7 +180,7 @@ export const lessons: Record<
     title: "神經元如何傳遞訊息？",
     en: "NEURONS & SYNAPSES",
     situation: "學會一個新動作時，大腦裡的訊息如何從一個神經元交給下一個？",
-    source: "導言：神經可塑性如何發揮作用／大腦如何改變",
+    source: "神經可塑性如何發揮作用／大腦如何改變",
     takeaway: "突觸是交流的位置；連結的使用方式會隨經驗改變。",
     steps: [
       {
@@ -215,7 +215,7 @@ export const lessons: Record<
     en: "REPETITION & PLASTICITY",
     situation:
       "你想在被批評時先停一下，卻總是回到熟悉的反應。新選擇如何取得機會？",
-    source: "導言／負面偏見／重複／突破界限",
+    source: "神經可塑性／負面偏見／重複／突破界限",
     takeaway: "反覆練習讓新反應更熟悉；一次練習不等於立即改變。",
     steps: [
       {
@@ -249,7 +249,7 @@ export const lessons: Record<
     en: "STRESS & REGULATION",
     situation:
       "一句話讓你瞬間緊繃、急著反擊。從警報到回應之間，有哪些可以介入的時刻？",
-    source: "打破循環／NeuroToolkit／騰出空間",
+    source: "打破循環／神經工具包／騰出空間",
     takeaway: "先辨識與調節，再在觸發和反應之間練習一次暫停。",
     steps: [
       {

@@ -8,7 +8,7 @@ import type { Mode } from "../data/neuroLessons";
 import { sceneByChapter } from "../data/islandScenes";
 import IslandScene from "./IslandScene";
 import StressCycle from "./StressCycle";
-import { bookStages, guideLayers, layerChapterOrder, type GuideLayer } from "../data/guideLayers";
+import { guideLayers, layerChapterOrder, topicNumber, type GuideLayer } from "../data/guideLayers";
 
 const chapterModels: Record<string, { mode: Mode; id: string }> = {
   neurotoolkit: { mode: "regulation", id: "stress-animation" },
@@ -22,9 +22,6 @@ const orderedChapters = layerChapterOrder
   .map(id => guideChapters.find(ch => ch.id === id))
   .filter((ch): ch is GuideChapter => !!ch);
 
-const bookPlace = (ch: GuideChapter) =>
-  ch.stage === "intro" || ch.stage === "outro" ? `原書${bookStages[ch.stage]}` : `原書 ${bookStages[ch.stage]} ${ch.no}`;
-
 function LayerNodes({ layer }: { layer: GuideLayer }) {
   return (
     <ol className="layer-nodes">
@@ -33,7 +30,6 @@ function LayerNodes({ layer }: { layer: GuideLayer }) {
           <header>
             <span className="layer-node-no">{i + 1}</span>
             <h3>{node.title}</h3>
-            <small>出自 {node.source}</small>
           </header>
           <p>{node.text}</p>
           {node.note && (
@@ -71,7 +67,7 @@ const introEssentials = (
 function ChapterGist({ chapter }: { chapter: GuideChapter }) {
   return (
     <div className="walk-gist">
-      <h4>這章在說什麼</h4>
+      <h4>重點摘要</h4>
       <p>{chapter.summary}</p>
     </div>
   );
@@ -83,7 +79,7 @@ function ChapterMore({ chapter }: { chapter: GuideChapter }) {
     <details className="walk-more">
       <summary>
         展開看更多
-        <small>重要概念、讀懂這一章、書中例子</small>
+        <small>重要概念、深入理解、書中例子</small>
         <ChevronDown size={18} aria-hidden="true" />
       </summary>
       <div className="walk-more-body">
@@ -101,7 +97,7 @@ function ChapterMore({ chapter }: { chapter: GuideChapter }) {
 function SceneOrGist({ chapter }: { chapter: GuideChapter }) {
   const scene = sceneByChapter[chapter.id];
   return scene ? (
-    <IslandScene key={chapter.id} script={scene} question={chapter.question} chapterLabel={chapter.no} />
+    <IslandScene key={chapter.id} script={scene} question={chapter.question} chapterLabel={topicNumber(chapter.id)} />
   ) : (
     <ChapterGist chapter={chapter} />
   );
@@ -194,8 +190,7 @@ export default function BookWalkthrough() {
               <LayerNodes layer={layer} />
               {layer.id === "layer1" && <StressCycle />}
               <h3 className="layer-chapters-title">
-                這一層的章節
-                <small>章節編號是原書的位置</small>
+                這一層的主題
               </h3>
               <div className="walk-chapters">
                 {layer.chapters.map(id => {
@@ -206,7 +201,7 @@ export default function BookWalkthrough() {
                       <article className="walk-chapter" id={`chapter-${ch.id}`}>
                         <header>
                           <div>
-                            <span className="walk-chapter-number">{bookPlace(ch)}</span>
+                            <span className="walk-chapter-number">{topicNumber(ch.id)}</span>
                             <h3>{ch.title}</h3>
                             <p>{ch.en}</p>
                           </div>
@@ -262,7 +257,7 @@ export default function BookWalkthrough() {
           <header>
             <span>
               {guideLayers.find(l => l.chapters.includes(orderedChapters[presented].id))?.label}{" "}
-              · {bookPlace(orderedChapters[presented])}
+              · {topicNumber(orderedChapters[presented].id)}
             </span>
             <button aria-label="離開滿版解說" onClick={close}>
               <X size={24} />
@@ -281,7 +276,7 @@ export default function BookWalkthrough() {
               aria-pressed={slideView === "outline"}
               onClick={() => setSlideView("outline")}
             >
-              這章在說什麼
+              重點摘要
             </button>
             <button
               aria-pressed={slideView === "depth"}
@@ -304,20 +299,20 @@ export default function BookWalkthrough() {
             </div>
           )}
           <footer>
-            <span>← → 換章 · Esc 返回</span>
+            <span>← → 切換主題 · Esc 返回</span>
             <div>
               <button
                 disabled={presented === 0}
                 onClick={() => setPresented(i => (i === null ? null : i - 1))}
               >
                 <ArrowLeft size={18} />
-                上一章
+                上一個
               </button>
               <button
                 disabled={presented === orderedChapters.length - 1}
                 onClick={() => setPresented(i => (i === null ? null : i + 1))}
               >
-                下一章
+                下一個
                 <ArrowRight size={18} />
               </button>
             </div>

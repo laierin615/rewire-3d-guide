@@ -1,5 +1,5 @@
 import GuideFunnel from "../components/GuideFunnel";
-import { guideLayers } from "../data/guideLayers";
+import { guideLayers, layerChapterOrder, topicLabel, topicNumber } from "../data/guideLayers";
 import BookWalkthrough from "../components/BookWalkthrough";
 import ExamDeepQAPanel from "../components/ExamDeepQA";
 import { neuroQuestionChapters, neuroRegionNotes, rocYear } from "../data/examDeepQA";
@@ -87,57 +87,61 @@ const videoLogicPhases = [
   { label: "GUIDE 04", title: "最後實踐：把科學放進日常", hook: "重複 × 注意力 × 刻意，才會把一次嘗試變成持久改變。", text: "改變需要進入日常節奏：早晨先讓大腦接觸光線與身體，而不是立即被手機餵入訊息；休息要真正離開高刺激；用視覺化預演、呼吸與小型替代行動，為新路徑提供更多成功經驗。", cards: ["早晨儀式：先照光、伸展、喝水，再接收大量訊息。", "真正休息：遠離社群刺激，讓注意力恢復。", "視覺化：先在腦中預演新反應與突發狀況。"] },
 ] as const;
 
+const layerOfTopic = (topic: string) => guideLayers.find((l) => (l.chapters as readonly string[]).includes(topic))?.id;
+const sortedChapters = [...chapters].sort((a, b) => layerChapterOrder.indexOf(a.topic) - layerChapterOrder.indexOf(b.topic));
+const chaptersInLayer = (layer: string) => sortedChapters.filter((chapter) => layerOfTopic(chapter.topic) === layer);
+
 const conceptChapterCards = [
   {
-    phase: "第一階段",
-    title: "擺脫負面情緒",
+    phase: "第一層",
+    title: "覺察陷阱",
     icon: <ShieldCheck size={22} />,
     iconLabel: "安全與威脅辨識",
     brainRegion: "杏仁核 × 前額葉",
     brainDescription: "杏仁核先辨識威脅，前額葉再幫你停一下、想清楚再回應。",
     brainTarget: "amygdala",
     pulseClass: "pulse-coral",
-    summary: "先辨認負面偏見、思想慣性與逐步累積的壓力，理解大腦為何會把熟悉的痛苦誤認成安全感。",
-    chapters: chapters.filter((chapter) => chapter.phase === "phase1"),
+    summary: "先辨認負面偏見、悄悄累積的壓力與自動化的潛意識反應，理解大腦為何會把熟悉的痛苦誤認成安全感。",
+    chapters: chaptersInLayer("layer1"),
     accent: "coral",
   },
   {
-    phase: "第二階段",
-    title: "改變你的敘事",
+    phase: "第二層",
+    title: "解碼大腦",
     icon: <Network size={22} />,
     iconLabel: "神經網絡重組",
     brainRegion: "海馬迴 × 突觸網絡",
     brainDescription: "海馬迴把經驗放回情境中，突觸則讓反覆練習慢慢走成新路。",
     brainTarget: "hippocampus",
     pulseClass: "pulse-violet",
-    summary: "透過覺察、重複與留白，讓新的反應逐步取得與舊路徑競爭的機會。",
-    chapters: chapters.filter((chapter) => chapter.phase === "phase2"),
+    summary: "從想法如何改變身體，到運動與睡眠如何提供大腦改變所需的電力，替改變找到生理基礎。",
+    chapters: chaptersInLayer("layer2"),
     accent: "gold",
   },
   {
-    phase: "第三階段",
-    title: "增強積極性",
+    phase: "第三層",
+    title: "阻斷與重建",
     icon: <Sparkles size={22} />,
     iconLabel: "新路徑增強",
     brainRegion: "前額葉控制網絡",
     brainDescription: "前額葉控制網絡協助規劃、抑制衝動，並把目標變成下一步行動。",
     brainTarget: "frontoparietal",
     pulseClass: "pulse-gold",
-    summary: "把挫折轉成回饋，培養心理韌性與成長心態，讓可塑性不只用來修補，也用來創造。",
-    chapters: chapters.filter((chapter) => chapter.phase === "phase3"),
+    summary: "透過騰出空間、突破界限、預想挫折與培養韌性，讓新的反應逐步取得與舊路徑競爭的機會。",
+    chapters: chaptersInLayer("layer3"),
     accent: "sage",
   },
   {
-    phase: "全書收束",
-    title: "讓身體支援改變",
+    phase: "第四層",
+    title: "教育現場落地",
     icon: <HeartPulse size={22} />,
     iconLabel: "身心節律支援",
     brainRegion: "腦幹 × 網狀活化系統",
     brainDescription: "腦幹維持清醒、呼吸與心跳，網狀活化系統幫你調整注意力的開關。",
     brainTarget: "ras",
     pulseClass: "pulse-mint",
-    summary: "運動、睡眠與日常環境共同提供神經系統所需的能量，將心理上的理解落實為可持續的生活節奏。",
-    chapters: chapters.filter((chapter) => chapter.number === "10"),
+    summary: "以成長型心態收束：把挫折轉成回饋，讓可塑性不只用來修補，也用來創造。",
+    chapters: chaptersInLayer("layer4"),
     accent: "blue",
   },
 ] as const;
@@ -511,7 +515,7 @@ function Home() {
   const [brainAuto, setBrainAuto] = useState(false);
   const [pathStep, setPathStep] = useState(0);
   const [phase, setPhase] = useState<PhaseId>("all");
-  const [activeChapter, setActiveChapter] = useState(chapters[0]);
+  const [activeChapter, setActiveChapter] = useState(sortedChapters[0]);
   const [activeConceptCard, setActiveConceptCard] = useState(0);
   const [quizFilter, setQuizFilter] = useState<QuizFilter>("全部");
   const [quizIndex, setQuizIndex] = useState(0);
@@ -573,7 +577,7 @@ function Home() {
   const leftRegion = brainRegions.find((item) => item.id === compareLeft) ?? brainRegions[0];
   const rightRegion = brainRegions.find((item) => item.id === compareRight) ?? brainRegions[1];
   const currentRoadmap = videoLogicPhases[roadmapPhase];
-  const filteredChapters = useMemo(() => phase === "all" ? chapters : chapters.filter((chapter) => chapter.phase === phase), [phase]);
+  const filteredChapters = useMemo(() => phase === "all" ? sortedChapters : sortedChapters.filter((chapter) => layerOfTopic(chapter.topic) === phase), [phase]);
   const filteredQuestions = useMemo(() => quizFilter === "全部" ? neuroMechanismQuestions : neuroMechanismQuestions.filter((question) => question.region === quizFilter), [quizFilter]);
   const currentQuestion = filteredQuestions[quizIndex % filteredQuestions.length];
 
@@ -623,7 +627,7 @@ function Home() {
           </nav>
         </div>
       </header>
-      <nav className={`chapter-dock ${scrolled ? "scrolled" : ""}`} aria-label="章節目錄">
+      <nav className={`chapter-dock ${scrolled ? "scrolled" : ""}`} aria-label="導讀目錄">
         <div className="chapter-dock-track">{chapterLinks.map(([id, number, label]) => <a key={id} href={`#${id}`} className={activeSection === id ? "active" : ""}><span>{number}</span><strong>{label}</strong></a>)}</div>
       </nav>
 
@@ -656,7 +660,7 @@ function Home() {
         <section className="section exam-section walk-phase" id="exam" aria-labelledby="exam-title">
           <div className="container-wide">
             <header className="walk-phase-heading exam-heading"><div><span className="walk-label">教檢連結<small>For Teacher Exams</small></span><h2 id="exam-title">把書中的大腦，接回教師資格考。</h2></div><p>讀完全書後，用兩種方式複習：先做歷屆試題中的腦區題，再用深度問答把書中概念連到教育心理學。題目只收錄能核對題本與答案的試題。</p></header>
-            <div className="exam-part-head"><span className="exam-part-label">第一部分</span><h3>歷屆試題：腦區與學習</h3><p>沿著四站作答：先定位腦區，再讀題、核對解答，最後回到書中章節。</p></div>
+            <div className="exam-part-head"><span className="exam-part-label">第一部分</span><h3>歷屆試題：腦區與學習</h3><p>沿著四站作答：先定位腦區，再讀題、核對解答，最後回到導讀中的相關主題。</p></div>
             <div className="exam-source reveal"><div><ShieldCheck size={18} /><p><strong>延伸閱讀</strong>：教育部教師資格考試歷屆試題。</p></div><a href={officialExamSourceUrl} target="_blank" rel="noreferrer">查看歷屆試題 <ExternalLink size={14} /></a></div>
             <div className="coverage-strip reveal" aria-label="各年度腦區題主題">{examCoverage.map((record) => <article key={record.year} className={record.count === 0 ? "empty" : record.year === 2018 ? "sample" : ""}><strong>{rocYear(record.year)}</strong><small>{record.note}</small></article>)}</div>
             {examJumpRegion && <div className="exam-jump-banner reveal"><Brain size={18} /><p><strong>{examJumpRegion}</strong>相關題目已載入。作答後會依序顯示解答與書中概念。</p><button type="button" onClick={() => setExamJumpRegion(null)}>知道了</button></div>}
@@ -673,7 +677,7 @@ function Home() {
               <aside className={`analysis-card reveal ${submitted ? "visible" : ""}`}>
                 <div className="eyebrow">03 解答 · 04 書中概念</div>
                 <h3 className="serif">{submitted ? currentQuestion.concept : "作答後展開機制解析"}</h3>
-                {submitted ? <><div><b>03 解答</b><p>{currentQuestion.explanation}</p></div><div><b>腦區／路徑</b><p>{currentQuestion.neuroMechanism}</p></div><div className="book-station"><b>04 書中概念</b><p>{withoutPageReference(currentQuestion.bookConnection)}</p>{neuroQuestionChapters[currentQuestion.id] && <a className="book-station-link" href={`#chapter-${neuroQuestionChapters[currentQuestion.id].id}`}>回到 {neuroQuestionChapters[currentQuestion.id].label} <ArrowRight size={15} /></a>}</div><div className="source-links"><a href={currentQuestion.source} target="_blank" rel="noreferrer">查看題本 <ExternalLink size={14} /></a><a href={currentQuestion.answerSource} target="_blank" rel="noreferrer">核對答案 <ExternalLink size={14} /></a></div><button className="analysis-toggle" onClick={() => setShowAnalysis((value) => !value)}><Sparkles size={15} />{showAnalysis ? "收起選項分析" : "為什麼其他選項不對？"}</button>{showAnalysis && <div className="ai-analysis"><strong>為什麼其他選項不成立？</strong><p>{currentQuestion.distractorAnalysis}</p></div>}</> : <div className="analysis-placeholder"><Brain size={42} /><p>這裡會依正解顯示額葉、海馬迴、杏仁核或相關神經路徑，並連回書中的觀點與案例。</p></div>}
+                {submitted ? <><div><b>03 解答</b><p>{currentQuestion.explanation}</p></div><div><b>腦區／路徑</b><p>{currentQuestion.neuroMechanism}</p></div><div className="book-station"><b>04 書中概念</b><p>{withoutPageReference(currentQuestion.bookConnection)}</p>{neuroQuestionChapters[currentQuestion.id] && <a className="book-station-link" href={`#chapter-${neuroQuestionChapters[currentQuestion.id].id}`}>回到 {topicLabel(neuroQuestionChapters[currentQuestion.id].id)} <ArrowRight size={15} /></a>}</div><div className="source-links"><a href={currentQuestion.source} target="_blank" rel="noreferrer">查看題本 <ExternalLink size={14} /></a><a href={currentQuestion.answerSource} target="_blank" rel="noreferrer">核對答案 <ExternalLink size={14} /></a></div><button className="analysis-toggle" onClick={() => setShowAnalysis((value) => !value)}><Sparkles size={15} />{showAnalysis ? "收起選項分析" : "為什麼其他選項不對？"}</button>{showAnalysis && <div className="ai-analysis"><strong>為什麼其他選項不成立？</strong><p>{currentQuestion.distractorAnalysis}</p></div>}</> : <div className="analysis-placeholder"><Brain size={42} /><p>這裡會依正解顯示額葉、海馬迴、杏仁核或相關神經路徑，並連回書中的觀點與案例。</p></div>}
               </aside>
             </div> : <div className="empty-quiz"><Brain size={34} /><h3>這個分類目前沒有題目</h3><p>切換到「全部」或其他分類繼續練習。</p></div>}
             <ExamDeepQAPanel />
@@ -684,15 +688,15 @@ function Home() {
 
         <section className="section logic-journey-section" id="topic-map" aria-labelledby="topic-map-title">
           <div className="container-wide">
-            <div className="logic-journey-intro reveal"><div><div className="section-label eyebrow">02 / 全書的閱讀路線</div><h2 className="section-title serif" id="topic-map-title">先問一個生活問題，<br /><span>再讓大腦科學回答。</span></h2></div><p className="section-intro">從熟悉的壓力、習慣與情緒反應出發，逐步看見大腦如何形成預測，又如何透過新的經驗改變。</p></div>
+            <div className="logic-journey-intro reveal"><div><div className="section-label eyebrow">02 / 導讀的閱讀路線</div><h2 className="section-title serif" id="topic-map-title">先問一個生活問題，<br /><span>再讓大腦科學回答。</span></h2></div><p className="section-intro">從熟悉的壓力、習慣與情緒反應出發，逐步看見大腦如何形成預測，又如何透過新的經驗改變。</p></div>
 <div className="logic-journey-layout">
               <div className="logic-phase-list" role="tablist" aria-label="四個導讀角度">{videoLogicPhases.map((item, index) => <button key={item.label} role="tab" aria-selected={roadmapPhase === index} className={roadmapPhase === index ? "active" : ""} onClick={() => setRoadmapPhase(index)}><span>{item.label}</span><strong>{item.title}</strong><ChevronRight size={16} /></button>)}</div>
               <article className="logic-phase-card reveal"><div className="logic-phase-mark"><Brain size={20} /><span>{currentRoadmap.label}</span></div><h3 className="serif">{currentRoadmap.hook}</h3><p>{currentRoadmap.text}</p>{roadmapPhase === 1 || roadmapPhase === 2 ? <BiasRuminationVisual /> : null}<div className="logic-case-grid">{currentRoadmap.cards.map((card, index) => <div key={card}><span>0{index + 1}</span><strong>{card}</strong></div>)}</div><div className="logic-formula"><span>重複</span><b>＋</b><span>注意力</span><b>＋</b><span>刻意</span><b>＝</b><strong>可持續的改變</strong></div></article>
             </div>
             <div className="concept-chapter-summary reveal">
-              <div className="concept-summary-heading"><div><span className="eyebrow">CHAPTER SNAPSHOT</span><h3 className="serif">三階段與身體支持，看見改變路徑。</h3></div><p>點選階段，快速掌握對應章節的核心問題，再進入「逐章閱讀」深入閱讀。</p></div>
+              <div className="concept-summary-heading"><div><span className="eyebrow">TOPIC SNAPSHOT</span><h3 className="serif">四個層次，看見改變路徑。</h3></div><p>點選層次，快速掌握對應主題的核心問題，再到下方「主題深讀」細看。</p></div>
               <div className="concept-summary-grid">{conceptChapterCards.map((card, index) => <div key={card.title} className={`concept-summary-card ${card.accent} ${activeConceptCard === index ? "active" : ""}`} role="button" tabIndex={0} onClick={() => setActiveConceptCard(index)} onKeyDown={(event) => { if (event.target === event.currentTarget && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); setActiveConceptCard(index); } }}><span className="concept-card-index">0{index + 1}</span><span className="concept-card-icon-wrap"><button type="button" className={`concept-card-icon ${card.pulseClass}`} title={`${card.brainRegion}：${card.brainDescription}`} aria-label={`查看${card.brainRegion}的詳細神經機制`} onClick={(event) => { event.stopPropagation(); setActiveConceptCard(index); setReturnConceptCard(index); setActiveBrain(card.brainTarget as BrainRegionId); setBrainLabActive(card.brainTarget as BrainRegionId); setRegionScenario("resting"); scrollToId("brain"); }}><span className="concept-card-symbol">{card.icon}</span><span className="concept-neural-flow" aria-hidden="true"><i /><i /><i /></span></button><span className="concept-card-tooltip" role="tooltip"><strong>{card.brainRegion}</strong><span>{card.brainDescription}</span></span></span><span className="concept-card-icon-label">{card.iconLabel}</span><span className="eyebrow">{card.phase}</span><strong>{card.title}</strong><p>{card.summary}</p><span className="concept-card-chapters">{card.chapters.map((chapter) => chapter.number).join(" · ")} <ChevronRight size={15} /></span></div>)}</div>
-              <div className="concept-summary-detail" key={activeConceptCard}><div><div className="concept-detail-icon" aria-hidden="true">{conceptChapterCards[activeConceptCard].icon}</div><span className="eyebrow">{conceptChapterCards[activeConceptCard].phase}</span><h4 className="serif">{conceptChapterCards[activeConceptCard].title}</h4><p>{conceptChapterCards[activeConceptCard].summary}</p></div><div className="concept-detail-chapters"><span>對應章節</span>{conceptChapterCards[activeConceptCard].chapters.map((chapter) => <button key={chapter.id} onClick={() => { setActiveChapter(chapter); scrollToId("chapters"); }}><strong>{chapter.number} {chapter.title}</strong><small>{chapter.thesis}</small><ChevronRight size={15} /></button>)}</div></div>
+              <div className="concept-summary-detail" key={activeConceptCard}><div><div className="concept-detail-icon" aria-hidden="true">{conceptChapterCards[activeConceptCard].icon}</div><span className="eyebrow">{conceptChapterCards[activeConceptCard].phase}</span><h4 className="serif">{conceptChapterCards[activeConceptCard].title}</h4><p>{conceptChapterCards[activeConceptCard].summary}</p></div><div className="concept-detail-chapters"><span>對應主題</span>{conceptChapterCards[activeConceptCard].chapters.map((chapter) => <button key={chapter.id} onClick={() => { setActiveChapter(chapter); scrollToId("chapters"); }}><strong>{topicNumber(chapter.topic)} {chapter.title}</strong><small>{chapter.thesis}</small><ChevronRight size={15} /></button>)}</div></div>
             </div>
           </div>
         </section>
@@ -712,7 +716,7 @@ function Home() {
             </div>
             <div className="book-visual reveal">
               <div className="cover-halo" /><img className="book-cover" src={coverImage} alt="《Rewire－神經可塑性》繁體中文版封面" />
-              <div className="book-spine-note"><span className="eyebrow">書中核心提問</span><strong className="serif">「我們的習慣和行為，是自己選擇，還是透過環境無意中獲得？」</strong><small>《Rewire》導言</small></div>
+              <div className="book-spine-note"><span className="eyebrow">書中核心提問</span><strong className="serif">「我們的習慣和行為，是自己選擇，還是透過環境無意中獲得？」</strong><small>《Rewire》作者提問</small></div>
             </div>
           </div>
         </section>
@@ -827,11 +831,11 @@ function Home() {
             <div className="reveal"><div className="section-label eyebrow">05 / 主題深讀</div><h2 className="section-title serif">「無論重複什麼想法和反應，<br /><span>都會加強你腦中的路徑。」</span></h2><p className="section-intro">先理解負面迴路與壓力，再重寫潛意識預測，最後以韌性、心態、睡眠與運動維持新路徑。可以從這裡延伸查看書中例子、機制、短引文與教育連結。</p></div>
             <div className="chapter-filter reveal">{(Object.keys(phaseLabels) as PhaseId[]).map((id) => <button key={id} className={phase === id ? "active" : ""} onClick={() => setPhase(id)}>{phaseLabels[id]}</button>)}</div>
             <div className="chapter-atlas">
-              <div className="chapter-list reveal">{filteredChapters.map((chapter) => <button key={chapter.id} className={activeChapter.id === chapter.id ? "active" : ""} onClick={() => setActiveChapter(chapter)}><span>{chapter.number}</span><div><strong>{chapter.title}</strong><small>{chapter.english}</small></div><ChevronRight size={16} /></button>)}</div>
+              <div className="chapter-list reveal">{filteredChapters.map((chapter) => <button key={chapter.id} className={activeChapter.id === chapter.id ? "active" : ""} onClick={() => setActiveChapter(chapter)}><span>{topicNumber(chapter.topic)}</span><div><strong>{chapter.title}</strong><small>{chapter.english}</small></div><ChevronRight size={16} /></button>)}</div>
               <article className="chapter-detail reveal">
-                <div className="chapter-detail-top"><span>{activeChapter.number}</span><div><small>{activeChapter.english}</small><h3 className="serif">{activeChapter.title}</h3></div></div>
+                <div className="chapter-detail-top"><span>{topicNumber(activeChapter.topic)}</span><div><small>{activeChapter.english}</small><h3 className="serif">{activeChapter.title}</h3></div></div>
                 <p className="chapter-thesis">{activeChapter.thesis}</p>
-                <div className="chapter-detail-grid"><div><b>章節論證</b><p>{activeChapter.explanation}</p></div><div><b>書中例子</b><p>{activeChapter.example}</p></div><div><b>神經機制</b><p>{activeChapter.mechanism}</p></div><div><b>教育連結</b><p>{activeChapter.education}</p></div></div>
+                <div className="chapter-detail-grid"><div><b>核心論證</b><p>{activeChapter.explanation}</p></div><div><b>書中例子</b><p>{activeChapter.example}</p></div><div><b>神經機制</b><p>{activeChapter.mechanism}</p></div><div><b>教育連結</b><p>{activeChapter.education}</p></div></div>
                 <blockquote className="serif">{activeChapter.evidence}</blockquote>
                 <div className="keyword-row">{activeChapter.keywords.map((keyword) => <span key={keyword}>{keyword}</span>)}</div>
               </article>
