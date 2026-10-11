@@ -11,6 +11,8 @@ import { sceneByChapter as allScenes } from "../data/islandScenes";
 const sceneByChapter = Object.fromEntries(Object.entries(allScenes).filter(([id]) => !relocatedScenes.has(id)));
 import IslandScene from "./IslandScene";
 import StressCycle from "./StressCycle";
+import FormulaShowcase from "./FormulaShowcase";
+import { markKeys } from "./KeyMark";
 import { guideLayers, layerChapterOrder, relocatedScenes, topicNumber, type GuideLayer } from "../data/guideLayers";
 
 const chapterModels: Record<string, { mode: Mode; id: string }> = {
@@ -23,27 +25,47 @@ const orderedChapters = layerChapterOrder
   .map(id => guideChapters.find(ch => ch.id === id))
   .filter((ch): ch is GuideChapter => !!ch);
 
+function NodeAnim({ layer, node, i }: { layer: GuideLayer; node: GuideLayer["nodes"][number]; i: number }) {
+  const anim = node.anim!;
+  const scene = "scene" in anim ? allScenes[anim.scene] : undefined;
+  const chapter = "scene" in anim ? guideChapters.find(ch => ch.id === anim.scene) : undefined;
+  return (
+    <section className="layer-anim" id={`anim-${layer.id}-${i}`}>
+      <h4>
+        <span>補充動畫</span>
+        {node.title}
+      </h4>
+      {"lab" in anim ? (
+        <Neuro3DLab initialMode={anim.lab} embedded id={anim.id} />
+      ) : scene ? (
+        <IslandScene key={scene.chapter} script={scene} question={chapter?.question ?? ""} />
+      ) : null}
+    </section>
+  );
+}
+
+/** 理論節點：每個節點下面直接接它的補充動畫 */
 function LayerNodes({ layer }: { layer: GuideLayer }) {
   return (
-    <ol className="layer-nodes">
+    <ol className="layer-nodes stacked">
       {layer.nodes.map((node, i) => (
-        <li key={node.title}>
-          <header>
-            <span className="layer-node-no">{i + 1}</span>
-            <h3>{node.title}</h3>
-          </header>
-          <p>{node.text}</p>
-          {node.anim && (
-            <a className="layer-node-anim" href={`#anim-${layer.id}-${i}`}>
-              看補充動畫 <ArrowRight size={15} aria-hidden="true" />
-            </a>
-          )}
-          {node.note && (
-            <p className="layer-node-note">
-              <b>導讀補充</b>
-              {node.note}
-            </p>
-          )}
+        <li key={node.title} className={node.anim ? "has-anim" : ""}>
+          <div className="layer-node-card">
+            <header>
+              <span className="layer-node-no">{i + 1}</span>
+              <h3>{node.title}</h3>
+            </header>
+            <div className="layer-node-body">
+              <p>{markKeys(node.text)}</p>
+              {node.note && (
+                <p className="layer-node-note">
+                  <b>導讀補充</b>
+                  {node.note}
+                </p>
+              )}
+            </div>
+          </div>
+          {node.anim && <NodeAnim layer={layer} node={node} i={i} />}
         </li>
       ))}
     </ol>
@@ -58,34 +80,6 @@ function LayerLead({ layer }: { layer: GuideLayer }) {
     <div className="layer-lead">
       <span className="layer-lead-label">前導情境</span>
       <IslandScene key={scene.chapter} script={scene} question={layer.lead.question} />
-    </div>
-  );
-}
-
-/** 重要理論的補充動畫 */
-function LayerAnims({ layer }: { layer: GuideLayer }) {
-  const items = layer.nodes.map((node, i) => ({ node, i })).filter(({ node }) => node.anim);
-  if (!items.length) return null;
-  return (
-    <div className="layer-anims">
-      {items.map(({ node, i }) => {
-        const anim = node.anim!;
-        const scene = "scene" in anim ? allScenes[anim.scene] : undefined;
-        const chapter = "scene" in anim ? guideChapters.find(ch => ch.id === anim.scene) : undefined;
-        return (
-          <section key={node.title} className="layer-anim" id={`anim-${layer.id}-${i}`}>
-            <h3>
-              <span>補充動畫</span>
-              {node.title}
-            </h3>
-            {"lab" in anim ? (
-              <Neuro3DLab initialMode={anim.lab} embedded id={anim.id} />
-            ) : scene ? (
-              <IslandScene key={scene.chapter} script={scene} question={chapter?.question ?? ""} />
-            ) : null}
-          </section>
-        );
-      })}
     </div>
   );
 }
@@ -114,7 +108,7 @@ function ChapterGist({ chapter }: { chapter: GuideChapter }) {
   return (
     <div className="walk-gist">
       <h4>重點摘要</h4>
-      <p>{chapter.summary}</p>
+      <p>{markKeys(chapter.summary)}</p>
     </div>
   );
 }
@@ -265,9 +259,26 @@ export default function BookWalkthrough({ slots }: { slots?: Record<string, Reac
                 </div>
                 <p>{layer.intro}</p>
               </header>
+              <p className="layer-key-banner">
+                <span>這一層要帶走的一句話</span>
+                {layer.recap.key}
+              </p>
               <LayerLead layer={layer} />
+              {layer.id === "layer3" && (
+                <>
+                  <FormulaShowcase />
+                  {allScenes.neurotoolkit && (
+                    <section className="layer-anim" id="anim-formula">
+                      <h3>
+                        <span>補充動畫</span>
+                        網球課上的妮可
+                      </h3>
+                      <IslandScene key="neurotoolkit" script={allScenes.neurotoolkit} question={guideChapters.find(ch => ch.id === "neurotoolkit")?.question ?? ""} />
+                    </section>
+                  )}
+                </>
+              )}
               <LayerNodes layer={layer} />
-              <LayerAnims layer={layer} />
               {layer.id === "layer1" && <StressCycle />}
               {layer.sections.map((sec, si) => {
                 const last = si === layer.sections.length - 1;
@@ -289,13 +300,51 @@ export default function BookWalkthrough({ slots }: { slots?: Record<string, Reac
                         return ch ? renderTopic(ch) : null;
                       })}
                     </div>
-                    {!last && <p className="layer-bridge">{sec.bridge}</p>}
+                    <aside className="layer-recap section-recap">
+                      <h4>
+                        <span>小結</span>
+                        {sec.title}
+                      </h4>
+                      <ul>
+                        {sec.recap.map(point => (
+                          <li key={point}>{markKeys(point)}</li>
+                        ))}
+                      </ul>
+                      {!last && <p className="layer-bridge">{sec.bridge}</p>}
+                    </aside>
                   </div>
                 );
               })}
             </div>
             {slots?.[layer.id]}
             <div className="container-wide">
+              <aside className="layer-recap layer-recap-big">
+                <h4>
+                  <span>{layer.label}小結</span>
+                  {layer.title}：{layer.question}
+                </h4>
+                <ul>
+                  {layer.recap.points.map(point => (
+                    <li key={point}>{markKeys(point)}</li>
+                  ))}
+                </ul>
+              </aside>
+              {!next && (
+                <aside className="layer-recap guide-summary">
+                  <h4>
+                    <span>總結</span>
+                    從大腦重塑到學習賦能
+                  </h4>
+                  <ol>
+                    {guideLayers.map(l => (
+                      <li key={l.id}>
+                        <b>{l.title}</b>
+                        {l.recap.key}
+                      </li>
+                    ))}
+                  </ol>
+                </aside>
+              )}
               <a className="walk-next layer-bridge-next" href={next ? `#${next.id}` : "#exam"}>
                 <span>{layer.sections[layer.sections.length - 1].bridge}</span>
                 <small>{next ? `接著讀：${next.label}　${next.title}` : "前往：延伸學習"}</small>

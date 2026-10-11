@@ -21,6 +21,8 @@ export type LayerSection = {
   title: string;
   question: string;
   chapters: string[];
+  /** 小節結束時的小結（2–3 句） */
+  recap: string[];
   bridge: string;
 };
 
@@ -35,6 +37,8 @@ export type GuideLayer = {
   nodes: LayerNode[];
   /** 放在層最前面的前導情境 */
   lead: { scene: string; question: string };
+  /** 這一層的小結：幾句重點，加一句記住的話 */
+  recap: { points: string[]; key: string };
   /** 這一層的小節（依導讀順序） */
   sections: LayerSection[];
   /** 這一層底下的主題（由小節推得） */
@@ -49,9 +53,14 @@ export const guideLayers: GuideLayer[] = [
     en: "The Problem",
     title: "覺察陷阱",
     question: "為什麼改變這麼難？",
-    lead: { scene: "intro", question: "你每天有哪件事，像刷牙一樣想都不用想就做完了？如果要換個做法，你會怎麼提醒自己？" },
+    lead: { scene: "lead-low-power", question: "你最近有沒有哪段時間，覺得自己像在低電量模式？那時最先被放掉的是什麼？" },
     intro: "很多讓人困住的反應，不只是態度問題，而是大腦把重複的經驗走成了熟悉的路，在背景裡自動執行。",
     nodes: [
+      {
+        title: "低電量模式",
+        source: "導言",
+        text: "大腦是硬體，記憶、想法、習慣是軟體。人累了、壓力大的時候，硬體電量不足，大腦只顧維持基本功能，不理會軟體更新。這也是改變之所以難的原因之一：不是不想改，而是沒有電力改。",
+      },
       {
         title: "阻礙你的是什麼故事？",
         source: "1.3",
@@ -62,20 +71,15 @@ export const guideLayers: GuideLayer[] = [
         title: "自動化反應",
         anim: { scene: "subconscious" },
         source: "2.0",
-        text: "據估計，大腦約九成在潛意識裡運作。剛學開車時每個動作都要想，熟練後腳自己知道要踩哪個踏板；習慣和內在的故事，也是這樣被「預先設定」的。熟悉，讓大腦省力。",
+        text: "熟悉，讓大腦省力：反覆的經驗會被自動處理，不再占用注意力。好的習慣是這樣養成的，舊的反應也是。",
         note: "教育心理學稱為「自動化」（automaticity）：反覆的經驗被自動處理，不再占用注意力。重複的負面經驗也會被自動化，「習得無助」可以從這個角度理解。",
       },
-      {
-        title: "奶昔實驗：預期會改變身體",
-        anim: { scene: "thought-power" },
-        source: "1.3",
-        text: "2011 年艾莉雅．克拉姆博士的研究：同一杯奶昔，被告知是高熱量的那一組，喝完後飢餓素下降得比較多。我們相信什麼，身體就跟著反應。",
-      },
     ],
+    recap: { points: ["困住我們的，多半不是個性，而是被重複寫進大腦的自動反應。", "壓力、偏誤和標籤，讓舊反應一再被強化。"], key: "先看見舊路，才有機會換路。" },
     sections: [
-      { title: "壓力怎麼把人困住", question: "為什麼明知道該改，卻總是回到老樣子？", chapters: ["break-cycle", "loss-grief"], bridge: "壓力讓大腦只顧著撐過眼前。接下來看：大腦還會替我們挑選要看見什麼。" },
-      { title: "大腦怎麼扭曲我們看到的", question: "為什麼壞事總是比較顯眼？", chapters: ["negative-bias", "confirmation-bias"], bridge: "偏誤不是一天形成的。下一步要看：這些反應是怎麼一點一滴被設定的？" },
-      { title: "我們怎麼慢慢被設定", question: "那些「我就是這樣」，是從哪裡來的？", chapters: ["creeping-normality", "subconscious"], bridge: "看見了陷阱，接著要問：大腦到底能不能改？靠的是什麼機制？" },
+      { title: "壓力怎麼把人困住", question: "為什麼明知道該改，卻總是回到老樣子？", chapters: ["break-cycle", "loss-grief"], recap: ["壓力本身不是壞事；長期沒有恢復的慢性壓力，才會讓大腦進入低電量模式。", "壓力會變成循環：愈累愈顧不了基本需要，愈顧不了就愈累。", "失去也是一種壓力：原本的慣例失效，大腦得重新適應。"], bridge: "壓力讓大腦只顧著撐過眼前。接下來看：大腦還會替我們挑選要看見什麼。" },
+      { title: "大腦怎麼扭曲我們看到的", question: "為什麼壞事總是比較顯眼？", chapters: ["negative-bias", "confirmation-bias"], recap: ["大腦天生優先注意威脅，所以壞事比較顯眼，這是負面偏見。", "你相信什麼，大腦就去找證據證明它，這是確認偏誤。", "兩者都是大腦在省力，也都可以被重新架構。"], bridge: "偏誤不是一天形成的。下一步要看：這些反應是怎麼一點一滴被設定的？" },
+      { title: "我們怎麼慢慢被設定", question: "那些「我就是這樣」，是從哪裡來的？", chapters: ["creeping-normality", "subconscious"], recap: ["微小的批評和標籤一點一滴累積，成了「我就是這樣」。", "大腦多半在潛意識裡運作，把重複的經驗變成自動反應。", "這些反應是學來的，所以也能重新學。"], bridge: "看見了陷阱，接著要問：大腦到底能不能改？靠的是什麼機制？" },
     ],
     get chapters() {
       return this.sections.flatMap(sec => sec.chapters);
@@ -88,7 +92,7 @@ export const guideLayers: GuideLayer[] = [
     en: "The Science",
     title: "解碼大腦",
     question: "改變的底層生理機制是什麼？",
-    lead: { scene: "lead-low-power", question: "你最近有沒有哪段時間，覺得自己像在低電量模式？那時最先被放掉的是什麼？" },
+    lead: { scene: "intro", question: "你每天有哪件事，像刷牙一樣想都不用想就做完了？如果要換個做法，你會怎麼提醒自己？" },
     intro: "給改變一個生理學的基礎：神經元怎麼連結、怎麼鬆開，以及身體的狀態如何決定大腦有沒有電力去改變。",
     nodes: [
       {
@@ -105,20 +109,17 @@ export const guideLayers: GuideLayer[] = [
         note: "這是「孩子可以改變」的生理學依據，也是班級輔導的基礎：舊路不走，會慢慢變淡。",
       },
       {
-        title: "鋼琴心理練習實驗",
+        title: "鋼琴與奶昔實驗：想法會改變大腦與身體",
+        anim: { scene: "thought-power" },
         source: "1.3",
-        text: "只在腦中想像練琴的人，和真的去彈的人，出現相似的大腦可塑性變化。注意力和意識本身，就能參與神經重塑。",
-      },
-      {
-        title: "低電量模式",
-        source: "導言",
-        text: "大腦是硬體，記憶、想法、習慣是軟體。硬體電量不足時，大腦只顧維持基本功能，不理會軟體更新。所以這一層也接上運動、睡眠和多巴胺：顧好身體，大腦才有電力建立新連結。",
+        text: "鋼琴實驗：只在腦中想像練琴的人，和真的去彈的人，出現相似的大腦可塑性變化。奶昔實驗：2011 年艾莉雅．克拉姆博士的研究，同一杯奶昔，被告知是高熱量的那一組，喝完後飢餓素下降得比較多。我們相信什麼，身體就跟著反應。",
       },
     ],
+    recap: { points: ["舊路會變弱，新路會變強，關鍵是重複。", "身體顧好了，大腦才有餘力建立新連結。"], key: "改變不是硬撐意志力，而是有機制可以依循。" },
     sections: [
-      { title: "大腦為什麼能改變", question: "大腦是怎麼被塑形的？", chapters: ["intro", "thought-power"], bridge: "知道大腦能改，下一個問題是：新的路要怎麼走出來？" },
-      { title: "新路怎麼被走出來", question: "為什麼要重複那麼多次？", chapters: ["repetition"], bridge: "重複需要電力。接著看身體怎麼替大腦充電。" },
-      { title: "改變需要電力", question: "身體的狀態，如何決定大腦有沒有餘力改變？", chapters: ["muscles", "sleep", "dopamine"], bridge: "原理清楚了，接下來把它變成能練習的方法。" },
+      { title: "大腦為什麼能改變", question: "大腦是怎麼被塑形的？", chapters: ["intro", "thought-power"], recap: ["大腦是可塑的：任何年紀都能改變、重組，走出新的路徑。", "想法本身就會讓身體起反應，也能參與大腦的重塑。"], bridge: "知道大腦能改，下一個問題是：新的路要怎麼走出來？" },
+      { title: "新路怎麼被走出來", question: "為什麼要重複那麼多次？", chapters: ["repetition"], recap: ["一起放電的神經元會彼此連結；分開放電的神經元會互不相干。", "新路要靠一次又一次的重複，第五到第七天最容易放棄。"], bridge: "重複需要電力。接著看身體怎麼替大腦充電。" },
+      { title: "改變需要電力", question: "身體的狀態，如何決定大腦有沒有餘力改變？", chapters: ["muscles", "sleep", "dopamine"], recap: ["運動和睡眠，讓大腦這個硬體保持在良好的狀態。", "多巴胺讓我們想去追；去追需要努力的獎勵，也練習和無聊相處。"], bridge: "原理清楚了：路是重複走出來的，但要看見、要刻意。這三件事，就是下一層的公式。" },
     ],
     get chapters() {
       return this.sections.flatMap(sec => sec.chapters);
@@ -142,22 +143,17 @@ export const guideLayers: GuideLayer[] = [
         note: "教師的任務：幫孩子辨識引發負面反應的提示，並刻意在教室裡創造正向的提示。",
       },
       {
-        title: "核心公式",
-        anim: { scene: "neurotoolkit" },
-        source: "1.7",
-        text: "重複＋注意力＋刻意＝持久的改變。大腦不知道對錯，只知道重複會讓路徑變強；人平均每分鐘約有 6.5 個意念，如果多半在挑剔自己，我們每天都在把挑剔「練」得很熟。",
-      },
-      {
         title: "重新架構",
         source: "1.2・1.3",
-        text: "把腦中的舊說法換成新說法，例如「我不夠好」換成「我可以適應和學習」、「我做不到」換成「我做得到」。用新的敘事反覆走新路，舊連結就會慢慢變弱；寫日記能把盤旋的念頭變成可以處理的故事。",
+        text: "用新的敘事反覆走新路，舊連結就會慢慢變弱；寫日記能把盤旋的念頭變成可以處理的故事。舊說法怎麼換成新說法，可以在 3.1 的翻面卡練習。",
         note: "對應輔導實務中認知行為取向的「認知重建」：先覺察自動化的想法，再用證據替它換一個說法。",
       },
     ],
+    recap: { points: ["重複＋注意力＋刻意＝持久的改變。", "攔截舊反應、鋪設新路、為挫折做準備，三件事一起練。"], key: "新路，是一次一次練出來的。" },
     sections: [
-      { title: "攔截舊反應", question: "舊反應冒出來的那一刻，可以做什麼？", chapters: ["neurotoolkit", "make-space"], bridge: "攔下舊路之後，要替新路鋪好條件。" },
-      { title: "鋪設新路", question: "怎麼讓新的反應更容易被選擇？", chapters: ["phone", "visualization"], bridge: "新路剛鋪好時最脆弱，接下來要學會怎麼撐下去。" },
-      { title: "撐過挫折", question: "動機消退、挫折來時，怎麼不被打回原點？", chapters: ["boundaries", "strategy", "fear", "resilience"], bridge: "方法有了，最後回到教室：老師可以怎麼用？" },
+      { title: "攔截舊反應", question: "舊反應冒出來的那一刻，可以做什麼？", chapters: ["neurotoolkit", "make-space"], recap: ["舊念頭出現時：承認它、用生理性嘆息攔截、事後分析，而且不自責。", "在觸發和反應之間騰出空間；練習愈久，空間愈大。"], bridge: "攔下舊路之後，要替新路鋪好條件。" },
+      { title: "鋪設新路", question: "怎麼讓新的反應更容易被選擇？", chapters: ["phone", "visualization"], recap: ["替早晨和資訊來源做一次大掃除，把注意力留給自己。", "在腦中彩排，連「想放棄的那一刻」也一起彩排。"], bridge: "新路剛鋪好時最脆弱，接下來要學會怎麼撐下去。" },
+      { title: "撐過挫折", question: "動機消退、挫折來時，怎麼不被打回原點？", chapters: ["boundaries", "strategy", "fear", "resilience"], recap: ["動機會消退，撐住的是紀律；改變也不是一條直線。", "事先想好挫折時的做法，帶著恐懼前進，在支持中練出韌性。"], bridge: "方法有了，最後回到教室：老師可以怎麼用？" },
     ],
     get chapters() {
       return this.sections.flatMap(sec => sec.chapters);
@@ -183,7 +179,7 @@ export const guideLayers: GuideLayer[] = [
       {
         title: "回饋語句的重塑",
         source: "3.2",
-        text: "杜維克的研究：被稱讚「你真聰明」的學生，之後比較會挑簡單的題目；被稱讚「你一定很努力」的學生，反而願意挑戰更難的問題。身分認同不等於表現。",
+        text: "稱讚努力和方法，不稱讚天分；身分認同不等於表現。書中的研究細節見 4.1「成長型心態」。",
         note: "老師的每一句讚美和提問，都在幫孩子刻意練習某一條路：稱讚努力和方法，而不是天分。",
       },
       {
@@ -193,9 +189,10 @@ export const guideLayers: GuideLayer[] = [
         note: "給教育工作者：我們就是孩子學習環境中最重要的提示之一，每天重複的引導，會一點一點決定他們大腦的路徑。",
       },
     ],
+    recap: { points: ["教室就是孩子大腦所處的環境，老師的引導是其中重要的提示。", "從回饋語句到守住小承諾，都是在陪孩子練新的路。"], key: "我們每天的引導，會一點一點決定孩子大腦的路徑。" },
     sections: [
-      { title: "回饋與心態", question: "老師的一句話，會把孩子帶往哪條路？", chapters: ["growth"], bridge: "心態改變之後，要靠一次次守住承諾，長出信心。" },
-      { title: "信任與承諾", question: "怎麼讓改變真正站穩？", chapters: ["self-trust", "closing"], bridge: "最後，把這些概念接回教師資格考。" },
+      { title: "回饋與心態", question: "老師的一句話，會把孩子帶往哪條路？", chapters: ["growth"], recap: ["稱讚努力和方法，而不是天分；身分認同不等於表現。", "老師的每一句回饋，都在幫孩子練習某一條路。"], bridge: "心態改變之後，要靠一次次守住承諾，長出信心。" },
+      { title: "信任與承諾", question: "怎麼讓改變真正站穩？", chapters: ["self-trust", "closing"], recap: ["守住對自己的小承諾，信心就會長出來。", "力量、承諾、寬恕：不用和時間賽跑，從一個小選擇開始。"], bridge: "最後，把這些概念接回教師資格考。" },
     ],
     get chapters() {
       return this.sections.flatMap(sec => sec.chapters);
@@ -221,5 +218,5 @@ export const topicLabel = (id: string) => {
 
 /** 已移到層前導或理論節點的情境：主題卡不再重複播放 */
 export const relocatedScenes = new Set(
-  guideLayers.flatMap(l => [l.lead.scene, ...l.nodes.flatMap(n => (n.anim && "scene" in n.anim ? [n.anim.scene] : []))])
+  ["neurotoolkit", ...guideLayers.flatMap(l => [l.lead.scene, ...l.nodes.flatMap(n => (n.anim && "scene" in n.anim ? [n.anim.scene] : []))])]
 );

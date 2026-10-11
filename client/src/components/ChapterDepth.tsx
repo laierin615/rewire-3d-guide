@@ -1,4 +1,5 @@
 import { Brain, Flower2, Footprints, GraduationCap, Layers3, ListChecks, Moon, Palette, ShieldCheck, Wrench } from "lucide-react";
+import { markKeys } from "./KeyMark";
 import { chapterDepth, type SourceKind } from "../data/chapterDepth";
 import { examDeepQA } from "../data/examDeepQA";
 import { ChainFlow, Checklist, CompareCards, SpaceTimeline, StepCards } from "./DepthWidgets";
@@ -33,7 +34,7 @@ export default function ChapterDepth({ chapterId }: { chapterId: string }) {
         {depth.points.map(point => (
           <li key={point.text}>
             <SourceTag kind={point.kind} />
-            <p>{point.text}</p>
+            <p>{markKeys(point.text)}</p>
           </li>
         ))}
       </ul>

@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Search, ArrowDownRight, BookOpen } from "lucide-react";
+import { Search, ArrowDownRight, ArrowRight } from "lucide-react";
 import { glossary, toolsData } from "../data/referenceLibrary";
+import { topicLabel } from "../data/guideLayers";
 
 export function TermLibrary() {
   const [query, setQuery] = useState("");
@@ -52,29 +53,41 @@ export function TermLibrary() {
   );
 }
 
+const toolTopic: Record<string, string> = {
+  "01": "break-cycle",
+  "02": "neurotoolkit",
+  "03": "negative-bias",
+  "04": "confirmation-bias",
+  "05": "make-space",
+  "06": "phone",
+  "07": "visualization",
+  "08": "strategy",
+  "09": "sleep",
+  "10": "self-trust",
+};
+
+/** 練習清單：每個練習一行，連回原本的主題 */
 export function PracticeTools() {
   return (
-    <div className="practice-grid">
-      {toolsData.map(([no, title, when, how, source]) => (
-        <article key={no}>
-          <span className="practice-number">{no}</span>
-          <h3>{title}</h3>
-          <dl>
+    <ol className="practice-list">
+      {toolsData.map(([no, title, , how]) => {
+        const id = toolTopic[no];
+        return (
+          <li key={no}>
+            <span className="practice-number">{no}</span>
             <div>
-              <dt>何時用</dt>
-              <dd>{when}</dd>
+              <strong>{title}</strong>
+              <p>{how}</p>
             </div>
-            <div>
-              <dt>怎麼做</dt>
-              <dd>{how}</dd>
-            </div>
-          </dl>
-          <p className="practice-source">
-            <BookOpen size={13} />
-            <span>{source}</span>
-          </p>
-        </article>
-      ))}
-    </div>
+            {id && (
+              <a href={`#chapter-${id}`}>
+                {topicLabel(id)}
+                <ArrowRight size={14} aria-hidden="true" />
+              </a>
+            )}
+          </li>
+        );
+      })}
+    </ol>
   );
 }

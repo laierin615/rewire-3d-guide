@@ -40,6 +40,7 @@ import {
   Waves,
   Wind,
   Zap,
+  ChevronDown,
 } from "lucide-react";
 import {
   bookExamples,
@@ -501,6 +502,7 @@ function Home() {
   const [activeQuote, setActiveQuote] = useState(0);
   const [activeExample, setActiveExample] = useState(0);
   const [activeBrain, setActiveBrain] = useState<BrainRegionId>("frontal");
+  const [atlasOpen, setAtlasOpen] = useState(false);
   const [compareMode, setCompareMode] = useState(true);
   const [compareLeft, setCompareLeft] = useState<BrainRegionId>("frontal");
   const [compareRight, setCompareRight] = useState<BrainRegionId>("amygdala");
@@ -615,7 +617,7 @@ function Home() {
     "layer2:1": (
         <section className="section plasticity-section" id="plasticity">
           <div className="container-wide plasticity-layout">
-            <div className="reveal"><div className="section-label eyebrow">參考資料 / 路徑如何變強</div><h2 className="section-title serif">「一個訊息重複得愈多，<br /><span>傳達的路徑就會愈強。」</span></h2><p className="section-intro">書中以「羊腸小徑 → 土路 → 柏油大道」比喻反覆啟動的路徑。這個比喻的重點不是腦內真的長出道路，而是同一組神經活動反覆出現後，訊號傳遞與行為選擇會變得更有效率。</p><div className="plasticity-quote"><Quote size={20} /><p className="serif">「一起放電的神經元會彼此連結。」</p></div></div>
+            <div className="reveal"><div className="section-label eyebrow">參考資料 / 路徑如何變強</div><h2 className="section-title serif">「一個訊息重複得愈多，<br /><span>傳達的路徑就會愈強。」</span></h2><p className="section-intro">書中以「羊腸小徑 → 土路 → 柏油大道」比喻反覆啟動的路徑。這個比喻的重點不是腦內真的長出道路，而是同一組神經活動反覆出現後，訊號傳遞與行為選擇會變得更有效率。</p><div className="plasticity-quote"><Quote size={20} /><p className="serif">「<mark className="key-mark">一起放電的神經元會彼此連結</mark>。」</p></div></div>
             <div className="path-card reveal"><span className="eyebrow">PATHWAY MODEL / CONCEPTUAL</span><h3 className="serif">重複不是複製；每一次都在改變下一次的門檻。</h3><NeuralPath step={pathStep} /><div className="path-controls"><div>{[0,1,2,3].map((step) => <i key={step} className={pathStep >= step ? "active" : ""} />)}</div><button className="btn btn-primary" onClick={() => setPathStep((step) => step === 3 ? 0 : step + 1)}><Zap size={15} />{pathStep === 3 ? "重新觀察" : "加入一次經驗"}</button></div></div>
           </div>
           <div className="container-wide plasticity-principles stagger"><article><strong>長期增強</strong><p>共同啟動與有意義的重複，會提高之後再次啟動的效率。</p></article><article><strong>連結減弱</strong><p>舊反應不再被持續配對，連結可逐漸失去優勢；這通常需要時間與替代反應。</p></article><article><strong>經驗依賴</strong><p>新奇、重要、具回饋的經驗會提供預測誤差，促使大腦更新記憶與策略。</p></article><article><strong>生理底座</strong><p>睡眠、運動、壓力與注意資源會影響新連結是否有機會被穩定使用。</p></article></div>
@@ -628,6 +630,14 @@ function Home() {
             <div className="reveal"><div className="section-label eyebrow">參考資料 / 腦區與網絡</div><h2 className="section-title serif">「一起放電的神經元，<br /><span>會彼此連結。」</span></h2><p className="section-intro">感覺、記憶、情緒與控制並非一組彼此獨立的按鈕，而是皮質、深部結構、腦幹與全腦網絡持續協作的結果。</p></div>
             <div className="foundation-grid stagger">{foundations.map((item) => <article key={item.title}><div className="foundation-icon"><Brain size={18} /><span>{item.icon}</span></div><h3>{item.title}</h3><p>{item.text}</p></article>)}</div>
 
+            <div className={`brain-atlas-fold ${atlasOpen ? "open" : ""}`}>
+              <button type="button" className="brain-atlas-toggle" aria-expanded={atlasOpen} onClick={() => setAtlasOpen(v => !v)}>
+                <Brain size={20} aria-hidden="true" />
+                <span><strong>腦區圖鑑（查詢用）</strong><small>名詞庫、腦葉地圖、3D 腦區、互動系統圖、訊號追蹤與腦區比較。需要查腦區時再展開。</small></span>
+                <ChevronDown size={20} aria-hidden="true" />
+              </button>
+              {atlasOpen && (
+                <>
             <TermLibrary />
             <div className="lobe-atlas reveal"><div className="lobe-copy"><span className="eyebrow">MACRO ANATOMY</span><h3 className="serif">六個入口，建立大腦基本地圖。</h3><p>腦葉名稱描述位置與主要功能傾向，不代表功能只存在那裡。閱讀任何「某腦區負責某能力」的句子，都應補上：它需要與哪些區域一起工作？</p><BrainConstellation /></div><div className="lobe-grid">{lobes.map((lobe) => <article key={lobe.name}><strong>{lobe.name}</strong><p>{lobe.role}</p><small>{lobe.note}</small></article>)}</div></div>
 
@@ -689,12 +699,15 @@ function Home() {
               <div className="mechanism-chain">{(brainState === "safe" ? mechanismSteps.safe : mechanismSteps.threat).map(([number, title, text]) => <article key={number}><span>{number}</span><h4>{title}</h4><p>{text}</p></article>)}</div>
               <p className="mechanism-source">威脅狀態讓警報與生理動員取得優先；安全狀態則讓情境辨識、記憶提取與高階控制重新取得空間。</p>
             </div>
+                </>
+              )}
+            </div>
           </div>
         </section>
     ),
     layer3: (
         <section className="section tools-section" id="tools">
-          <div className="container-wide"><div className="reveal"><div className="section-label eyebrow">練習工具 / 把練習帶回日常</div><h2 className="section-title serif">「戰略性休息，<br /><span>可以提高我們的注意力。」</span></h2><p className="section-intro">這些日常練習不是治癒承諾，而是用來降低自動反應、恢復注意與增加替代行動的小型介入。</p></div><PracticeTools /></div>
+          <div className="container-wide"><div className="reveal"><div className="section-label eyebrow">練習清單 / 把方法帶回日常</div><h2 className="section-title serif">十個日常練習，<br /><span>都是在重複、注意、刻意。</span></h2><p className="section-intro">前面各主題提過的方法，收成一張清單。每一項都可以點回原本的主題複習；這些是日常練習，不是治療承諾。</p></div><PracticeTools /></div>
         </section>
     ),
     layer4: (
@@ -730,7 +743,7 @@ function Home() {
               <div className="eyebrow hero-kicker"><span/>一段重新選擇的旅程</div>
               <h1 className="hero-title" id="hero-title"><small><RewireWordmark /></small>神經可塑性<br/><em>看見大腦，<br/>也看見改變的可能。</em></h1>
               <p className="hero-lede">用神經科學突破行為模式迴圈，終結焦慮、恐慌和憂鬱，實現最佳的心理健康。</p>
-              <p className="hero-core">看見舊反應 → 練習新選擇 → 讓改變走進日常</p>
+              <p className="hero-core">覺察陷阱 → 解碼大腦 → 阻斷與重建 → 教育現場落地</p>
               <div className="hero-actions"><button className="btn btn-primary" onClick={()=>scrollToId("journey")}><BookOpen size={18}/>開始閱讀<ArrowRight size={17}/></button></div>
               <div className="hero-meta"><div className="meta-item"><strong>Nicole Vignola</strong>作者</div><div className="meta-item"><strong>梁永安</strong>譯者</div></div>
             </div>

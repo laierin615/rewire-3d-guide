@@ -120,7 +120,7 @@ function DecodeCards() {
         </div>
         <PlasticAnimation />
         <p className="decode-meaning">
-          大腦是<em>可塑的</em>：就算上了年紀，也能改變、重組，走出新的路徑。整容手術叫 plastic surgery，用的也是同一個字根。
+          <mark className="key-mark">大腦是可塑的</mark>：就算上了年紀，也能改變、重組，走出新的路徑。整容手術叫 plastic surgery，用的也是同一個字根。
         </p>
       </article>
     </div>

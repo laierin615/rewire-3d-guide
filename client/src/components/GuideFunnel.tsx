@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { guideLayers } from "../data/guideLayers";
+import FormulaShowcase from "./FormulaShowcase";
 
 const depthTags = ["生理與現象", "生理機制", "認知與策略", "教育實務"];
 
@@ -30,20 +31,32 @@ export default function GuideFunnel() {
             </li>
           ))}
         </ol>
-        <div className="book-core" aria-label="全書核心">
+        <p className="book-core-question">
+          <span>核心提問</span>
+          我們的習慣和行為，是自己選的，還是環境無意中給的？作者的答案是：兩者兼有。
+        </p>
+        <div className="book-core key-lines" aria-label="全書三個關鍵句">
           <article>
-            <span>核心提問</span>
-            <p>我們的習慣和行為，是自己選的，還是環境無意中給的？作者的答案是：兩者兼有。</p>
+            <span>關鍵句 1・可能</span>
+            <h3>
+              <mark className="key-mark">大腦是可塑的</mark>
+            </h3>
+            <p>任何年紀，大腦都能改變、重組，走出新的路徑；習慣不是天生的個性。</p>
           </article>
           <article>
-            <span>核心機制</span>
-            <p>一起放電的神經元會彼此連結。重複的想法會走成自動反應；不再使用的路徑，也會慢慢變弱。</p>
+            <span>關鍵句 2・機制</span>
+            <h3>
+              <mark className="key-mark">一起放電的神經元會彼此連結</mark>
+            </h3>
+            <p>重複的想法會走成自動反應；不再使用的路徑，也會慢慢變弱。</p>
           </article>
           <article>
-            <span>核心方法</span>
-            <p>重複＋注意力＋刻意＝持久的改變。先看見舊循環，再練習新反應，最後用身體、睡眠與自我信賴讓改變站穩。</p>
+            <span>關鍵句 3・方法</span>
+            <FormulaShowcase compact />
+            <p>先看見舊循環，再刻意練習新反應，最後用身體、睡眠與自我信賴讓改變站穩。</p>
           </article>
         </div>
+        <p className="key-lines-note">這三句在全站出現時，都會用同樣的螢光標記。</p>
       </div>
     </section>
   );
