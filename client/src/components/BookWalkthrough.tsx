@@ -6,7 +6,7 @@ import ChapterExamples from "./ChapterExamples";
 import ChapterDepth from "./ChapterDepth";
 import type { Mode } from "../data/neuroLessons";
 import { sceneByChapter } from "../data/islandScenes";
-import IslandScene, { SceneTranscript } from "./IslandScene";
+import IslandScene from "./IslandScene";
 
 const chapterModels: Record<string, { mode: Mode; id: string }> = {
   "confirmation-bias": { mode: "attention", id: "attention-animation" },
@@ -21,7 +21,7 @@ const phases = [
     label: "導言",
     en: "Introduction",
     title: "先理解：大腦如何被經驗塑造？",
-    lead: "從神經元、突觸與自動反應開始，理解為什麼熟悉的想法很容易出現，也理解改變的可能。",
+    lead: "大腦是可塑的，但改變需要電力。先看懂舊路怎麼形成，再看新路怎麼開始。",
   },
   {
     id: "stage1",
@@ -68,7 +68,7 @@ function ChapterMore({ chapter }: { chapter: GuideChapter }) {
     <details className="walk-more">
       <summary>
         展開看更多
-        <small>重要概念、重點與工具、書中例子、動畫文字版</small>
+        <small>重要概念、讀懂這一章、書中例子</small>
         <ChevronDown size={18} aria-hidden="true" />
       </summary>
       <div className="walk-more-body">
@@ -78,12 +78,6 @@ function ChapterMore({ chapter }: { chapter: GuideChapter }) {
         </div>
         <ChapterDepth chapterId={chapter.id} />
         <ChapterExamples chapterId={chapter.id} />
-        {scene && (
-          <div className="walk-transcript">
-            <h4>動畫文字版</h4>
-            <SceneTranscript script={scene} question={chapter.question} />
-          </div>
-        )}
       </div>
     </details>
   );
@@ -175,23 +169,23 @@ export default function BookWalkthrough() {
               <div className="intro-essentials">
                 <article>
                   <span>Neuroplasticity</span>
-                  <h3>連結可以改變</h3>
+                  <h3>大腦是可塑的</h3>
                   <p>
-                    經驗與重複會調整神經連結，讓某些想法與反應逐漸變得熟悉。
+                    plastic 的意思是能被塑形。任何年紀，大腦都能走出新的路徑；習慣不是天生的個性。
                   </p>
                 </article>
                 <article>
-                  <span>Hardware & Software</span>
-                  <h3>硬體與軟體互相支持</h3>
+                  <span>Low Power Mode</span>
+                  <h3>低電量模式</h3>
                   <p>
-                    作者把大腦比作硬體，把思想、記憶與習慣比作軟體。睡眠與活動也支援新的練習。
+                    大腦是硬體，習慣是軟體。人累了，大腦只顧基本功能，沒有餘力更新軟體。
                   </p>
                 </article>
                 <article>
-                  <span>Automaticity & Heuristics</span>
+                  <span>Automaticity</span>
                   <h3>熟悉，讓大腦省力</h3>
                   <p>
-                    重複帶來自動性，心理捷思則簡化判斷。先察覺這些慣性，才能重新選擇。
+                    重複讓小徑變成大道，熟悉的事就像刷牙一樣不用想。想走新路，要先注意到老路。
                   </p>
                 </article>
               </div>

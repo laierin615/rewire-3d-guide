@@ -191,19 +191,3 @@ export default function IslandScene({ script, question, chapterLabel }: { script
     </figure>
   );
 }
-
-/** 文字版：給不方便看動畫的讀者。 */
-export function SceneTranscript({ script, question }: { script: SceneScript; question: string }) {
-  const beats = withAsk(script, question);
-  return (
-    <ol className="isl-transcript">
-      {beats.map((b, i) => (
-        <li key={i}>
-          <b style={{ "--c": speakerColor(script, b.who) } as React.CSSProperties}>{b.who}</b>
-          <span>{b.text}</span>
-          {b.supplement && <em className="isl-supp">導讀補充</em>}
-        </li>
-      ))}
-    </ol>
-  );
-}
