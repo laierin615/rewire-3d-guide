@@ -32,6 +32,13 @@ export type ChapterTool = {
   animation?: "sigh";
 };
 
+/** 應付慢性壓力的基本功：原理加上幾件要回頭顧好的事 */
+export type ChapterBasics = {
+  title: string;
+  principle: string[];
+  items: { icon: "sleep" | "meditate" | "move" | "boundary" | "hobby"; name: string; text: string }[];
+};
+
 /** 這章出現的腦區：平常做什麼、壓力下會怎樣 */
 export type BrainTerm = {
   name: string;
@@ -45,6 +52,7 @@ export type ChapterDepthEntry = {
   points: DepthPoint[];
   tool?: ChapterTool;
   terms?: BrainTerm[];
+  basics?: ChapterBasics;
   exam?: string[];
 };
 
@@ -122,6 +130,21 @@ export const chapterDepth: Record<string, ChapterDepthEntry> = {
       ],
       note: "連續吸兩口，能讓塌陷的肺泡重新張開，排出多餘的二氧化碳；長長吐氣，等於告訴大腦：現在不危險了，心跳會跟著慢下來。",
       animation: "sigh",
+    },
+    basics: {
+      title: "應付慢性壓力的工具：回歸基本事項",
+      principle: [
+        "慢性壓力時，身體一直卡在準備戰鬥或逃跑的狀態，負責放鬆的副交感神經沒辦法把身體拉回平常的樣子。即使是中等的壓力，反應也會過度，磨損一點一點累積，這叫「調適負荷」。",
+        "這時大腦和身體進入「低電量模式」：連洗澡都提不起力氣，也不會把改變想法列為優先，所以人會覺得被困在循環裡。",
+        "作者的結論是：硬體要先處理壓力，才輪得到軟體。先讓硬體恢復正常運作，才有力氣處理想法、信念和情緒。",
+      ],
+      items: [
+        { icon: "sleep", name: "睡覺", text: "緩解壓力最好的重置按鈕，讓身體恢復正常。" },
+        { icon: "meditate", name: "冥想／自我催眠", text: "有助於縮小杏仁核、增加大腦可塑性、提高韌性。" },
+        { icon: "move", name: "定期做運動", text: "釋放具有潛在抗憂鬱作用的「腦源性神經營養因子」（BDNF），降低發炎，釋放內啡肽。" },
+        { icon: "boundary", name: "去除多餘的東西", text: "設立界線，拿掉那些會消耗你能量的事。" },
+        { icon: "hobby", name: "嗜好", text: "沉浸在讓你感覺良好的活動裡。下班後一直想著工作，壓力荷爾蒙不會消退；投入嗜好，大腦才有機會離開白天的壓力事件、好好調節。" },
+      ],
     },
     exam: ["working-memory-stress", "habit-loop"],
   },

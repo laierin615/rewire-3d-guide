@@ -767,35 +767,6 @@ export default function Neuro3DLab({
             這是示意動畫：形狀、線條和亮點只是幫忙理解，不代表真實的大腦位置、數值或改變需要的時間。
           </small>
         </div>
-        {mode === "regulation" && (
-          <details className="stress-cycle">
-            <summary>展開完整的壓力迴圈</summary>
-            <ol>
-              {[
-                "壓力",
-                "無能力應付情緒",
-                "焦慮",
-                "容易被觸發",
-                "高度警覺",
-                "延宕",
-                "扭曲的負面自我信念",
-                "低自尊",
-                "無能力把基本需要列為優先",
-                "無助益的應對機制",
-              ].map((label, i) => (
-                <li key={label}>
-                  <span>{String(i + 1).padStart(2, "0")}</span>
-                  {label}
-                  <b aria-hidden="true">→</b>
-                </li>
-              ))}
-            </ol>
-            <p>
-              無助益的應對機制又把人帶回壓力，形成循環。作者說：「我們需要打破這個循環！」找出一個你最容易介入的環節，練習不同的回應。
-              <small>對應：階段一〈打破循環〉</small>
-            </p>
-          </details>
-        )}
       </div>
     </section>
   );

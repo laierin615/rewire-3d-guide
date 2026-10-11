@@ -1,4 +1,4 @@
-import { Brain, GraduationCap, Layers3, ListChecks } from "lucide-react";
+import { Brain, Flower2, Footprints, GraduationCap, Layers3, ListChecks, Moon, Palette, ShieldCheck, Wrench } from "lucide-react";
 import { chapterDepth, type SourceKind } from "../data/chapterDepth";
 import { examDeepQA } from "../data/examDeepQA";
 import SighAnimation from "./SighAnimation";
@@ -8,6 +8,8 @@ export function SourceTag({ kind }: { kind: SourceKind }) {
   if (kind !== "導讀延伸") return null;
   return <span className="source-tag tag-guide">導讀補充</span>;
 }
+
+const BASIC_ICONS = { sleep: Moon, meditate: Flower2, move: Footprints, boundary: ShieldCheck, hobby: Palette };
 
 export function openExamQA(id: string) {
   window.dispatchEvent(new CustomEvent("rewire:open-qa", { detail: id }));
@@ -75,6 +77,34 @@ export default function ChapterDepth({ chapterId }: { chapterId: string }) {
             </ol>
           )}
           {depth.tool.note && <p className="depth-note">{depth.tool.note}</p>}
+        </div>
+      )}
+      {depth.basics && (
+        <div className="depth-basics">
+          <h5>
+            <Wrench size={20} aria-hidden="true" />
+            {depth.basics.title}
+          </h5>
+          <div className="basics-why">
+            <strong>為什麼要回歸基本事項？</strong>
+            {depth.basics.principle.map(text => (
+              <p key={text}>{text}</p>
+            ))}
+          </div>
+          <ul className="basics-grid">
+            {depth.basics.items.map(item => {
+              const Icon = BASIC_ICONS[item.icon];
+              return (
+                <li key={item.name}>
+                  <span className={`basics-icon basics-${item.icon}`} aria-hidden="true">
+                    <Icon size={22} />
+                  </span>
+                  <strong>{item.name}</strong>
+                  <p>{item.text}</p>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       )}
       {examLinks.length > 0 && (

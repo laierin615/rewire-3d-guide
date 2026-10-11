@@ -7,8 +7,10 @@ import ChapterDepth from "./ChapterDepth";
 import type { Mode } from "../data/neuroLessons";
 import { sceneByChapter } from "../data/islandScenes";
 import IslandScene from "./IslandScene";
+import StressCycle from "./StressCycle";
 
 const chapterModels: Record<string, { mode: Mode; id: string }> = {
+  neurotoolkit: { mode: "regulation", id: "stress-animation" },
   "confirmation-bias": { mode: "attention", id: "attention-animation" },
   muscles: { mode: "muscle", id: "muscle-animation" },
   sleep: { mode: "sleep", id: "sleep-animation" },
@@ -218,13 +220,7 @@ export default function BookWalkthrough() {
             {phase.id === "intro" && (
               <Neuro3DLab initialMode="synapse" embedded id="lab3d" />
             )}
-            {phase.id === "stage1" && (
-              <Neuro3DLab
-                initialMode="regulation"
-                embedded
-                id="stress-animation"
-              />
-            )}
+            {phase.id === "stage1" && <StressCycle />}
             <div className="walk-chapters">
               {guideChapters
                 .filter(ch => ch.stage === phase.id && ch.stage !== "intro" && ch.stage !== "outro")

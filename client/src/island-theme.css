@@ -1155,3 +1155,261 @@ input:focus-visible,
 .walk-intro > .isl {
   margin: 0 auto;
 }
+
+/* ===== 階段一：壓力循環圓形圖 ===== */
+.cycle {
+  margin: 8px 0 32px;
+  padding: 26px 26px 20px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #fff7ef, #fffdf6);
+  border: 2px solid #f1dcc6;
+  box-shadow: 0 4px 0 #efe2d0;
+}
+.cycle-head {
+  text-align: center;
+}
+.cycle-kicker {
+  display: inline-block;
+  padding: 2px 12px;
+  border-radius: 999px;
+  background: #ffe5dc;
+  color: #b4573f;
+  font-size: 14px;
+  font-weight: 700;
+}
+.cycle-head h3 {
+  margin: 10px 0 6px;
+  font-size: clamp(22px, 3vw, 30px);
+  color: #4a3326;
+}
+.cycle-head p {
+  margin: 0 auto;
+  max-width: 34em;
+  color: #7a6655;
+  line-height: 1.75;
+}
+.cycle-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 240px;
+  align-items: center;
+  gap: 20px;
+  margin-top: 8px;
+}
+.cycle-svg {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  justify-self: center;
+  overflow: visible;
+}
+.cycle-track {
+  fill: none;
+  stroke: #f4e6d6;
+  stroke-width: 26;
+}
+.cycle-arc {
+  fill: none;
+  stroke: #e8b9a3;
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: stroke 0.3s, stroke-width 0.3s;
+}
+.cycle-arc.back {
+  stroke-dasharray: 2 9;
+  stroke-width: 5;
+}
+.cycle-arc.on {
+  stroke: #e0795f;
+  stroke-width: 6;
+}
+.cycle-arrowhead {
+  fill: #e0795f;
+}
+.cycle-core {
+  fill: #fff;
+  stroke: #f1dcc6;
+  stroke-width: 3;
+}
+.cycle-core-title {
+  text-anchor: middle;
+  font-size: 20px;
+  fill: #b4573f;
+  font-weight: 700;
+}
+.cycle-core-now {
+  text-anchor: middle;
+  font-size: 27px;
+  fill: #3a2c22;
+  font-weight: 700;
+}
+.cycle-core-hint {
+  text-anchor: middle;
+  font-size: 16px;
+  fill: #9a8a78;
+}
+.cycle-node {
+  cursor: pointer;
+  outline: none;
+}
+.cycle-node rect {
+  fill: #fffdf8;
+  stroke: #ecc9b4;
+  stroke-width: 2.5;
+  transition: fill 0.3s, stroke 0.3s;
+}
+.cycle-node.start rect {
+  stroke: #e0795f;
+}
+.cycle-node.on rect {
+  fill: #e0795f;
+  stroke: #c9603f;
+  filter: drop-shadow(0 4px 0 #e8b9a3);
+}
+.cycle-node:focus-visible rect {
+  stroke: #5aa3d6;
+  stroke-width: 4;
+}
+.cycle-label {
+  text-anchor: middle;
+  font-size: 17px;
+  fill: #4a3326;
+  font-weight: 700;
+}
+.cycle-node.on .cycle-label {
+  fill: #fff;
+}
+.cycle-num {
+  fill: #ffe9a8;
+  stroke: #fff;
+  stroke-width: 2;
+}
+.cycle-num-text {
+  text-anchor: middle;
+  font-size: 12px;
+  fill: #8a5520;
+  font-weight: 700;
+}
+.cycle-side {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+  color: #6b5444;
+  line-height: 1.75;
+}
+.cycle-side p {
+  margin: 0;
+}
+.cycle-quote {
+  font-size: 21px;
+  font-weight: 700;
+  color: #b4573f;
+}
+.cycle-side button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: #5a4a3c;
+  font: inherit;
+  font-size: 15px;
+  box-shadow: 0 2px 0 #e0d5c3;
+  cursor: pointer;
+}
+.cycle-side button[aria-pressed="true"] {
+  background: #ffe9a8;
+}
+@media (max-width: 860px) {
+  .cycle {
+    padding: 18px 12px 16px;
+  }
+  .cycle-body {
+    grid-template-columns: 1fr;
+  }
+  .cycle-side {
+    justify-items: center;
+    text-align: center;
+  }
+}
+
+/* ===== 回歸基本事項 ===== */
+.depth-basics {
+  margin-top: 22px;
+  padding: 22px 24px;
+  border-radius: 22px;
+  background: #fff8ec;
+  border: 2px solid #f1dfc2;
+}
+.depth-basics h5 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 21px;
+  color: #6b4a2f;
+}
+.basics-why {
+  margin-top: 14px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: #fff;
+  border-left: 5px solid #e0a25f;
+}
+.basics-why strong {
+  color: #8a5520;
+}
+.basics-why p {
+  margin: 6px 0 0;
+  line-height: 1.8;
+  color: #4a3b2f;
+}
+.basics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.basics-grid li {
+  padding: 14px 14px 12px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 3px 0 #eadfcd;
+}
+.basics-grid strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 18px;
+  color: #3a2c22;
+}
+.basics-grid p {
+  margin: 4px 0 0;
+  line-height: 1.7;
+  color: #5a4a3c;
+  font-size: 16px;
+}
+.basics-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.basics-sleep { background: #e6e9fb; color: #5662b8; }
+.basics-meditate { background: #f3e6fb; color: #8a55b4; }
+.basics-move { background: #e3f4e4; color: #3f7d4f; }
+.basics-boundary { background: #e3f1fb; color: #2f6f9a; }
+.basics-hobby { background: #fde9df; color: #b4573f; }
+.basics-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+@media (max-width: 1100px) {
+  .basics-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .basics-grid { grid-template-columns: 1fr; }
+  .depth-basics { padding: 18px 14px; }
+}
