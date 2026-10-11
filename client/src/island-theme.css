@@ -2246,3 +2246,41 @@ input:focus-visible,
   .rwa-label.new, .pla-gyri path { animation: none; opacity: 1; }
   .rwa-signal, .pla-finger { animation: none; opacity: 0; }
 }
+
+/* ===== 層前導情境與理論補充動畫 ===== */
+.layer-lead { position: relative; margin: 6px 0 26px; }
+.layer-lead > .isl { margin: 0 auto; max-width: 940px; }
+.layer-lead-label,
+.layer-anim h3 span {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: var(--leaf);
+  color: #fff;
+  font-size: 14px;
+}
+.layer-lead-label { margin: 0 0 10px; }
+.layer-node-anim {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 2px solid var(--card-line);
+  background: #fffaf0;
+  color: var(--ink);
+  font-size: 14px;
+  text-decoration: none;
+}
+.layer-anims { display: grid; gap: 26px; margin: 0 0 10px; }
+.layer-anim { scroll-margin-top: 110px; }
+.layer-anim h3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+.layer-anim > .isl { margin: 0 auto; max-width: 940px; }

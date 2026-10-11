@@ -120,6 +120,34 @@ export const islandScenes: SceneScript[] = [
     ],
   },
 
+  /* 第二層前導：解剖課的低電量模式 */
+  {
+    chapter: "lead-low-power",
+    title: "解剖課的低電量模式",
+    seed: 17,
+    cam: [-0.6, 0],
+    actors: [
+      { id: "nicole", cast: AUTHOR, at: [-1.5, 0.2], turn: -90, on: "chair", pose: "write", face: "neutral" },
+    ],
+    props: [
+      { id: "desk", kind: "desk", at: [-2.15, 0, 0.2], turn: 90 },
+      { id: "chair", kind: "chair", at: [-1.55, 0, 0.2], turn: -90 },
+      { id: "papers", kind: "papers", at: [-2.15, 0.68, 0.0], turn: 90 },
+      { id: "phone", kind: "phone", at: [-2.1, 0.68, 0.55] },
+      { id: "board", kind: "board", at: [1.6, 0, -1.6], label: "神經解剖課" },
+      { id: "sign", kind: "sign", at: [0.4, 0, 0.9], label: "低電量模式", hidden: true },
+    ],
+    beats: [
+      { who: NARRATOR, text: "作者剛搬到一座新城市念神經科學，大學課業壓得她透不過氣。", cam: [-1.6, 0.2, 0.75], act: { nicole: { icon: "sweat" } } },
+      { who: NARRATOR, text: "又一次上解剖課，她很累，很難集中注意力。", act: { nicole: { pose: "sit", face: "sleep", icon: "zzz" } } },
+      { who: NARRATOR, text: "這時手機也快沒電了，跳出提醒：要不要轉換成「低電量模式」？", props: { phone: { anim: "light" }, sign: { show: true, anim: "pop" } }, act: { nicole: { face: "surprised", icon: "!" } } },
+      { who: "妮可", text: "啊哈！大腦是硬體，記憶、想法和習慣是軟體。", act: { nicole: { pose: "think", face: "happy", icon: "bulb" } } },
+      { who: NARRATOR, text: "人累了，大腦就像進入低電量模式：只顧維持最基本的功能，不理會軟體更新。", cam: [0, 0, 0.9], act: { nicole: { pose: "sigh", face: "worried", icon: "dots" } } },
+      { who: "妮可", text: "難怪我記不住課堂上的東西。想升級軟體、建立新連結，硬體也得運作良好。", act: { nicole: { pose: "talk", face: "calm", icon: "think" } } },
+      { who: NARRATOR, text: "充足的睡眠和固定的運動，能讓大腦這個硬體保持在良好的狀態。", props: { sign: { show: false }, phone: { anim: "none" } }, act: { nicole: { on: null, to: [0, 0.4], turn: 0, pose: "cheer", face: "happy", icon: "sparkle" } } },
+    ],
+  },
+
   /* 1.1 打破循環：作業與科比 */
   {
     chapter: "break-cycle",

@@ -5,14 +5,15 @@ import Neuro3DLab from "./Neuro3DLab";
 import ChapterExamples from "./ChapterExamples";
 import ChapterDepth from "./ChapterDepth";
 import type { Mode } from "../data/neuroLessons";
-import { sceneByChapter } from "../data/islandScenes";
+import { sceneByChapter as allScenes } from "../data/islandScenes";
+
+/** 主題卡上播放的情境：已移到層前導或理論節點的不再重複 */
+const sceneByChapter = Object.fromEntries(Object.entries(allScenes).filter(([id]) => !relocatedScenes.has(id)));
 import IslandScene from "./IslandScene";
 import StressCycle from "./StressCycle";
-import { guideLayers, layerChapterOrder, topicNumber, type GuideLayer } from "../data/guideLayers";
+import { guideLayers, layerChapterOrder, relocatedScenes, topicNumber, type GuideLayer } from "../data/guideLayers";
 
 const chapterModels: Record<string, { mode: Mode; id: string }> = {
-  neurotoolkit: { mode: "regulation", id: "stress-animation" },
-  "confirmation-bias": { mode: "attention", id: "attention-animation" },
   muscles: { mode: "muscle", id: "muscle-animation" },
   sleep: { mode: "sleep", id: "sleep-animation" },
   dopamine: { mode: "reward", id: "reward-animation" },
@@ -32,6 +33,11 @@ function LayerNodes({ layer }: { layer: GuideLayer }) {
             <h3>{node.title}</h3>
           </header>
           <p>{node.text}</p>
+          {node.anim && (
+            <a className="layer-node-anim" href={`#anim-${layer.id}-${i}`}>
+              看補充動畫 <ArrowRight size={15} aria-hidden="true" />
+            </a>
+          )}
           {node.note && (
             <p className="layer-node-note">
               <b>導讀補充</b>
@@ -41,6 +47,46 @@ function LayerNodes({ layer }: { layer: GuideLayer }) {
         </li>
       ))}
     </ol>
+  );
+}
+
+/** 層最前面的前導情境 */
+function LayerLead({ layer }: { layer: GuideLayer }) {
+  const scene = allScenes[layer.lead.scene];
+  if (!scene) return null;
+  return (
+    <div className="layer-lead">
+      <span className="layer-lead-label">前導情境</span>
+      <IslandScene key={scene.chapter} script={scene} question={layer.lead.question} />
+    </div>
+  );
+}
+
+/** 重要理論的補充動畫 */
+function LayerAnims({ layer }: { layer: GuideLayer }) {
+  const items = layer.nodes.map((node, i) => ({ node, i })).filter(({ node }) => node.anim);
+  if (!items.length) return null;
+  return (
+    <div className="layer-anims">
+      {items.map(({ node, i }) => {
+        const anim = node.anim!;
+        const scene = "scene" in anim ? allScenes[anim.scene] : undefined;
+        const chapter = "scene" in anim ? guideChapters.find(ch => ch.id === anim.scene) : undefined;
+        return (
+          <section key={node.title} className="layer-anim" id={`anim-${layer.id}-${i}`}>
+            <h3>
+              <span>補充動畫</span>
+              {node.title}
+            </h3>
+            {"lab" in anim ? (
+              <Neuro3DLab initialMode={anim.lab} embedded id={anim.id} />
+            ) : scene ? (
+              <IslandScene key={scene.chapter} script={scene} question={chapter?.question ?? ""} />
+            ) : null}
+          </section>
+        );
+      })}
+    </div>
   );
 }
 
@@ -185,9 +231,11 @@ export default function BookWalkthrough() {
                     <span className="layer-question">{layer.question}</span>
                   </h2>
                 </div>
-                <p>{layer.lead}</p>
+                <p>{layer.intro}</p>
               </header>
+              <LayerLead layer={layer} />
               <LayerNodes layer={layer} />
+              <LayerAnims layer={layer} />
               {layer.id === "layer1" && <StressCycle />}
               <h3 className="layer-chapters-title">
                 這一層的主題
@@ -220,12 +268,8 @@ export default function BookWalkthrough() {
                           </a>
                         )}
                       </article>
-                      {ch.id === "intro" && <Neuro3DLab initialMode="synapse" embedded id="lab3d" />}
                       {chapterModels[ch.id] && (
                         <Neuro3DLab initialMode={chapterModels[ch.id].mode} embedded id={chapterModels[ch.id].id} />
-                      )}
-                      {ch.id === "subconscious" && (
-                        <Neuro3DLab initialMode="practice" embedded id="practice-animation" />
                       )}
                     </div>
                   );
