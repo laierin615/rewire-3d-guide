@@ -1,6 +1,8 @@
 import { Brain, Flower2, Footprints, GraduationCap, Layers3, ListChecks, Moon, Palette, ShieldCheck, Wrench } from "lucide-react";
 import { chapterDepth, type SourceKind } from "../data/chapterDepth";
 import { examDeepQA } from "../data/examDeepQA";
+import { ChainFlow, Checklist, CompareCards, SpaceTimeline, StepCards } from "./DepthWidgets";
+import ReframeCards from "./ReframeCards";
 import SighAnimation from "./SighAnimation";
 
 /** 書中內容不加標籤，只有導讀另外補充的內容才標示。 */
@@ -35,11 +37,15 @@ export default function ChapterDepth({ chapterId }: { chapterId: string }) {
           </li>
         ))}
       </ul>
+      {depth.chain && <ChainFlow {...depth.chain} />}
+      {depth.space && <SpaceTimeline />}
+      {depth.reframe && <ReframeCards {...depth.reframe} />}
+      {depth.compare && <CompareCards {...depth.compare} />}
       {depth.terms && (
         <div className="depth-terms">
           <h5>
             <Brain size={20} aria-hidden="true" />
-            這章的大腦角色
+            {depth.termsTitle ?? "這章的大腦角色"}
           </h5>
           <div className="depth-terms-grid">
             {depth.terms.map((term, i) => (
@@ -50,9 +56,9 @@ export default function ChapterDepth({ chapterId }: { chapterId: string }) {
                 </header>
                 <p className="term-where">{term.where}</p>
                 <dl>
-                  <dt>平常</dt>
+                  <dt>{depth.termLabels?.[0] ?? "平常"}</dt>
                   <dd>{term.role}</dd>
-                  <dt>慢性壓力下</dt>
+                  <dt>{depth.termLabels?.[1] ?? "慢性壓力下"}</dt>
                   <dd>{term.stress}</dd>
                 </dl>
               </article>
@@ -69,6 +75,10 @@ export default function ChapterDepth({ chapterId }: { chapterId: string }) {
           </div>
           {depth.tool.animation === "sigh" ? (
             <SighAnimation />
+          ) : depth.tool.display === "cards" ? (
+            <StepCards steps={depth.tool.steps} />
+          ) : depth.tool.display === "checklist" ? (
+            <Checklist steps={depth.tool.steps} />
           ) : (
             <ol>
               {depth.tool.steps.map(step => (

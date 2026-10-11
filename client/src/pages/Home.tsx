@@ -1,3 +1,5 @@
+import GuideFunnel from "../components/GuideFunnel";
+import { guideLayers } from "../data/guideLayers";
 import BookWalkthrough from "../components/BookWalkthrough";
 import ExamDeepQAPanel from "../components/ExamDeepQA";
 import { neuroQuestionChapters, neuroRegionNotes, rocYear } from "../data/examDeepQA";
@@ -69,12 +71,11 @@ const brainToQuizFilter: Partial<Record<BrainRegionId, QuizFilter>> = {
 };
 
 const chapterLinks = [
-  ["journey", "", "全書地圖"],
-  ["intro", "", "導言"],
-  ["stage1", "01", "擺脫負面情緒"],
-  ["stage2", "02", "改變你的敘事"],
-  ["stage3", "03", "增強積極性"],
-  ["outro", "", "尾聲"],
+  ["journey", "", "導讀主軸"],
+  ["layer1", "01", "覺察陷阱"],
+  ["layer2", "02", "解碼大腦"],
+  ["layer3", "03", "阻斷與重建"],
+  ["layer4", "04", "教育現場落地"],
   ["exam", "", "教檢連結"],
   ["reference", "", "延伸資料"],
 ] as const;
@@ -617,7 +618,7 @@ function Home() {
         <div className="container-wide nav-inner">
           <a className="brand-mark" href="#top" aria-label="回到首頁"><span className="brand-dot" /><span className="brand-book">《Rewire－神經可塑性》</span><span className="brand-tag">專書導讀</span></a>
           <nav className="nav-links" aria-label="快速導覽">
-            <a href="#intro">開始閱讀</a><a href="#reference" onClick={event=>{event.preventDefault();openReference("reference")}}>搜尋與延伸</a>
+            <a href="#journey">開始閱讀</a><a href="#reference" onClick={event=>{event.preventDefault();openReference("reference")}}>搜尋與延伸</a>
             <a className="nav-pill" href="#exam">教檢連結</a>
           </nav>
         </div>
@@ -648,9 +649,9 @@ function Home() {
               <figure className="world-qr"><img src="site-qr.svg" alt="本網站網址 QR code" width="104" height="104" /><figcaption><b>掃描帶走導讀</b><small>手機開啟本網站</small></figcaption></figure>
             </div>
           </div>
-          <div className="container-wide hero-phase-strip"><a href="#stage1"><span>01</span><div><strong>擺脫負面情緒</strong><small>Ditch the Negative</small></div><ArrowRight size={19}/></a><a href="#stage2"><span>02</span><div><strong>改變你的敘事</strong><small>Shift Your Narrative</small></div><ArrowRight size={19}/></a><a href="#stage3"><span>03</span><div><strong>增強積極性</strong><small>Boost the Positive</small></div><ArrowRight size={19}/></a></div>
+          <div className="container-wide hero-phase-strip">{guideLayers.map(l=><a key={l.id} href={`#${l.id}`}><span>{l.no}</span><div><strong>{l.title}</strong><small>{l.en}</small></div><ArrowRight size={19}/></a>)}</div>
         </section>
-        <section className="section book-route" id="journey" aria-labelledby="book-route-title"><div className="container-wide"><span className="section-label">全書地圖</span><h2 className="section-title" id="book-route-title">從看見舊模式，到練習新的自己。</h2><p className="section-intro">先理解大腦，再鬆動舊循環、改變敘事，最後支持新的生活方式。</p><ol className="original-book-map" aria-label="全書地圖">{[["intro","導言","Introduction","理解改變的基礎"],["stage1","擺脫負面情緒","Ditch the Negative","辨識舊循環"],["stage2","改變你的敘事","Shift Your Narrative","練習新的反應"],["stage3","增強積極性","Boost the Positive","支援持久改變"],["outro","尾聲","Epilogue","把理解帶回日常"]].map(([id,title,en,note],i)=><li key={id}><a href={`#${id}`}><span>{i===0?"導言":i===4?"尾聲":`階段 ${i}`}</span><strong>{title}</strong><small>{en}</small><p>{note}</p><ArrowRight size={18} aria-hidden="true"/></a></li>)}</ol><div className="book-core" aria-label="全書核心"><article><span>核心提問</span><p>我們的習慣和行為，是自己選的，還是環境無意中給的？作者的答案是：兩者兼有。</p></article><article><span>核心機制</span><p>一起放電的神經元會彼此連結。重複的想法會走成自動反應；不再使用的路徑，也會慢慢變弱。</p></article><article><span>核心方法</span><p>重複＋注意力＋刻意＝持久的改變。先看見舊循環，再練習新反應，最後用身體、睡眠與自我信賴讓改變站穩。</p></article></div></div></section>
+        <GuideFunnel />
         <BookWalkthrough />
         <section className="section exam-section walk-phase" id="exam" aria-labelledby="exam-title">
           <div className="container-wide">
