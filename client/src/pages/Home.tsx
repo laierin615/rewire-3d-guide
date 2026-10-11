@@ -4,7 +4,7 @@ import { guideLayers, layerChapterOrder, topicLabel, topicNumber } from "../data
 import BookWalkthrough from "../components/BookWalkthrough";
 import ExamDeepQAPanel from "../components/ExamDeepQA";
 import { neuroQuestionChapters, neuroRegionNotes, rocYear } from "../data/examDeepQA";
-import TeachingGuide from "../components/TeachingGuide";
+import TopicIndex from "../components/TopicIndex";
 import { TermLibrary, PracticeTools } from "../components/ReferenceLibrary";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -77,8 +77,7 @@ const chapterLinks = [
   ["layer2", "02", "解碼大腦"],
   ["layer3", "03", "阻斷與重建"],
   ["layer4", "04", "教育現場落地"],
-  ["exam", "", "教檢連結"],
-  ["reference", "", "延伸資料"],
+  ["exam", "", "延伸學習"],
 ] as const;
 
 const videoLogicPhases = [
@@ -226,12 +225,6 @@ const mechanismSteps = {
 
 function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function openReference(id: string) {
-  const reference = document.getElementById("reference");
-  if (reference instanceof HTMLDetailsElement) reference.open = true;
-  requestAnimationFrame(() => scrollToId(id));
 }
 
 function BrainAtlas({ active, state, onSelect }: { active: BrainRegionId; state: BrainState; onSelect: (id: BrainRegionId) => void }) {
@@ -617,143 +610,22 @@ function Home() {
     setShowAnalysis(false);
   }
 
-  return (
-    <div className="site-shell">
-      <header className={`top-nav ${scrolled ? "scrolled" : ""}`}>
-        <div className="container-wide nav-inner">
-          <a className="brand-mark" href="#top" aria-label="回到首頁"><span className="brand-dot" /><span className="brand-book">《Rewire－神經可塑性》</span><span className="brand-tag">專書導讀</span></a>
-          <nav className="nav-links" aria-label="快速導覽">
-            <a href="#journey">開始閱讀</a><a href="#reference" onClick={event=>{event.preventDefault();openReference("reference")}}>搜尋與延伸</a>
-            <a className="nav-pill" href="#exam">教檢連結</a>
-          </nav>
-        </div>
-      </header>
-      <nav className={`chapter-dock ${scrolled ? "scrolled" : ""}`} aria-label="導讀目錄">
-        <div className="chapter-dock-track">{chapterLinks.map(([id, number, label]) => <a key={id} href={`#${id}`} className={activeSection === id ? "active" : ""}><span>{number}</span><strong>{label}</strong></a>)}</div>
-      </nav>
-
-      <main id="top">
-        <section className="hero bright-hero" aria-labelledby="hero-title">
-          <div className="hero-soft-shape shape-a"/><div className="hero-soft-shape shape-b"/>
-          <div className="container-wide hero-story-layout">
-            <div className="hero-copy">
-              <div className="eyebrow hero-kicker"><span/>一段重新選擇的旅程</div>
-              <h1 className="hero-title" id="hero-title"><small><RewireWordmark /></small>神經可塑性<br/><em>看見大腦，<br/>也看見改變的可能。</em></h1>
-              <p className="hero-lede">用神經科學突破行為模式迴圈，終結焦慮、恐慌和憂鬱，實現最佳的心理健康。</p>
-              <p className="hero-core">看見舊反應 → 練習新選擇 → 讓改變走進日常</p>
-              <div className="hero-actions"><button className="btn btn-primary" onClick={()=>scrollToId("journey")}><BookOpen size={18}/>開始閱讀<ArrowRight size={17}/></button></div>
-              <div className="hero-meta"><div className="meta-item"><strong>Nicole Vignola</strong>作者</div><div className="meta-item"><strong>梁永安</strong>譯者</div></div>
-            </div>
-            <div className="hero-team" aria-label="導讀小組成員"><span className="hero-team-label">導讀小組</span><ul>{guideTeam.map(([id, name]) => <li key={id}><b>{name}</b><small>{id}</small></li>)}</ul></div>
-            <div className="hero-book-world" aria-label="Rewire 書籍導讀視覺">
-              <div className="book-world-ring ring-a"/><div className="book-world-ring ring-b"/>
-              <span className="world-ball ball-coral"/><span className="world-ball ball-gold"/><span className="world-ball ball-teal"/>
-              <div className="guide-book"><div className="guide-book-spine">REWIRE · Nicole Vignola</div><img src={coverImage} alt="《Rewire－神經可塑性》繁體中文版封面"/></div>
-              <div className="world-note note-neuron"><Network size={19}/><div><b>注意 × 重複 × 經驗</b><small>新的反應，可以被練習。</small></div></div>
-              <span className="world-tag">YOUR BRAIN CAN CHANGE ↗</span>
-              <figure className="world-qr"><img src="site-qr.svg" alt="本網站網址 QR code" width="104" height="104" /><figcaption><b>掃描帶走導讀</b><small>手機開啟本網站</small></figcaption></figure>
-            </div>
+  const layerSlots = {
+    "layer1:1": <div className="layer-ref-visual"><BiasRuminationVisual /></div>,
+    "layer2:1": (
+        <section className="section plasticity-section" id="plasticity">
+          <div className="container-wide plasticity-layout">
+            <div className="reveal"><div className="section-label eyebrow">參考資料 / 路徑如何變強</div><h2 className="section-title serif">「一個訊息重複得愈多，<br /><span>傳達的路徑就會愈強。」</span></h2><p className="section-intro">書中以「羊腸小徑 → 土路 → 柏油大道」比喻反覆啟動的路徑。這個比喻的重點不是腦內真的長出道路，而是同一組神經活動反覆出現後，訊號傳遞與行為選擇會變得更有效率。</p><div className="plasticity-quote"><Quote size={20} /><p className="serif">「一起放電的神經元會彼此連結。」</p></div></div>
+            <div className="path-card reveal"><span className="eyebrow">PATHWAY MODEL / CONCEPTUAL</span><h3 className="serif">重複不是複製；每一次都在改變下一次的門檻。</h3><NeuralPath step={pathStep} /><div className="path-controls"><div>{[0,1,2,3].map((step) => <i key={step} className={pathStep >= step ? "active" : ""} />)}</div><button className="btn btn-primary" onClick={() => setPathStep((step) => step === 3 ? 0 : step + 1)}><Zap size={15} />{pathStep === 3 ? "重新觀察" : "加入一次經驗"}</button></div></div>
           </div>
-          <HeroIntro />
-          <div className="container-wide hero-phase-strip">{guideLayers.map(l=><a key={l.id} href={`#${l.id}`}><span>{l.no}</span><div><strong>{l.title}</strong><small>{l.en}</small></div><ArrowRight size={19}/></a>)}</div>
+          <div className="container-wide plasticity-principles stagger"><article><strong>長期增強</strong><p>共同啟動與有意義的重複，會提高之後再次啟動的效率。</p></article><article><strong>連結減弱</strong><p>舊反應不再被持續配對，連結可逐漸失去優勢；這通常需要時間與替代反應。</p></article><article><strong>經驗依賴</strong><p>新奇、重要、具回饋的經驗會提供預測誤差，促使大腦更新記憶與策略。</p></article><article><strong>生理底座</strong><p>睡眠、運動、壓力與注意資源會影響新連結是否有機會被穩定使用。</p></article></div>
         </section>
-        <GuideFunnel />
-        <BookWalkthrough />
-        <section className="section exam-section walk-phase" id="exam" aria-labelledby="exam-title">
-          <div className="container-wide">
-            <header className="walk-phase-heading exam-heading"><div><span className="walk-label">教檢連結<small>For Teacher Exams</small></span><h2 id="exam-title">把書中的大腦，接回教師資格考。</h2></div><p>讀完全書後，用兩種方式複習：先做歷屆試題中的腦區題，再用深度問答把書中概念連到教育心理學。題目只收錄能核對題本與答案的試題。</p></header>
-            <div className="exam-part-head"><span className="exam-part-label">第一部分</span><h3>歷屆試題：腦區與學習</h3><p>沿著四站作答：先定位腦區，再讀題、核對解答，最後回到導讀中的相關主題。</p></div>
-            <div className="exam-source reveal"><div><ShieldCheck size={18} /><p><strong>延伸閱讀</strong>：教育部教師資格考試歷屆試題。</p></div><a href={officialExamSourceUrl} target="_blank" rel="noreferrer">查看歷屆試題 <ExternalLink size={14} /></a></div>
-            <div className="coverage-strip reveal" aria-label="各年度腦區題主題">{examCoverage.map((record) => <article key={record.year} className={record.count === 0 ? "empty" : record.year === 2018 ? "sample" : ""}><strong>{rocYear(record.year)}</strong><small>{record.note}</small></article>)}</div>
-            {examJumpRegion && <div className="exam-jump-banner reveal"><Brain size={18} /><p><strong>{examJumpRegion}</strong>相關題目已載入。作答後會依序顯示解答與書中概念。</p><button type="button" onClick={() => setExamJumpRegion(null)}>知道了</button></div>}
-            <div className="quiz-filter reveal"><span>依神經主題篩選</span>{quizFilters.map((filter) => <button key={filter} className={quizFilter === filter ? "active" : ""} disabled={filter !== "全部" && !neuroMechanismQuestions.some((question) => question.region === filter)} onClick={() => resetQuiz(filter)}>{filter}</button>)}</div>
-            {currentQuestion && <ol className="exam-path" aria-label="作答路徑">{["腦區", "考題", "解答", "書中概念"].map((label, index) => { const stage = submitted ? 3 : selectedAnswer === null ? 1 : 2; const state = index < stage ? "done" : index === stage ? "current" : ""; return <li key={label} className={state} aria-current={index === stage ? "step" : undefined}><span>{String(index + 1).padStart(2, "0")}</span>{label}</li>; })}</ol>}
-            {currentQuestion && <div className="exam-region-station"><span>01 腦區</span><strong>{currentQuestion.region}</strong><p>{neuroRegionNotes[currentQuestion.region]}</p></div>}
-            {currentQuestion ? <div className="quiz-layout">
-              <article className="quiz-card reveal">
-                <div className="quiz-meta"><span>02 考題 · {rocYear(currentQuestion.year)}教檢 · {currentQuestion.subject} · 第 {currentQuestion.number} 題</span><b>{currentQuestion.region}</b></div>
-                <h3 className="serif">{currentQuestion.stem}</h3>
-                <div className="quiz-options">{currentQuestion.options.map((option, index) => { const correct = submitted && index === currentQuestion.answer; const wrong = submitted && selectedAnswer === index && index !== currentQuestion.answer; return <button key={option} className={`${selectedAnswer === index ? "selected" : ""} ${correct ? "correct" : ""} ${wrong ? "wrong" : ""}`} onClick={() => !submitted && setSelectedAnswer(index)}><span>{String.fromCharCode(65 + index)}</span><p>{option}</p>{correct && <Check size={16} />}</button>; })}</div>
-                <div className="quiz-actions"><p className={submitted ? selectedAnswer === currentQuestion.answer ? "good" : "needs" : ""}>{submitted ? selectedAnswer === currentQuestion.answer ? "答對了：腦區與功能配對正確。" : `正解為 ${String.fromCharCode(65 + currentQuestion.answer)}，請看解答與書中概念。` : selectedAnswer === null ? "先選一個答案。" : "已選取，可以核對答案。"}</p>{submitted ? <button className="btn btn-primary" onClick={nextQuestion}>下一題 <ArrowRight size={15} /></button> : <button className="btn btn-primary" disabled={selectedAnswer === null} onClick={() => setSubmitted(true)}>核對答案 <Check size={15} /></button>}</div>
-              </article>
-              <aside className={`analysis-card reveal ${submitted ? "visible" : ""}`}>
-                <div className="eyebrow">03 解答 · 04 書中概念</div>
-                <h3 className="serif">{submitted ? currentQuestion.concept : "作答後展開機制解析"}</h3>
-                {submitted ? <><div><b>03 解答</b><p>{currentQuestion.explanation}</p></div><div><b>腦區／路徑</b><p>{currentQuestion.neuroMechanism}</p></div><div className="book-station"><b>04 書中概念</b><p>{withoutPageReference(currentQuestion.bookConnection)}</p>{neuroQuestionChapters[currentQuestion.id] && <a className="book-station-link" href={`#chapter-${neuroQuestionChapters[currentQuestion.id].id}`}>回到 {topicLabel(neuroQuestionChapters[currentQuestion.id].id)} <ArrowRight size={15} /></a>}</div><div className="source-links"><a href={currentQuestion.source} target="_blank" rel="noreferrer">查看題本 <ExternalLink size={14} /></a><a href={currentQuestion.answerSource} target="_blank" rel="noreferrer">核對答案 <ExternalLink size={14} /></a></div><button className="analysis-toggle" onClick={() => setShowAnalysis((value) => !value)}><Sparkles size={15} />{showAnalysis ? "收起選項分析" : "為什麼其他選項不對？"}</button>{showAnalysis && <div className="ai-analysis"><strong>為什麼其他選項不成立？</strong><p>{currentQuestion.distractorAnalysis}</p></div>}</> : <div className="analysis-placeholder"><Brain size={42} /><p>這裡會依正解顯示額葉、海馬迴、杏仁核或相關神經路徑，並連回書中的觀點與案例。</p></div>}
-              </aside>
-            </div> : <div className="empty-quiz"><Brain size={34} /><h3>這個分類目前沒有題目</h3><p>切換到「全部」或其他分類繼續練習。</p></div>}
-            <ExamDeepQAPanel />
-          </div>
-        </section>
-        <details className="book-reference" id="reference"><summary><span>延伸資料</span><strong>概念、案例、工具與練習</strong><small>需要時展開查閱</small></summary><div className="book-reference-body">
-
-
-        <section className="section logic-journey-section" id="topic-map" aria-labelledby="topic-map-title">
-          <div className="container-wide">
-            <div className="logic-journey-intro reveal"><div><div className="section-label eyebrow">02 / 導讀的閱讀路線</div><h2 className="section-title serif" id="topic-map-title">先問一個生活問題，<br /><span>再讓大腦科學回答。</span></h2></div><p className="section-intro">從熟悉的壓力、習慣與情緒反應出發，逐步看見大腦如何形成預測，又如何透過新的經驗改變。</p></div>
-<div className="logic-journey-layout">
-              <div className="logic-phase-list" role="tablist" aria-label="四個導讀角度">{videoLogicPhases.map((item, index) => <button key={item.label} role="tab" aria-selected={roadmapPhase === index} className={roadmapPhase === index ? "active" : ""} onClick={() => setRoadmapPhase(index)}><span>{item.label}</span><strong>{item.title}</strong><ChevronRight size={16} /></button>)}</div>
-              <article className="logic-phase-card reveal"><div className="logic-phase-mark"><Brain size={20} /><span>{currentRoadmap.label}</span></div><h3 className="serif">{currentRoadmap.hook}</h3><p>{currentRoadmap.text}</p>{roadmapPhase === 1 || roadmapPhase === 2 ? <BiasRuminationVisual /> : null}<div className="logic-case-grid">{currentRoadmap.cards.map((card, index) => <div key={card}><span>0{index + 1}</span><strong>{card}</strong></div>)}</div><div className="logic-formula"><span>重複</span><b>＋</b><span>注意力</span><b>＋</b><span>刻意</span><b>＝</b><strong>可持續的改變</strong></div></article>
-            </div>
-            <div className="concept-chapter-summary reveal">
-              <div className="concept-summary-heading"><div><span className="eyebrow">TOPIC SNAPSHOT</span><h3 className="serif">四個層次，看見改變路徑。</h3></div><p>點選層次，快速掌握對應主題的核心問題，再到下方「主題深讀」細看。</p></div>
-              <div className="concept-summary-grid">{conceptChapterCards.map((card, index) => <div key={card.title} className={`concept-summary-card ${card.accent} ${activeConceptCard === index ? "active" : ""}`} role="button" tabIndex={0} onClick={() => setActiveConceptCard(index)} onKeyDown={(event) => { if (event.target === event.currentTarget && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); setActiveConceptCard(index); } }}><span className="concept-card-index">0{index + 1}</span><span className="concept-card-icon-wrap"><button type="button" className={`concept-card-icon ${card.pulseClass}`} title={`${card.brainRegion}：${card.brainDescription}`} aria-label={`查看${card.brainRegion}的詳細神經機制`} onClick={(event) => { event.stopPropagation(); setActiveConceptCard(index); setReturnConceptCard(index); setActiveBrain(card.brainTarget as BrainRegionId); setBrainLabActive(card.brainTarget as BrainRegionId); setRegionScenario("resting"); scrollToId("brain"); }}><span className="concept-card-symbol">{card.icon}</span><span className="concept-neural-flow" aria-hidden="true"><i /><i /><i /></span></button><span className="concept-card-tooltip" role="tooltip"><strong>{card.brainRegion}</strong><span>{card.brainDescription}</span></span></span><span className="concept-card-icon-label">{card.iconLabel}</span><span className="eyebrow">{card.phase}</span><strong>{card.title}</strong><p>{card.summary}</p><span className="concept-card-chapters">{card.chapters.map((chapter) => chapter.number).join(" · ")} <ChevronRight size={15} /></span></div>)}</div>
-              <div className="concept-summary-detail" key={activeConceptCard}><div><div className="concept-detail-icon" aria-hidden="true">{conceptChapterCards[activeConceptCard].icon}</div><span className="eyebrow">{conceptChapterCards[activeConceptCard].phase}</span><h4 className="serif">{conceptChapterCards[activeConceptCard].title}</h4><p>{conceptChapterCards[activeConceptCard].summary}</p></div><div className="concept-detail-chapters"><span>對應主題</span>{conceptChapterCards[activeConceptCard].chapters.map((chapter) => <button key={chapter.id} onClick={() => { setActiveChapter(chapter); scrollToId("chapters"); }}><strong>{topicNumber(chapter.topic)} {chapter.title}</strong><small>{chapter.thesis}</small><ChevronRight size={15} /></button>)}</div></div>
-            </div>
-          </div>
-        </section>
-
-        <section className="section book-section" id="book">
-          <div className="container-wide book-layout">
-            <div className="reveal">
-              <div className="section-label eyebrow">書籍與作者</div>
-              <h2 className="section-title serif">「我們的習慣和行為，<br />是自己選擇，還是透過環境無意中獲得？」</h2>
-              <p className="section-intro">作者 Nicole Vignola 以神經科學與組織心理學背景，把行為改變拆成三層：先看見壓力與負面迴路，再以重複和新經驗重寫預測，最後用睡眠、運動與環境支撐新路徑。</p>
-              <div className="author-facts">
-                <div><span>作者</span><strong>妮可・維諾拉</strong><small>Nicole Vignola</small></div>
-                <div><span>英文版出版</span><strong>2024</strong><small>Michael Joseph / Penguin</small></div>
-                <div><span>中文版譯者</span><strong>梁永安</strong><small>繁體中文版</small></div>
-              </div>
-              <div className="precision-note"><Microscope size={18} /><p><strong>讀懂大腦</strong>：腦區各有主要功能，但記憶、情緒與控制都來自多個網絡的協作。</p></div>
-            </div>
-            <div className="book-visual reveal">
-              <div className="cover-halo" /><img className="book-cover" src={coverImage} alt="《Rewire－神經可塑性》繁體中文版封面" />
-              <div className="book-spine-note"><span className="eyebrow">書中核心提問</span><strong className="serif">「我們的習慣和行為，是自己選擇，還是透過環境無意中獲得？」</strong><small>《Rewire》作者提問</small></div>
-            </div>
-          </div>
-        </section>
-
-        <section className="section evidence-section" id="evidence">
-          <div className="container-wide">
-              <div className="section-heading-row reveal">
-              <div><div className="section-label eyebrow">03 / 書中證據與案例</div><h2 className="section-title serif">「但大腦是可塑的，<br /><span>這種情形是可以改變的。」</span></h2><p className="section-intro">每則引文都回到書中的脈絡，並連結相關神經機制，讓金句不只是被引用，而是被理解。</p></div>
-              <div className="quote-index"><strong>{String(activeQuote + 1).padStart(2, "0")}</strong><span>/ {String(bookQuotes.length).padStart(2, "0")}</span></div>
-            </div>
-            <div className="quote-stage reveal">
-              <Quote size={34} />
-              <blockquote className="serif">{bookQuotes[activeQuote].text}</blockquote>
-              <p>{bookQuotes[activeQuote].context}</p>
-              <div className="quote-footer"><span>《Rewire》書中重點金句</span><div>{bookQuotes.map((quote, index) => <button key={quote.text} aria-label={`查看引文 ${index + 1}`} className={activeQuote === index ? "active" : ""} onClick={() => setActiveQuote(index)} />)}</div></div>
-            </div>
-
-            <div className="example-heading reveal"><div><span className="eyebrow">BOOK SCENES &amp; MECHANISMS</span><h3 className="serif">書中的例子，不只是故事。</h3></div><p>點選一個案例，查看情境、腦機制與作者想推進的論點。</p></div>
-            <div className="example-explorer">
-              <div className="example-rail reveal">{bookExamples.map((example, index) => <button key={example.id} className={activeExample === index ? "active" : ""} onClick={() => setActiveExample(index)}><span>{String(index + 1).padStart(2, "0")}</span><div><strong>{example.title}</strong><small>{example.label}</small></div><ChevronRight size={16} /></button>)}</div>
-              <article className="example-card reveal">
-                <div className="example-meta"><span>{bookExamples[activeExample].label}</span><b>書中案例</b></div>
-                <h3 className="serif">{bookExamples[activeExample].title}</h3>
-                <div className="evidence-block"><span>書中情境</span><p>{bookExamples[activeExample].scene}</p></div>
-                <div className="evidence-block mechanism"><span>神經機制</span><p>{bookExamples[activeExample].mechanism}</p></div>
-                <div className="evidence-block insight"><span>閱讀重點</span><p>{bookExamples[activeExample].insight}</p></div>
-              </article>
-            </div>
-          </div>
-        </section>
-
+    ),
+    layer2: (
         <section className="section brain-section" id="brain">
           <div className="brain-noise" />
           <div className="container-wide">
-            <div className="reveal"><div className="section-label eyebrow">04 / 腦區與網絡</div><h2 className="section-title serif">「一起放電的神經元，<br /><span>會彼此連結。」</span></h2><p className="section-intro">感覺、記憶、情緒與控制並非一組彼此獨立的按鈕，而是皮質、深部結構、腦幹與全腦網絡持續協作的結果。</p></div>
+            <div className="reveal"><div className="section-label eyebrow">參考資料 / 腦區與網絡</div><h2 className="section-title serif">「一起放電的神經元，<br /><span>會彼此連結。」</span></h2><p className="section-intro">感覺、記憶、情緒與控制並非一組彼此獨立的按鈕，而是皮質、深部結構、腦幹與全腦網絡持續協作的結果。</p></div>
             <div className="foundation-grid stagger">{foundations.map((item) => <article key={item.title}><div className="foundation-icon"><Brain size={18} /><span>{item.icon}</span></div><h3>{item.title}</h3><p>{item.text}</p></article>)}</div>
 
             <TermLibrary />
@@ -772,7 +644,7 @@ function Home() {
               <div className="region-panel reveal">
                 <div className="region-tabs">{brainRegions.map((item) => <button key={item.id} className={activeBrain === item.id ? "active" : ""} onClick={() => { setActiveBrain(item.id); setBrainLabActive(item.id); setBrainState("baseline"); setBrainAuto(false); playBrainTone(item.id); }}><span style={{ background: item.color }} /><div><strong>{item.label}</strong><small>{item.english}</small></div></button>)}</div>
                 <article className="region-detail">
-                  <div className="region-detail-actions"><button type="button" className="return-summary-button" onClick={() => { setActiveConceptCard(returnConceptCard); scrollToId("topic-map"); }}>← 返回摘要卡片</button><button type="button" className="region-exam-link" onClick={() => jumpToRegionQuestions(region.id)}>查看相關教檢題目 <ArrowRight size={15} /></button></div>
+                  <div className="region-detail-actions"><button type="button" className="region-exam-link" onClick={() => jumpToRegionQuestions(region.id)}>查看相關教檢題目 <ArrowRight size={15} /></button></div>
                   <div className="region-title"><div style={{ background: region.color }}><Brain size={22} /></div><div><span className="eyebrow">{region.english}</span><h3 className="serif">{region.label}</h3></div></div>
                   <dl><div><dt>主要角色</dt><dd>{region.role}</dd></div><div><dt>大致位置</dt><dd>{region.location}</dd></div><div><dt>高壓時</dt><dd>{region.underStress}</dd></div></dl>
                   <div className={`everyday-neuro-example ${regionScenario === "activated" ? "is-activated" : ""}`}>
@@ -819,46 +691,119 @@ function Home() {
             </div>
           </div>
         </section>
-
-        <section className="section plasticity-section" id="plasticity">
-          <div className="container-wide plasticity-layout">
-            <div className="reveal"><div className="section-label eyebrow">延伸觀察 / 神經可塑性</div><h2 className="section-title serif">「一個訊息重複得愈多，<br /><span>傳達的路徑就會愈強。」</span></h2><p className="section-intro">書中以「羊腸小徑 → 土路 → 柏油大道」比喻反覆啟動的路徑。這個比喻的重點不是腦內真的長出道路，而是同一組神經活動反覆出現後，訊號傳遞與行為選擇會變得更有效率。</p><div className="plasticity-quote"><Quote size={20} /><p className="serif">「一起放電的神經元會彼此連結。」</p></div></div>
-            <div className="path-card reveal"><span className="eyebrow">PATHWAY MODEL / CONCEPTUAL</span><h3 className="serif">重複不是複製；每一次都在改變下一次的門檻。</h3><NeuralPath step={pathStep} /><div className="path-controls"><div>{[0,1,2,3].map((step) => <i key={step} className={pathStep >= step ? "active" : ""} />)}</div><button className="btn btn-primary" onClick={() => setPathStep((step) => step === 3 ? 0 : step + 1)}><Zap size={15} />{pathStep === 3 ? "重新觀察" : "加入一次經驗"}</button></div></div>
+    ),
+    layer3: (
+        <section className="section tools-section" id="tools">
+          <div className="container-wide"><div className="reveal"><div className="section-label eyebrow">練習工具 / 把練習帶回日常</div><h2 className="section-title serif">「戰略性休息，<br /><span>可以提高我們的注意力。」</span></h2><p className="section-intro">這些日常練習不是治癒承諾，而是用來降低自動反應、恢復注意與增加替代行動的小型介入。</p></div><PracticeTools /></div>
+        </section>
+    ),
+    layer4: (
+        <section className="section education-section" id="education">
+          <div className="container-wide education-layout">
+            <div className="reveal"><div className="section-label eyebrow">參考資料 / 教育連結</div><h2 className="section-title serif">「我希望你撕掉<br /><span>別人給你貼的標籤。」</span></h2><p className="section-intro">從《Rewire》回看教育概論，關鍵不是把每個行為都解釋成某個腦區，而是理解注意、情境記憶、壓力調節、回饋與練習如何共同改變學習機率。</p></div>
+            <div className="education-cards stagger"><article><span>01</span><h3>從標籤轉向可觀察證據</h3><p>「不專心」「不努力」「不擅長數學」都容易成為固定敘事。改用行為、策略與情境描述，才能找到可調整的節點。</p></article><article><span>02</span><h3>先調節，再要求高階控制</h3><p>工作記憶、抑制與後設認知在威脅升高時較難維持。清楚結構與心理安全不是降低標準，而是保留學習入口。</p></article><article><span>03</span><h3>用提取與回饋形成新路徑</h3><p>學生需要在不同時間、不同情境重新提取，並取得具體回饋；熟悉感不能取代真正的可提取能力。</p></article><article><span>04</span><h3>把身體狀態放回學習設計</h3><p>睡眠、活動、壓力與環境刺激會改變注意和記憶條件，不能把所有表現差異簡化成意志力。</p></article></div>
           </div>
-          <div className="container-wide plasticity-principles stagger"><article><strong>長期增強</strong><p>共同啟動與有意義的重複，會提高之後再次啟動的效率。</p></article><article><strong>連結減弱</strong><p>舊反應不再被持續配對，連結可逐漸失去優勢；這通常需要時間與替代反應。</p></article><article><strong>經驗依賴</strong><p>新奇、重要、具回饋的經驗會提供預測誤差，促使大腦更新記憶與策略。</p></article><article><strong>生理底座</strong><p>睡眠、運動、壓力與注意資源會影響新連結是否有機會被穩定使用。</p></article></div>
+        </section>
+    ),
+  };
+
+  return (
+    <div className="site-shell">
+      <header className={`top-nav ${scrolled ? "scrolled" : ""}`}>
+        <div className="container-wide nav-inner">
+          <a className="brand-mark" href="#top" aria-label="回到首頁"><span className="brand-dot" /><span className="brand-book">《Rewire－神經可塑性》</span><span className="brand-tag">專書導讀</span></a>
+          <nav className="nav-links" aria-label="快速導覽">
+            <a href="#journey">開始閱讀</a><a href="#topic-index">主題索引</a>
+            <a className="nav-pill" href="#exam">教檢連結</a>
+          </nav>
+        </div>
+      </header>
+      <nav className={`chapter-dock ${scrolled ? "scrolled" : ""}`} aria-label="導讀目錄">
+        <div className="chapter-dock-track">{chapterLinks.map(([id, number, label]) => <a key={id} href={`#${id}`} className={activeSection === id ? "active" : ""}><span>{number}</span><strong>{label}</strong></a>)}</div>
+      </nav>
+
+      <main id="top">
+        <section className="hero bright-hero" aria-labelledby="hero-title">
+          <div className="hero-soft-shape shape-a"/><div className="hero-soft-shape shape-b"/>
+          <div className="container-wide hero-story-layout">
+            <div className="hero-copy">
+              <div className="eyebrow hero-kicker"><span/>一段重新選擇的旅程</div>
+              <h1 className="hero-title" id="hero-title"><small><RewireWordmark /></small>神經可塑性<br/><em>看見大腦，<br/>也看見改變的可能。</em></h1>
+              <p className="hero-lede">用神經科學突破行為模式迴圈，終結焦慮、恐慌和憂鬱，實現最佳的心理健康。</p>
+              <p className="hero-core">看見舊反應 → 練習新選擇 → 讓改變走進日常</p>
+              <div className="hero-actions"><button className="btn btn-primary" onClick={()=>scrollToId("journey")}><BookOpen size={18}/>開始閱讀<ArrowRight size={17}/></button></div>
+              <div className="hero-meta"><div className="meta-item"><strong>Nicole Vignola</strong>作者</div><div className="meta-item"><strong>梁永安</strong>譯者</div></div>
+            </div>
+            <div className="hero-team" aria-label="導讀小組成員"><span className="hero-team-label">導讀小組</span><ul>{guideTeam.map(([id, name]) => <li key={id}><b>{name}</b><small>{id}</small></li>)}</ul></div>
+            <div className="hero-book-world" aria-label="Rewire 書籍導讀視覺">
+              <div className="book-world-ring ring-a"/><div className="book-world-ring ring-b"/>
+              <span className="world-ball ball-coral"/><span className="world-ball ball-gold"/><span className="world-ball ball-teal"/>
+              <div className="guide-book"><div className="guide-book-spine">REWIRE · Nicole Vignola</div><img src={coverImage} alt="《Rewire－神經可塑性》繁體中文版封面"/></div>
+              <div className="world-note note-neuron"><Network size={19}/><div><b>注意 × 重複 × 經驗</b><small>新的反應，可以被練習。</small></div></div>
+              <span className="world-tag">YOUR BRAIN CAN CHANGE ↗</span>
+              <figure className="world-qr"><img src="site-qr.svg" alt="本網站網址 QR code" width="104" height="104" /><figcaption><b>掃描帶走導讀</b><small>手機開啟本網站</small></figcaption></figure>
+            </div>
+          </div>
+          <HeroIntro />
+          <div className="container-wide hero-phase-strip">{guideLayers.map(l=><a key={l.id} href={`#${l.id}`}><span>{l.no}</span><div><strong>{l.title}</strong><small>{l.en}</small></div><ArrowRight size={19}/></a>)}</div>
+        </section>
+        <GuideFunnel />
+        <BookWalkthrough slots={layerSlots} />
+        <section className="section exam-section walk-phase" id="exam" aria-labelledby="exam-title">
+          <div className="container-wide">
+            <header className="walk-phase-heading exam-heading"><div><span className="walk-label">延伸學習<small>Further Study</small></span><h2 id="exam-title">把書中概念接回教檢，也收好延伸資料。</h2></div><p>先做歷屆試題中的腦區題，再用深度問答把概念連到教育心理學；需要回頭查時，用主題索引、書中金句與案例。題目只收錄能核對題本與答案的試題。</p></header>
+            <div className="exam-part-head"><span className="exam-part-label">第一部分</span><h3>歷屆試題：腦區與學習</h3><p>沿著四站作答：先定位腦區，再讀題、核對解答，最後回到導讀中的相關主題。</p></div>
+            <div className="exam-source reveal"><div><ShieldCheck size={18} /><p><strong>延伸閱讀</strong>：教育部教師資格考試歷屆試題。</p></div><a href={officialExamSourceUrl} target="_blank" rel="noreferrer">查看歷屆試題 <ExternalLink size={14} /></a></div>
+            <div className="coverage-strip reveal" aria-label="各年度腦區題主題">{examCoverage.map((record) => <article key={record.year} className={record.count === 0 ? "empty" : record.year === 2018 ? "sample" : ""}><strong>{rocYear(record.year)}</strong><small>{record.note}</small></article>)}</div>
+            {examJumpRegion && <div className="exam-jump-banner reveal"><Brain size={18} /><p><strong>{examJumpRegion}</strong>相關題目已載入。作答後會依序顯示解答與書中概念。</p><button type="button" onClick={() => setExamJumpRegion(null)}>知道了</button></div>}
+            <div className="quiz-filter reveal"><span>依神經主題篩選</span>{quizFilters.map((filter) => <button key={filter} className={quizFilter === filter ? "active" : ""} disabled={filter !== "全部" && !neuroMechanismQuestions.some((question) => question.region === filter)} onClick={() => resetQuiz(filter)}>{filter}</button>)}</div>
+            {currentQuestion && <ol className="exam-path" aria-label="作答路徑">{["腦區", "考題", "解答", "書中概念"].map((label, index) => { const stage = submitted ? 3 : selectedAnswer === null ? 1 : 2; const state = index < stage ? "done" : index === stage ? "current" : ""; return <li key={label} className={state} aria-current={index === stage ? "step" : undefined}><span>{String(index + 1).padStart(2, "0")}</span>{label}</li>; })}</ol>}
+            {currentQuestion && <div className="exam-region-station"><span>01 腦區</span><strong>{currentQuestion.region}</strong><p>{neuroRegionNotes[currentQuestion.region]}</p></div>}
+            {currentQuestion ? <div className="quiz-layout">
+              <article className="quiz-card reveal">
+                <div className="quiz-meta"><span>02 考題 · {rocYear(currentQuestion.year)}教檢 · {currentQuestion.subject} · 第 {currentQuestion.number} 題</span><b>{currentQuestion.region}</b></div>
+                <h3 className="serif">{currentQuestion.stem}</h3>
+                <div className="quiz-options">{currentQuestion.options.map((option, index) => { const correct = submitted && index === currentQuestion.answer; const wrong = submitted && selectedAnswer === index && index !== currentQuestion.answer; return <button key={option} className={`${selectedAnswer === index ? "selected" : ""} ${correct ? "correct" : ""} ${wrong ? "wrong" : ""}`} onClick={() => !submitted && setSelectedAnswer(index)}><span>{String.fromCharCode(65 + index)}</span><p>{option}</p>{correct && <Check size={16} />}</button>; })}</div>
+                <div className="quiz-actions"><p className={submitted ? selectedAnswer === currentQuestion.answer ? "good" : "needs" : ""}>{submitted ? selectedAnswer === currentQuestion.answer ? "答對了：腦區與功能配對正確。" : `正解為 ${String.fromCharCode(65 + currentQuestion.answer)}，請看解答與書中概念。` : selectedAnswer === null ? "先選一個答案。" : "已選取，可以核對答案。"}</p>{submitted ? <button className="btn btn-primary" onClick={nextQuestion}>下一題 <ArrowRight size={15} /></button> : <button className="btn btn-primary" disabled={selectedAnswer === null} onClick={() => setSubmitted(true)}>核對答案 <Check size={15} /></button>}</div>
+              </article>
+              <aside className={`analysis-card reveal ${submitted ? "visible" : ""}`}>
+                <div className="eyebrow">03 解答 · 04 書中概念</div>
+                <h3 className="serif">{submitted ? currentQuestion.concept : "作答後展開機制解析"}</h3>
+                {submitted ? <><div><b>03 解答</b><p>{currentQuestion.explanation}</p></div><div><b>腦區／路徑</b><p>{currentQuestion.neuroMechanism}</p></div><div className="book-station"><b>04 書中概念</b><p>{withoutPageReference(currentQuestion.bookConnection)}</p>{neuroQuestionChapters[currentQuestion.id] && <a className="book-station-link" href={`#chapter-${neuroQuestionChapters[currentQuestion.id].id}`}>回到 {topicLabel(neuroQuestionChapters[currentQuestion.id].id)} <ArrowRight size={15} /></a>}</div><div className="source-links"><a href={currentQuestion.source} target="_blank" rel="noreferrer">查看題本 <ExternalLink size={14} /></a><a href={currentQuestion.answerSource} target="_blank" rel="noreferrer">核對答案 <ExternalLink size={14} /></a></div><button className="analysis-toggle" onClick={() => setShowAnalysis((value) => !value)}><Sparkles size={15} />{showAnalysis ? "收起選項分析" : "為什麼其他選項不對？"}</button>{showAnalysis && <div className="ai-analysis"><strong>為什麼其他選項不成立？</strong><p>{currentQuestion.distractorAnalysis}</p></div>}</> : <div className="analysis-placeholder"><Brain size={42} /><p>這裡會依正解顯示額葉、海馬迴、杏仁核或相關神經路徑，並連回書中的觀點與案例。</p></div>}
+              </aside>
+            </div> : <div className="empty-quiz"><Brain size={34} /><h3>這個分類目前沒有題目</h3><p>切換到「全部」或其他分類繼續練習。</p></div>}
+            <ExamDeepQAPanel />
+            <TopicIndex />
+          </div>
         </section>
 
-        <section className="section chapters-section" id="chapters">
+        <section className="section evidence-section" id="evidence">
           <div className="container-wide">
-            <div className="reveal"><div className="section-label eyebrow">05 / 主題深讀</div><h2 className="section-title serif">「無論重複什麼想法和反應，<br /><span>都會加強你腦中的路徑。」</span></h2><p className="section-intro">先理解負面迴路與壓力，再重寫潛意識預測，最後以韌性、心態、睡眠與運動維持新路徑。可以從這裡延伸查看書中例子、機制、短引文與教育連結。</p></div>
-            <div className="chapter-filter reveal">{(Object.keys(phaseLabels) as PhaseId[]).map((id) => <button key={id} className={phase === id ? "active" : ""} onClick={() => setPhase(id)}>{phaseLabels[id]}</button>)}</div>
-            <div className="chapter-atlas">
-              <div className="chapter-list reveal">{filteredChapters.map((chapter) => <button key={chapter.id} className={activeChapter.id === chapter.id ? "active" : ""} onClick={() => setActiveChapter(chapter)}><span>{topicNumber(chapter.topic)}</span><div><strong>{chapter.title}</strong><small>{chapter.english}</small></div><ChevronRight size={16} /></button>)}</div>
-              <article className="chapter-detail reveal">
-                <div className="chapter-detail-top"><span>{topicNumber(activeChapter.topic)}</span><div><small>{activeChapter.english}</small><h3 className="serif">{activeChapter.title}</h3></div></div>
-                <p className="chapter-thesis">{activeChapter.thesis}</p>
-                <div className="chapter-detail-grid"><div><b>核心論證</b><p>{activeChapter.explanation}</p></div><div><b>書中例子</b><p>{activeChapter.example}</p></div><div><b>神經機制</b><p>{activeChapter.mechanism}</p></div><div><b>教育連結</b><p>{activeChapter.education}</p></div></div>
-                <blockquote className="serif">{activeChapter.evidence}</blockquote>
-                <div className="keyword-row">{activeChapter.keywords.map((keyword) => <span key={keyword}>{keyword}</span>)}</div>
+              <div className="section-heading-row reveal">
+              <div><div className="section-label eyebrow">第四部分 / 書中金句與案例</div><h2 className="section-title serif">「但大腦是可塑的，<br /><span>這種情形是可以改變的。」</span></h2><p className="section-intro">每則引文都回到書中的脈絡，並連結相關神經機制，讓金句不只是被引用，而是被理解。</p></div>
+              <div className="quote-index"><strong>{String(activeQuote + 1).padStart(2, "0")}</strong><span>/ {String(bookQuotes.length).padStart(2, "0")}</span></div>
+            </div>
+            <div className="quote-stage reveal">
+              <Quote size={34} />
+              <blockquote className="serif">{bookQuotes[activeQuote].text}</blockquote>
+              <p>{bookQuotes[activeQuote].context}</p>
+              <div className="quote-footer"><span>《Rewire》書中重點金句</span><div>{bookQuotes.map((quote, index) => <button key={quote.text} aria-label={`查看引文 ${index + 1}`} className={activeQuote === index ? "active" : ""} onClick={() => setActiveQuote(index)} />)}</div></div>
+            </div>
+
+            <div className="example-heading reveal"><div><span className="eyebrow">BOOK SCENES &amp; MECHANISMS</span><h3 className="serif">書中的例子，不只是故事。</h3></div><p>點選一個案例，查看情境、腦機制與作者想推進的論點。</p></div>
+            <div className="example-explorer">
+              <div className="example-rail reveal">{bookExamples.map((example, index) => <button key={example.id} className={activeExample === index ? "active" : ""} onClick={() => setActiveExample(index)}><span>{String(index + 1).padStart(2, "0")}</span><div><strong>{example.title}</strong><small>{example.label}</small></div><ChevronRight size={16} /></button>)}</div>
+              <article className="example-card reveal">
+                <div className="example-meta"><span>{bookExamples[activeExample].label}</span><b>書中案例</b></div>
+                <h3 className="serif">{bookExamples[activeExample].title}</h3>
+                <div className="evidence-block"><span>書中情境</span><p>{bookExamples[activeExample].scene}</p></div>
+                <div className="evidence-block mechanism"><span>神經機制</span><p>{bookExamples[activeExample].mechanism}</p></div>
+                <div className="evidence-block insight"><span>閱讀重點</span><p>{bookExamples[activeExample].insight}</p></div>
               </article>
             </div>
           </div>
         </section>
 
-        <TeachingGuide />
-
-        <section className="section tools-section" id="tools">
-          <div className="container-wide"><div className="reveal"><div className="section-label eyebrow">07 / 把練習帶回日常</div><h2 className="section-title serif">「戰略性休息，<br /><span>可以提高我們的注意力。」</span></h2><p className="section-intro">這些日常練習不是治癒承諾，而是用來降低自動反應、恢復注意與增加替代行動的小型介入。</p></div><PracticeTools /></div>
-        </section>
-
-        <section className="section education-section" id="education">
-          <div className="container-wide education-layout">
-            <div className="reveal"><div className="section-label eyebrow">延伸閱讀 / 教育連結</div><h2 className="section-title serif">「我希望你撕掉<br /><span>別人給你貼的標籤。」</span></h2><p className="section-intro">從《Rewire》回看教育概論，關鍵不是把每個行為都解釋成某個腦區，而是理解注意、情境記憶、壓力調節、回饋與練習如何共同改變學習機率。</p></div>
-            <div className="education-cards stagger"><article><span>01</span><h3>從標籤轉向可觀察證據</h3><p>「不專心」「不努力」「不擅長數學」都容易成為固定敘事。改用行為、策略與情境描述，才能找到可調整的節點。</p></article><article><span>02</span><h3>先調節，再要求高階控制</h3><p>工作記憶、抑制與後設認知在威脅升高時較難維持。清楚結構與心理安全不是降低標準，而是保留學習入口。</p></article><article><span>03</span><h3>用提取與回饋形成新路徑</h3><p>學生需要在不同時間、不同情境重新提取，並取得具體回饋；熟悉感不能取代真正的可提取能力。</p></article><article><span>04</span><h3>把身體狀態放回學習設計</h3><p>睡眠、活動、壓力與環境刺激會改變注意和記憶條件，不能把所有表現差異簡化成意志力。</p></article></div>
-          </div>
-        </section>
-
-        </div></details>
       </main>
 
       <footer className="footer"><div className="container-wide"><div className="footer-grid"><div><div className="eyebrow">《REWIRE》書中重點金句</div><h2 className="serif">「勇於創造<br /><em>你自己吧。」</em></h2></div><p>從書中的案例出發，理解壓力、記憶、情緒與習慣如何在大腦網絡中彼此影響，也看見改變如何從一次新的經驗開始。</p></div><div className="footer-bottom"><span>《Rewire－神經可塑性》互動深度閱讀</span><span>Book evidence · Brain atlas · Neurobiology</span></div></div></footer>

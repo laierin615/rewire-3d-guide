@@ -2284,3 +2284,104 @@ input:focus-visible,
   font-size: 20px;
 }
 .layer-anim > .isl { margin: 0 auto; max-width: 940px; }
+
+/* ===== 層內小節與銜接 ===== */
+.layer-section { margin-top: 34px; scroll-margin-top: 110px; }
+.layer-section-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin: 0 0 16px;
+  padding: 14px 18px;
+  border-left: 6px solid var(--leaf);
+  border-radius: 0 18px 18px 0;
+  background: rgba(255, 255, 255, 0.7);
+}
+.layer-section-head > span {
+  flex: none;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--leaf);
+  color: #fff;
+  font-size: 15px;
+}
+.layer-section-head h3 { margin: 0; font-size: clamp(20px, 2.4vw, 26px); }
+.layer-section-head p { margin: 4px 0 0; color: #4c5a52; font-size: 16px; }
+.layer-bridge {
+  position: relative;
+  margin: 22px auto 0;
+  max-width: 760px;
+  padding: 12px 18px 12px 44px;
+  border-radius: 16px;
+  background: #fff8e6;
+  color: #5b4a20;
+  font-size: 16px;
+  line-height: 1.7;
+}
+.layer-bridge::before {
+  content: "↓";
+  position: absolute;
+  left: 18px;
+  top: 11px;
+  color: #c9a24a;
+  font-size: 18px;
+}
+.walk-next.layer-bridge-next {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  height: auto;
+  padding: 14px 22px;
+  text-align: left;
+  line-height: 1.6;
+}
+.layer-bridge-next span { flex: 1 1 260px; font-size: 16px; }
+.layer-bridge-next small { color: var(--muted); font-size: 14px; }
+.layer-ref-visual { margin: 0 0 18px; }
+.layer-section .section { padding: 26px 0; background: transparent; }
+.layer-section .section > .container-wide { padding-left: 0; padding-right: 0; max-width: none; }
+.walk-layer > .section { margin-top: 26px; }
+
+/* ===== 主題索引 ===== */
+.topic-index { margin-top: 56px; }
+.topic-index-search { max-width: 420px; margin: 6px 0 4px; }
+.topic-index-count { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+.topic-index-layer { margin: 0 0 22px; }
+.topic-index-layer h4 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 10px;
+  margin: 0 0 10px;
+  font-size: 20px;
+}
+.topic-index-layer h4 span { padding: 2px 10px; border-radius: 999px; background: var(--leaf); color: #fff; font-size: 13px; }
+.topic-index-layer h4 small { color: var(--muted); font-size: 14px; }
+.topic-index-section h5 { margin: 12px 0 6px; color: #4f8a64; font-size: 16px; }
+.topic-index-section ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.topic-index-section details { border: 2px solid var(--card-line); border-radius: 16px; background: var(--card); }
+.topic-index-section summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  list-style: none;
+}
+.topic-index-section summary::-webkit-details-marker { display: none; }
+.topic-index-section summary b { color: var(--muted); font-size: 13px; font-weight: 400; min-width: 28px; }
+.topic-index-section summary strong { flex: 1; font-size: 16px; }
+.topic-index-section summary em { padding: 0 8px; border-radius: 999px; background: #e9f6df; color: #2f5a3c; font-size: 12px; font-style: normal; }
+.topic-index-section details[open] summary svg { transform: rotate(180deg); }
+.topic-index-body { display: grid; gap: 10px; padding: 0 16px 16px; }
+.topic-index-body span { display: block; margin-bottom: 2px; color: #4f8a64; font-size: 13px; }
+.topic-index-body p, .topic-index-body dd { margin: 0; font-size: 15px; line-height: 1.75; color: #3f4c45; }
+.topic-index-deep { padding: 12px 14px; border-radius: 14px; background: #f6faf1; }
+.topic-index-thesis { font-size: 16px !important; color: var(--ink) !important; margin-bottom: 8px !important; }
+.topic-index-deep dl { display: grid; gap: 4px 0; margin: 0; }
+.topic-index-deep dt { margin-top: 6px; color: #4f8a64; font-size: 13px; }
+.topic-index-deep dd { margin: 0; }
+.topic-index-deep blockquote { margin: 10px 0 6px; padding-left: 12px; border-left: 3px solid #a9d69a; color: #3f4c45; font-size: 15px; }
+.topic-index-body > a { justify-self: start; display: inline-flex; align-items: center; gap: 4px; color: var(--ink); font-size: 14px; }
+.layer-ref-visual .mechanism-visual { margin: 0; background: #1f3a4f; border-color: #1f3a4f; }

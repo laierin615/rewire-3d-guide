@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowLeft, ArrowRight, ChevronDown, Maximize2, X } from "lucide-react";
 import { guideChapters, type GuideChapter } from "../data/guideChapters";
 import Neuro3DLab from "./Neuro3DLab";
@@ -149,7 +149,8 @@ function SceneOrGist({ chapter }: { chapter: GuideChapter }) {
   );
 }
 
-export default function BookWalkthrough() {
+/** slots：Home 傳進來的參考資料，key 為層 id（放在層末）或「層 id:小節序」（放在小節開頭） */
+export default function BookWalkthrough({ slots }: { slots?: Record<string, ReactNode> }) {
   const [presented, setPresented] = useState<number | null>(null);
   const [slideView, setSlideView] = useState<"scene" | "outline" | "depth">("scene");
   const dialog = useRef<HTMLDivElement>(null);
@@ -208,6 +209,37 @@ export default function BookWalkthrough() {
     setPresented(orderedChapters.findIndex(ch => ch.id === id));
   };
 
+  const renderTopic = (ch: GuideChapter) => (
+    <div key={ch.id}>
+      <article className="walk-chapter" id={`chapter-${ch.id}`}>
+        <header>
+          <div>
+            <span className="walk-chapter-number">{topicNumber(ch.id)}</span>
+            <h3>{ch.title}</h3>
+            <p>{ch.en}</p>
+          </div>
+          <button onClick={event => present(event, ch.id)} aria-label={`滿版解說：${ch.title}`}>
+            <Maximize2 size={18} />
+            滿版解說
+          </button>
+        </header>
+        <SceneOrGist chapter={ch} />
+        {sceneByChapter[ch.id] && <ChapterGist chapter={ch} />}
+        {ch.id === "intro" && introEssentials}
+        <ChapterMore chapter={ch} />
+        {chapterModels[ch.id] && (
+          <a className="example-model-link" href={`#${chapterModels[ch.id].id}`}>
+            接著看立體示意 <ArrowRight size={18} />
+          </a>
+        )}
+      </article>
+      {chapterModels[ch.id] && (
+        <Neuro3DLab initialMode={chapterModels[ch.id].mode} embedded id={chapterModels[ch.id].id} />
+      )}
+    </div>
+  );
+
+
   return (
     <>
       {guideLayers.map((layer, layerIndex) => {
@@ -237,55 +269,38 @@ export default function BookWalkthrough() {
               <LayerNodes layer={layer} />
               <LayerAnims layer={layer} />
               {layer.id === "layer1" && <StressCycle />}
-              <h3 className="layer-chapters-title">
-                這一層的主題
-              </h3>
-              <div className="walk-chapters">
-                {layer.chapters.map(id => {
-                  const ch = guideChapters.find(item => item.id === id);
-                  if (!ch) return null;
-                  return (
-                    <div key={ch.id}>
-                      <article className="walk-chapter" id={`chapter-${ch.id}`}>
-                        <header>
-                          <div>
-                            <span className="walk-chapter-number">{topicNumber(ch.id)}</span>
-                            <h3>{ch.title}</h3>
-                            <p>{ch.en}</p>
-                          </div>
-                          <button onClick={event => present(event, ch.id)} aria-label={`滿版解說：${ch.title}`}>
-                            <Maximize2 size={18} />
-                            滿版解說
-                          </button>
-                        </header>
-                        <SceneOrGist chapter={ch} />
-                        {sceneByChapter[ch.id] && <ChapterGist chapter={ch} />}
-                        {ch.id === "intro" && introEssentials}
-                        <ChapterMore chapter={ch} />
-                        {chapterModels[ch.id] && (
-                          <a className="example-model-link" href={`#${chapterModels[ch.id].id}`}>
-                            接著看立體示意 <ArrowRight size={18} />
-                          </a>
-                        )}
-                      </article>
-                      {chapterModels[ch.id] && (
-                        <Neuro3DLab initialMode={chapterModels[ch.id].mode} embedded id={chapterModels[ch.id].id} />
-                      )}
+              {layer.sections.map((sec, si) => {
+                const last = si === layer.sections.length - 1;
+                return (
+                  <div className="layer-section" key={sec.title} id={`${layer.id}-s${si + 1}`}>
+                    <header className="layer-section-head">
+                      <span>
+                        {layerIndex + 1}.{si + 1}
+                      </span>
+                      <div>
+                        <h3>{sec.title}</h3>
+                        <p>{sec.question}</p>
+                      </div>
+                    </header>
+                    {slots?.[`${layer.id}:${si}`]}
+                    <div className="walk-chapters">
+                      {sec.chapters.map(id => {
+                        const ch = guideChapters.find(item => item.id === id);
+                        return ch ? renderTopic(ch) : null;
+                      })}
                     </div>
-                  );
-                })}
-              </div>
-              {next ? (
-                <a className="walk-next" href={`#${next.id}`}>
-                  接著讀：{next.label}　{next.title}
-                  <ArrowRight size={19} />
-                </a>
-              ) : (
-                <a className="walk-next" href="#exam">
-                  延伸：把書中概念接回教師資格考
-                  <ArrowRight size={19} />
-                </a>
-              )}
+                    {!last && <p className="layer-bridge">{sec.bridge}</p>}
+                  </div>
+                );
+              })}
+            </div>
+            {slots?.[layer.id]}
+            <div className="container-wide">
+              <a className="walk-next layer-bridge-next" href={next ? `#${next.id}` : "#exam"}>
+                <span>{layer.sections[layer.sections.length - 1].bridge}</span>
+                <small>{next ? `接著讀：${next.label}　${next.title}` : "前往：延伸學習"}</small>
+                <ArrowRight size={19} />
+              </a>
             </div>
           </section>
         );

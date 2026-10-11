@@ -16,6 +16,14 @@ export type LayerNode = {
   anim?: { scene: string } | { lab: Mode; id: string };
 };
 
+/** 層內的小節：一個引導問題、幾個主題，結尾一句橋接到下一節 */
+export type LayerSection = {
+  title: string;
+  question: string;
+  chapters: string[];
+  bridge: string;
+};
+
 export type GuideLayer = {
   id: string;
   no: string;
@@ -27,7 +35,9 @@ export type GuideLayer = {
   nodes: LayerNode[];
   /** 放在層最前面的前導情境 */
   lead: { scene: string; question: string };
-  /** 這一層底下的主題（依導讀順序） */
+  /** 這一層的小節（依導讀順序） */
+  sections: LayerSection[];
+  /** 這一層底下的主題（由小節推得） */
   chapters: string[];
 };
 
@@ -62,7 +72,14 @@ export const guideLayers: GuideLayer[] = [
         text: "2011 年艾莉雅．克拉姆博士的研究：同一杯奶昔，被告知是高熱量的那一組，喝完後飢餓素下降得比較多。我們相信什麼，身體就跟著反應。",
       },
     ],
-    chapters: ["break-cycle", "negative-bias", "creeping-normality", "confirmation-bias", "loss-grief", "subconscious"],
+    sections: [
+      { title: "壓力怎麼把人困住", question: "為什麼明知道該改，卻總是回到老樣子？", chapters: ["break-cycle", "loss-grief"], bridge: "壓力讓大腦只顧著撐過眼前。接下來看：大腦還會替我們挑選要看見什麼。" },
+      { title: "大腦怎麼扭曲我們看到的", question: "為什麼壞事總是比較顯眼？", chapters: ["negative-bias", "confirmation-bias"], bridge: "偏誤不是一天形成的。下一步要看：這些反應是怎麼一點一滴被設定的？" },
+      { title: "我們怎麼慢慢被設定", question: "那些「我就是這樣」，是從哪裡來的？", chapters: ["creeping-normality", "subconscious"], bridge: "看見了陷阱，接著要問：大腦到底能不能改？靠的是什麼機制？" },
+    ],
+    get chapters() {
+      return this.sections.flatMap(sec => sec.chapters);
+    },
   },
   {
     id: "layer2",
@@ -98,7 +115,14 @@ export const guideLayers: GuideLayer[] = [
         text: "大腦是硬體，記憶、想法、習慣是軟體。硬體電量不足時，大腦只顧維持基本功能，不理會軟體更新。所以這一層也接上運動、睡眠和多巴胺：顧好身體，大腦才有電力建立新連結。",
       },
     ],
-    chapters: ["intro", "thought-power", "repetition", "muscles", "sleep", "dopamine"],
+    sections: [
+      { title: "大腦為什麼能改變", question: "大腦是怎麼被塑形的？", chapters: ["intro", "thought-power"], bridge: "知道大腦能改，下一個問題是：新的路要怎麼走出來？" },
+      { title: "新路怎麼被走出來", question: "為什麼要重複那麼多次？", chapters: ["repetition"], bridge: "重複需要電力。接著看身體怎麼替大腦充電。" },
+      { title: "改變需要電力", question: "身體的狀態，如何決定大腦有沒有餘力改變？", chapters: ["muscles", "sleep", "dopamine"], bridge: "原理清楚了，接下來把它變成能練習的方法。" },
+    ],
+    get chapters() {
+      return this.sections.flatMap(sec => sec.chapters);
+    },
   },
   {
     id: "layer3",
@@ -130,7 +154,14 @@ export const guideLayers: GuideLayer[] = [
         note: "對應輔導實務中認知行為取向的「認知重建」：先覺察自動化的想法，再用證據替它換一個說法。",
       },
     ],
-    chapters: ["neurotoolkit", "phone", "visualization", "make-space", "boundaries", "strategy", "fear", "resilience"],
+    sections: [
+      { title: "攔截舊反應", question: "舊反應冒出來的那一刻，可以做什麼？", chapters: ["neurotoolkit", "make-space"], bridge: "攔下舊路之後，要替新路鋪好條件。" },
+      { title: "鋪設新路", question: "怎麼讓新的反應更容易被選擇？", chapters: ["phone", "visualization"], bridge: "新路剛鋪好時最脆弱，接下來要學會怎麼撐下去。" },
+      { title: "撐過挫折", question: "動機消退、挫折來時，怎麼不被打回原點？", chapters: ["boundaries", "strategy", "fear", "resilience"], bridge: "方法有了，最後回到教室：老師可以怎麼用？" },
+    ],
+    get chapters() {
+      return this.sections.flatMap(sec => sec.chapters);
+    },
   },
   {
     id: "layer4",
@@ -162,7 +193,13 @@ export const guideLayers: GuideLayer[] = [
         note: "給教育工作者：我們就是孩子學習環境中最重要的提示之一，每天重複的引導，會一點一點決定他們大腦的路徑。",
       },
     ],
-    chapters: ["growth", "self-trust", "closing"],
+    sections: [
+      { title: "回饋與心態", question: "老師的一句話，會把孩子帶往哪條路？", chapters: ["growth"], bridge: "心態改變之後，要靠一次次守住承諾，長出信心。" },
+      { title: "信任與承諾", question: "怎麼讓改變真正站穩？", chapters: ["self-trust", "closing"], bridge: "最後，把這些概念接回教師資格考。" },
+    ],
+    get chapters() {
+      return this.sections.flatMap(sec => sec.chapters);
+    },
   },
 ];
 
