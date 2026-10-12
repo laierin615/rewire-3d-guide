@@ -707,7 +707,6 @@ function Home() {
               <div className="eyebrow hero-kicker"><span/>一段重新選擇的旅程</div>
               <h1 className="hero-title" id="hero-title"><small><RewireWordmark /></small>神經可塑性<br/><em>看見大腦，<br/>也看見改變的可能。</em></h1>
               <p className="hero-lede">用神經科學突破行為模式迴圈，終結焦慮、恐慌和憂鬱，實現最佳的心理健康。</p>
-              <p className="hero-core">覺察陷阱 → 解碼大腦 → 阻斷與重建 → 教育現場落地</p>
               <div className="hero-actions"><button className="btn btn-primary" onClick={()=>scrollToId("journey")}><BookOpen size={18}/>開始閱讀<ArrowRight size={17}/></button></div>
               <div className="hero-meta"><div className="meta-item"><strong>Nicole Vignola</strong>作者</div><div className="meta-item"><strong>梁永安</strong>譯者</div></div>
             </div>

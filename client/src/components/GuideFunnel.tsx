@@ -31,10 +31,6 @@ export default function GuideFunnel() {
             </li>
           ))}
         </ol>
-        <p className="book-core-question">
-          <span>核心提問</span>
-          我們的習慣和行為，是自己選的，還是環境無意中給的？作者的答案是：兩者兼有。
-        </p>
         <div className="book-core key-lines" aria-label="全書三個關鍵句">
           <article>
             <span>關鍵句 1・可能</span>
