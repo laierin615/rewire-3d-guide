@@ -122,7 +122,7 @@ export default function ChapterDepth({ chapterId }: { chapterId: string }) {
         <div className="depth-exam">
           <span>
             <GraduationCap size={18} aria-hidden="true" />
-            教檢連結
+            深度問答
           </span>
           {examLinks.map(item => (
             <a

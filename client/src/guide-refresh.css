@@ -2797,7 +2797,7 @@ section[id],
   font-size: clamp(19px, 1.5vw, 23px);
 }
 
-/* ── 教檢連結：改為明亮版 ── */
+/* ── 延伸學習連結：改為明亮版 ── */
 .exam-section {
   background: linear-gradient(180deg, #eef5f1 0%, var(--paper) 520px);
   color: var(--ink);
@@ -3073,7 +3073,7 @@ section[id],
   color: var(--ink);
 }
 
-/* ── 教檢深度問答 ── */
+/* ── 深度問答 ── */
 .exam-qa {
   margin-top: 70px;
   padding-top: 46px;
@@ -3517,7 +3517,7 @@ section[id],
   }
 }
 
-/* 窄螢幕：教檢概念清單改成可左右滑動的一列，選完直接看到下方內容 */
+/* 窄螢幕：深度問答清單改成可左右滑動的一列，選完直接看到下方內容 */
 @media (max-width: 1100px) {
   .exam-qa-list,
   .exam-qa-list[aria-label] {

@@ -15,8 +15,8 @@ import "../deck.css";
 type Card = { h: string; p: string };
 export type Slide = {
   id: string;
-  section: "open" | "layer1" | "layer2" | "layer3" | "layer4" | "close";
-  kind: "title" | "question" | "embed" | "text" | "cards" | "interact" | "cover" | "recap" | "summary" | "closing";
+  section: "open" | "layer1" | "layer2" | "layer3" | "layer4" | "qa" | "close";
+  kind: "title" | "question" | "embed" | "text" | "cards" | "interact" | "cover" | "recap" | "summary" | "closing" | "qa" | "qa-answer";
   kicker?: string;
   title: string;
   lead?: string;
@@ -30,6 +30,9 @@ export type Slide = {
   tag?: string;
   seconds?: number;
   key?: string;
+  book?: string;
+  theory?: string;
+  pitfall?: string;
   bridge?: string;
   notes: string;
 };
@@ -42,6 +45,7 @@ const sectionLabel: Record<Slide["section"], string> = {
   layer2: "02 解碼大腦",
   layer3: "03 阻斷與重建",
   layer4: "04 教育現場落地",
+  qa: "深度問答",
   close: "總結",
 };
 
@@ -191,6 +195,36 @@ function SlideBody({ slide }: { slide: Slide }) {
           {slide.bridge && <p className="deck-bridge">接下來 → {slide.bridge}</p>}
         </div>
       );
+    case "qa":
+      return (
+        <>
+          {head}
+          <section className="deck-qa-book">
+            <h3>書中說法</h3>
+            <p>{markKeys(slide.book ?? "")}</p>
+          </section>
+          <p className="deck-qa-hint">先想一想：你會怎麼分析？可以怎麼幫這個學生？</p>
+        </>
+      );
+    case "qa-answer":
+      return (
+        <>
+          {head}
+          <div className="deck-qa-answer">
+            <ol>{slide.points?.map(p => <li key={p}>{markKeys(p)}</li>)}</ol>
+            <aside>
+              <section>
+                <h3>理論延伸<small>導讀補充</small></h3>
+                <p>{slide.theory}</p>
+              </section>
+              <section className="pitfall">
+                <h3>常見誤區</h3>
+                <p>{slide.pitfall}</p>
+              </section>
+            </aside>
+          </div>
+        </>
+      );
     case "summary":
       return (
         <>
@@ -319,7 +353,13 @@ function Deck() {
     else document.documentElement.requestFullscreen?.();
   }
 
-  const layerOrder: Slide["section"][] = ["open", "layer1", "layer2", "layer3", "layer4", "close"];
+  // 進度條依連續的段落分段（總結、深度問答、收尾各自一段）
+  const runs: { sec: Slide["section"]; from: number; to: number }[] = [];
+  slides.forEach((s, i) => {
+    const last = runs[runs.length - 1];
+    if (last && last.sec === s.section) last.to = i;
+    else runs.push({ sec: s.section, from: i, to: i });
+  });
 
   return (
     <div className={`deck ${notes ? "with-notes" : ""} ${exportMode ? "export" : ""}`}>
@@ -332,11 +372,11 @@ function Deck() {
           <SlideBody slide={slide} />
         </div>
         <div className="deck-progress" aria-hidden="true">
-          {layerOrder.map(sec => {
-            const items = slides.map((s, i) => ({ s, i })).filter(x => x.s.section === sec);
-            const done = items.filter(x => x.i <= index).length / items.length;
+          {runs.map(({ sec, from, to }) => {
+            const total = to - from + 1;
+            const done = Math.min(Math.max(index - from + 1, 0), total) / total;
             return (
-              <span key={sec} className={`p-${sec}`} style={{ flex: items.length }}>
+              <span key={from} className={`p-${sec}`} style={{ flex: total }}>
                 <i style={{ width: `${done * 100}%` }} />
               </span>
             );

@@ -44,7 +44,7 @@ function findPractice(id: string): PracticeItem | null {
   if (neuro)
     return {
       id,
-      meta: `${rocYear(neuro.year)}教檢 · ${neuro.subject} · 第 ${neuro.number} 題`,
+      meta: `${rocYear(neuro.year)}歷屆試題 · ${neuro.subject} · 第 ${neuro.number} 題`,
       stem: neuro.stem,
       options: neuro.options,
       answer: neuro.answer,
@@ -55,7 +55,7 @@ function findPractice(id: string): PracticeItem | null {
   if (general)
     return {
       id,
-      meta: `${rocYear(general.year)}教檢 · 第 ${general.number} 題 · ${general.concept}`,
+      meta: `${rocYear(general.year)}歷屆試題 · 第 ${general.number} 題`,
       stem: general.stem,
       options: general.options,
       answer: general.answer,
@@ -166,11 +166,11 @@ export default function ExamDeepQAPanel() {
       <header className="exam-qa-head">
         <div>
           <span className="exam-part-label">第二部分</span>
-          <h3>教檢深度問答</h3>
+          <h3>深度問答</h3>
         </div>
         <p>
-          每一題都先整理「書中說法」，再補上教師資格考常考的理論與答題要點。
-          <strong>書中說法</strong>整理自作者的內容；<strong>教檢延伸</strong>是延伸補充，不是作者的主張。
+          每一題都先整理「書中說法」，再補上教育心理學的相關理論與答題要點。
+          <strong>書中說法</strong>整理自作者的內容；<strong>理論延伸</strong>是導讀補充，不是作者的主張。
         </p>
       </header>
       <div className="exam-qa-groups" role="group" aria-label="依考點分類">
@@ -192,7 +192,7 @@ export default function ExamDeepQAPanel() {
         ))}
       </div>
       <div className="exam-qa-layout">
-        <nav className="exam-qa-list" aria-label="教檢概念">
+        <nav className="exam-qa-list" aria-label="深度問答主題">
           {list.map(item => (
             <button
               key={item.id}
@@ -235,7 +235,7 @@ export default function ExamDeepQAPanel() {
             <section className="qa-theory">
               <h5>
                 <GraduationCap size={18} aria-hidden="true" />
-                教檢延伸
+                理論延伸
               </h5>
               <p>{active.theory}</p>
             </section>

@@ -53,25 +53,12 @@ import {
 import {
   neuroMechanismQuestions,
   officialExamSourceUrl,
-  type NeuroExamRegion,
 } from "../data/examQuestions";
 
 const coverImage = "./book-cover.jpg";
 
 type PhaseId = keyof typeof phaseLabels;
 type BrainState = "baseline" | "threat" | "safe";
-type QuizFilter = "全部" | NeuroExamRegion;
-
-const quizFilters: QuizFilter[] = ["全部", "額葉／前額葉", "海馬迴", "杏仁核", "大腦皮質與側化", "腦幹與注意系統", "執行功能與工作記憶"];
-
-const brainToQuizFilter: Partial<Record<BrainRegionId, QuizFilter>> = {
-  frontal: "額葉／前額葉",
-  frontoparietal: "執行功能與工作記憶",
-  amygdala: "杏仁核",
-  hippocampus: "海馬迴",
-  ras: "腦幹與注意系統",
-};
-
 const chapterLinks = [
   ["journey", "", "導讀主軸"],
   ["layer1", "01", "覺察陷阱"],
@@ -265,7 +252,7 @@ function BrainAtlas({ active, state, onSelect }: { active: BrainRegionId; state:
       <path className="atlas-brainstem" d="M183 247C178 276 173 302 154 327C172 334 195 328 207 311C218 294 216 276 210 258Z" />
       <ellipse className="atlas-cerebellum" cx="177" cy="258" rx="48" ry="35" />
       {Object.entries(positions).map(([id, [cx, cy]]) => (
-        <g key={id} className={`atlas-node ${focus === id ? "active" : ""} ${state === "threat" && id === "amygdala" ? "danger" : ""} ${state === "safe" && id === "frontal" ? "regulated" : ""}`} role="button" tabIndex={0} aria-label={`查看${id}相關教檢題目`} onClick={() => onSelect(id as BrainRegionId)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); onSelect(id as BrainRegionId); } }}>
+        <g key={id} className={`atlas-node ${focus === id ? "active" : ""} ${state === "threat" && id === "amygdala" ? "danger" : ""} ${state === "safe" && id === "frontal" ? "regulated" : ""}`} role="button" tabIndex={0} aria-label={`查看${id}`} onClick={() => onSelect(id as BrainRegionId)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); onSelect(id as BrainRegionId); } }}>
           <circle cx={cx} cy={cy} r="9" style={{ fill: nodeColors[id as BrainRegionId] }} />
           <circle cx={cx} cy={cy} r="21" className="atlas-ring" style={{ stroke: nodeColors[id as BrainRegionId] }} />
         </g>
@@ -513,7 +500,6 @@ function Home() {
   const [phase, setPhase] = useState<PhaseId>("all");
   const [activeChapter, setActiveChapter] = useState(sortedChapters[0]);
   const [activeConceptCard, setActiveConceptCard] = useState(0);
-  const [quizFilter, setQuizFilter] = useState<QuizFilter>("全部");
   const [quizIndex, setQuizIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -521,7 +507,6 @@ function Home() {
   const [brainLabActive, setBrainLabActive] = useState<BrainRegionId>("frontal");
   const [returnConceptCard, setReturnConceptCard] = useState(0);
   const [regionScenario, setRegionScenario] = useState<"resting" | "activated">("resting");
-  const [examJumpRegion, setExamJumpRegion] = useState<QuizFilter | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 28);
@@ -574,35 +559,14 @@ function Home() {
   const rightRegion = brainRegions.find((item) => item.id === compareRight) ?? brainRegions[1];
   const currentRoadmap = videoLogicPhases[roadmapPhase];
   const filteredChapters = useMemo(() => phase === "all" ? sortedChapters : sortedChapters.filter((chapter) => layerOfTopic(chapter.topic) === phase), [phase]);
-  const filteredQuestions = useMemo(() => quizFilter === "全部" ? neuroMechanismQuestions : neuroMechanismQuestions.filter((question) => question.region === quizFilter), [quizFilter]);
+  const filteredQuestions = neuroMechanismQuestions;
   const currentQuestion = filteredQuestions[quizIndex % filteredQuestions.length];
 
-  function resetQuiz(filter: QuizFilter) {
-    setQuizFilter(filter);
-    setQuizIndex(0);
-    setSelectedAnswer(null);
-    setSubmitted(false);
-    setShowAnalysis(false);
-  }
-
-  function jumpToRegionQuestions(regionId: BrainRegionId) {
-    const filter = brainToQuizFilter[regionId];
-    if (!filter) return;
+  function selectRegion(regionId: BrainRegionId) {
     setActiveBrain(regionId);
     setBrainLabActive(regionId);
     setBrainState("baseline");
     setBrainAuto(false);
-    setQuizFilter(filter);
-    setQuizIndex(0);
-    setSelectedAnswer(null);
-    setSubmitted(false);
-    setShowAnalysis(false);
-    setExamJumpRegion(filter);
-    window.setTimeout(() => {
-      (document.activeElement as HTMLElement | null)?.blur();
-      window.history.replaceState(null, "", "#exam");
-      scrollToId("exam");
-    }, 180);
   }
 
   function nextQuestion() {
@@ -648,13 +612,13 @@ function Home() {
                 <div className="atlas-panel-head"><div><span className="eyebrow">INTERACTIVE SYSTEM MAP</span><h3 className="serif">{brainState === "threat" ? "威脅升高：警報與生存反應取得優先。" : brainState === "safe" ? "安全線索：情境辨識與高階控制重新加入。" : "選一個節點，查看它如何參與行為。"}</h3></div><button className={`atlas-play ${brainAuto ? "playing" : ""}`} onClick={() => setBrainAuto((value) => !value)}>{brainAuto ? <Pause size={15} /> : <Play size={15} />}{brainAuto ? "暫停巡覽" : "自動巡覽"}</button></div>
                 <div className="state-switch"><span><Activity size={14} />生理狀態</span><button className={brainState === "threat" ? "active threat" : ""} onClick={() => { setBrainState("threat"); setBrainAuto(false); }}>威脅升高</button><button className={brainState === "safe" ? "active safe" : ""} onClick={() => { setBrainState("safe"); setBrainAuto(false); }}>安全線索</button><button className={brainState === "baseline" ? "active" : ""} onClick={() => setBrainState("baseline")}>回到基準</button></div>
                 <div className="atlas-scanline" aria-hidden="true" />
-                <BrainAtlas active={activeBrain} state={brainState} onSelect={jumpToRegionQuestions} />
+                <BrainAtlas active={activeBrain} state={brainState} onSelect={selectRegion} />
                 <div className="atlas-disclaimer"><Network size={15} /><span>腦區位置與路徑顯示它們如何透過網絡共同參與行為。</span></div>
               </div>
               <div className="region-panel reveal">
                 <div className="region-tabs">{brainRegions.map((item) => <button key={item.id} className={activeBrain === item.id ? "active" : ""} onClick={() => { setActiveBrain(item.id); setBrainLabActive(item.id); setBrainState("baseline"); setBrainAuto(false); playBrainTone(item.id); }}><span style={{ background: item.color }} /><div><strong>{item.label}</strong><small>{item.english}</small></div></button>)}</div>
                 <article className="region-detail">
-                  <div className="region-detail-actions"><button type="button" className="region-exam-link" onClick={() => jumpToRegionQuestions(region.id)}>查看相關教檢題目 <ArrowRight size={15} /></button></div>
+                  
                   <div className="region-title"><div style={{ background: region.color }}><Brain size={22} /></div><div><span className="eyebrow">{region.english}</span><h3 className="serif">{region.label}</h3></div></div>
                   <dl><div><dt>主要角色</dt><dd>{region.role}</dd></div><div><dt>大致位置</dt><dd>{region.location}</dd></div><div><dt>高壓時</dt><dd>{region.underStress}</dd></div></dl>
                   <div className={`everyday-neuro-example ${regionScenario === "activated" ? "is-activated" : ""}`}>
@@ -727,7 +691,7 @@ function Home() {
           <a className="brand-mark" href="#top" aria-label="回到首頁"><span className="brand-dot" /><span className="brand-book">《Rewire－神經可塑性》</span><span className="brand-tag">專書導讀</span></a>
           <nav className="nav-links" aria-label="快速導覽">
             <a href="#journey">開始閱讀</a><a href="#topic-index">主題索引</a><a href="?slides">簡報模式</a>
-            <a className="nav-pill" href="#exam">教檢連結</a>
+            <a className="nav-pill" href="#exam">延伸學習</a>
           </nav>
         </div>
       </header>
@@ -764,25 +728,23 @@ function Home() {
         <BookWalkthrough slots={layerSlots} />
         <section className="section exam-section walk-phase" id="exam" aria-labelledby="exam-title">
           <div className="container-wide">
-            <header className="walk-phase-heading exam-heading"><div><span className="walk-label">延伸學習<small>Further Study</small></span><h2 id="exam-title">把書中概念接回教檢，也收好延伸資料。</h2></div><p>先做歷屆試題中的腦區題，再用深度問答把概念連到教育心理學；需要回頭查時，用主題索引、書中金句與案例。題目只收錄能核對題本與答案的試題。</p></header>
-            <div className="exam-part-head"><span className="exam-part-label">第一部分</span><h3>歷屆試題：腦區與學習</h3><p>沿著四站作答：先定位腦區，再讀題、核對解答，最後回到導讀中的相關主題。</p></div>
+            <header className="walk-phase-heading exam-heading"><div><span className="walk-label">延伸學習<small>Further Study</small></span><h2 id="exam-title">把書中概念接回教育心理學，也收好延伸資料。</h2></div><p>先做歷屆試題中的腦區題，再用深度問答把概念連到教育心理學；需要回頭查時，用主題索引、書中金句與案例。題目只收錄能核對題本與答案的試題。</p></header>
+            <div className="exam-part-head"><span className="exam-part-label">第一部分</span><h3>歷屆試題：腦區與學習</h3><p>沿著四站作答：先讀題作答，再核對解答、揭曉相關腦區，最後回到導讀中的相關主題。</p></div>
             <div className="exam-source reveal"><div><ShieldCheck size={18} /><p><strong>延伸閱讀</strong>：教育部教師資格考試歷屆試題。</p></div><a href={officialExamSourceUrl} target="_blank" rel="noreferrer">查看歷屆試題 <ExternalLink size={14} /></a></div>
             <div className="coverage-strip reveal" aria-label="各年度腦區題主題">{examCoverage.map((record) => <article key={record.year} className={record.count === 0 ? "empty" : record.year === 2018 ? "sample" : ""}><strong>{rocYear(record.year)}</strong><small>{record.note}</small></article>)}</div>
-            {examJumpRegion && <div className="exam-jump-banner reveal"><Brain size={18} /><p><strong>{examJumpRegion}</strong>相關題目已載入。作答後會依序顯示解答與書中概念。</p><button type="button" onClick={() => setExamJumpRegion(null)}>知道了</button></div>}
-            <div className="quiz-filter reveal"><span>依神經主題篩選</span>{quizFilters.map((filter) => <button key={filter} className={quizFilter === filter ? "active" : ""} disabled={filter !== "全部" && !neuroMechanismQuestions.some((question) => question.region === filter)} onClick={() => resetQuiz(filter)}>{filter}</button>)}</div>
-            {currentQuestion && <ol className="exam-path" aria-label="作答路徑">{["腦區", "考題", "解答", "書中概念"].map((label, index) => { const stage = submitted ? 3 : selectedAnswer === null ? 1 : 2; const state = index < stage ? "done" : index === stage ? "current" : ""; return <li key={label} className={state} aria-current={index === stage ? "step" : undefined}><span>{String(index + 1).padStart(2, "0")}</span>{label}</li>; })}</ol>}
-            {currentQuestion && <div className="exam-region-station"><span>01 腦區</span><strong>{currentQuestion.region}</strong><p>{neuroRegionNotes[currentQuestion.region]}</p></div>}
+            {currentQuestion && <ol className="exam-path" aria-label="作答路徑">{["考題", "解答", "腦區", "書中概念"].map((label, index) => { const stage = submitted ? 3 : selectedAnswer === null ? 0 : 1; const state = index < stage ? "done" : index === stage ? "current" : ""; return <li key={label} className={state} aria-current={index === stage ? "step" : undefined}><span>{String(index + 1).padStart(2, "0")}</span>{label}</li>; })}</ol>}
+            {currentQuestion && submitted && <div className="exam-region-station"><span>03 腦區</span><strong>{currentQuestion.region}</strong><p>{neuroRegionNotes[currentQuestion.region]}</p></div>}
             {currentQuestion ? <div className="quiz-layout">
               <article className="quiz-card reveal">
-                <div className="quiz-meta"><span>02 考題 · {rocYear(currentQuestion.year)}教檢 · {currentQuestion.subject} · 第 {currentQuestion.number} 題</span><b>{currentQuestion.region}</b></div>
+                <div className="quiz-meta"><span>01 考題 · {rocYear(currentQuestion.year)}歷屆試題 · {currentQuestion.subject} · 第 {currentQuestion.number} 題</span></div>
                 <h3 className="serif">{currentQuestion.stem}</h3>
                 <div className="quiz-options">{currentQuestion.options.map((option, index) => { const correct = submitted && index === currentQuestion.answer; const wrong = submitted && selectedAnswer === index && index !== currentQuestion.answer; return <button key={option} className={`${selectedAnswer === index ? "selected" : ""} ${correct ? "correct" : ""} ${wrong ? "wrong" : ""}`} onClick={() => !submitted && setSelectedAnswer(index)}><span>{String.fromCharCode(65 + index)}</span><p>{option}</p>{correct && <Check size={16} />}</button>; })}</div>
                 <div className="quiz-actions"><p className={submitted ? selectedAnswer === currentQuestion.answer ? "good" : "needs" : ""}>{submitted ? selectedAnswer === currentQuestion.answer ? "答對了：腦區與功能配對正確。" : `正解為 ${String.fromCharCode(65 + currentQuestion.answer)}，請看解答與書中概念。` : selectedAnswer === null ? "先選一個答案。" : "已選取，可以核對答案。"}</p>{submitted ? <button className="btn btn-primary" onClick={nextQuestion}>下一題 <ArrowRight size={15} /></button> : <button className="btn btn-primary" disabled={selectedAnswer === null} onClick={() => setSubmitted(true)}>核對答案 <Check size={15} /></button>}</div>
               </article>
               <aside className={`analysis-card reveal ${submitted ? "visible" : ""}`}>
-                <div className="eyebrow">03 解答 · 04 書中概念</div>
+                <div className="eyebrow">02 解答 · 03 腦區 · 04 書中概念</div>
                 <h3 className="serif">{submitted ? currentQuestion.concept : "作答後展開機制解析"}</h3>
-                {submitted ? <><div><b>03 解答</b><p>{currentQuestion.explanation}</p></div><div><b>腦區／路徑</b><p>{currentQuestion.neuroMechanism}</p></div><div className="book-station"><b>04 書中概念</b><p>{withoutPageReference(currentQuestion.bookConnection)}</p>{neuroQuestionChapters[currentQuestion.id] && <a className="book-station-link" href={`#chapter-${neuroQuestionChapters[currentQuestion.id].id}`}>回到 {topicLabel(neuroQuestionChapters[currentQuestion.id].id)} <ArrowRight size={15} /></a>}</div><div className="source-links"><a href={currentQuestion.source} target="_blank" rel="noreferrer">查看題本 <ExternalLink size={14} /></a><a href={currentQuestion.answerSource} target="_blank" rel="noreferrer">核對答案 <ExternalLink size={14} /></a></div><button className="analysis-toggle" onClick={() => setShowAnalysis((value) => !value)}><Sparkles size={15} />{showAnalysis ? "收起選項分析" : "為什麼其他選項不對？"}</button>{showAnalysis && <div className="ai-analysis"><strong>為什麼其他選項不成立？</strong><p>{currentQuestion.distractorAnalysis}</p></div>}</> : <div className="analysis-placeholder"><Brain size={42} /><p>這裡會依正解顯示額葉、海馬迴、杏仁核或相關神經路徑，並連回書中的觀點與案例。</p></div>}
+                {submitted ? <><div><b>02 解答</b><p>{currentQuestion.explanation}</p></div><div><b>03 腦區／路徑</b><p>{currentQuestion.neuroMechanism}</p></div><div className="book-station"><b>04 書中概念</b><p>{withoutPageReference(currentQuestion.bookConnection)}</p>{neuroQuestionChapters[currentQuestion.id] && <a className="book-station-link" href={`#chapter-${neuroQuestionChapters[currentQuestion.id].id}`}>回到 {topicLabel(neuroQuestionChapters[currentQuestion.id].id)} <ArrowRight size={15} /></a>}</div><div className="source-links"><a href={currentQuestion.source} target="_blank" rel="noreferrer">查看題本 <ExternalLink size={14} /></a><a href={currentQuestion.answerSource} target="_blank" rel="noreferrer">核對答案 <ExternalLink size={14} /></a></div><button className="analysis-toggle" onClick={() => setShowAnalysis((value) => !value)}><Sparkles size={15} />{showAnalysis ? "收起選項分析" : "為什麼其他選項不對？"}</button>{showAnalysis && <div className="ai-analysis"><strong>為什麼其他選項不成立？</strong><p>{currentQuestion.distractorAnalysis}</p></div>}</> : <div className="analysis-placeholder"><Brain size={42} /><p>這裡會依正解顯示額葉、海馬迴、杏仁核或相關神經路徑，並連回書中的觀點與案例。</p></div>}
               </aside>
             </div> : <div className="empty-quiz"><Brain size={34} /><h3>這個分類目前沒有題目</h3><p>切換到「全部」或其他分類繼續練習。</p></div>}
             <ExamDeepQAPanel />
