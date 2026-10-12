@@ -213,7 +213,7 @@ function SlideBody({ slide }: { slide: Slide }) {
           <p className="deck-qa-deep">{markKeys(slide.question ?? "")}</p>
           {slide.points?.map(p => <p key={p} className="deck-qa-follow">追問｜{p}</p>)}
           <section className="deck-qa-exam">
-            <h3>考題延伸</h3>
+            <h3>問題延伸</h3>
             <ol>{slide.steps?.map(p => <li key={p}>{p}</li>)}</ol>
           </section>
         </>

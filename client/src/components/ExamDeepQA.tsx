@@ -235,7 +235,7 @@ export default function ExamDeepQAPanel() {
           <section className="qa-question">
             <h5>
               <PenLine size={18} aria-hidden="true" />
-              考題延伸
+              問題延伸
             </h5>
             {(() => {
               const { stem, parts } = splitQuestion(active.question);
