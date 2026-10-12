@@ -33,7 +33,7 @@ export type Slide = {
   key?: string;
   theory?: string;
   pitfall?: string;
-  team?: string[];
+  team?: [string, string][];
   bridge?: string;
   notes: string;
 };
@@ -145,7 +145,7 @@ function SlideBody({ slide }: { slide: Slide }) {
           {slide.team && (
             <div className="deck-team">
               <span>導讀小組</span>
-              <ul>{slide.team.map(n => <li key={n}>{n}</li>)}</ul>
+              <ul>{slide.team.map(([name, id]) => <li key={id}><b>{name}</b><small>{id}</small></li>)}</ul>
             </div>
           )}
           <img className="deck-cover" src="book-cover.jpg" alt="《Rewire－神經可塑性》書封" />
@@ -207,7 +207,13 @@ function SlideBody({ slide }: { slide: Slide }) {
         <>
           {head}
           <section className="deck-qa-book">
-            <p>{markKeys(slide.lead ?? "")}</p>
+            <span className="deck-qa-label">情境</span>
+            <p>{slide.lead}</p>
+          </section>
+          <p className="deck-qa-deep">{markKeys(slide.question ?? "")}</p>
+          {slide.points?.map(p => <p key={p} className="deck-qa-follow">追問｜{p}</p>)}
+          <section className="deck-qa-exam">
+            <h3>考題延伸</h3>
             <ol>{slide.steps?.map(p => <li key={p}>{p}</li>)}</ol>
           </section>
         </>
