@@ -13,7 +13,9 @@ import {
 import {
   examDeepQA,
   examQAGroups,
+  groupPoints,
   rocYear,
+  splitQuestion,
   type ExamQAGroup,
 } from "../data/examDeepQA";
 import {
@@ -245,7 +247,19 @@ export default function ExamDeepQAPanel() {
               <MessageCircleQuestion size={18} aria-hidden="true" />
               深度問答
             </h5>
-            <p className="qa-question-text">{active.question}</p>
+            {(() => {
+              const { stem, parts } = splitQuestion(active.question);
+              return (
+                <>
+                  <p className="qa-question-text">{stem}</p>
+                  {parts.length > 0 && (
+                    <ol className="qa-subquestions">
+                      {parts.map(part => <li key={part}>{part}</li>)}
+                    </ol>
+                  )}
+                </>
+              );
+            })()}
             <button
               className="qa-reveal"
               aria-expanded={showPoints}
@@ -254,11 +268,18 @@ export default function ExamDeepQAPanel() {
               {showPoints ? "收起答題要點" : "先想一想，再看答題要點"}
             </button>
             {showPoints && (
-              <ol className="qa-points">
-                {active.answerPoints.map(point => (
-                  <li key={point}>{point}</li>
+              <div className="qa-points">
+                {groupPoints(active.answerPoints).map(group => (
+                  <section key={group.label || "all"}>
+                    {group.label && <h6>{group.label}</h6>}
+                    <ul>
+                      {group.items.map(point => (
+                        <li key={point}>{point}</li>
+                      ))}
+                    </ul>
+                  </section>
                 ))}
-              </ol>
+              </div>
             )}
           </section>
           <div className="qa-notes">

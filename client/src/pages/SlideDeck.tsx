@@ -10,6 +10,7 @@ import IslandScene from "../components/IslandScene";
 import Neuro3DLab from "../components/Neuro3DLab";
 import StressCycle from "../components/StressCycle";
 import { markKeys } from "../components/KeyMark";
+import { groupPoints } from "../data/examDeepQA";
 import "../deck.css";
 
 type Card = { h: string; p: string };
@@ -30,9 +31,9 @@ export type Slide = {
   tag?: string;
   seconds?: number;
   key?: string;
-  book?: string;
   theory?: string;
   pitfall?: string;
+  team?: string[];
   bridge?: string;
   notes: string;
 };
@@ -141,6 +142,12 @@ function SlideBody({ slide }: { slide: Slide }) {
           </h1>
           <p className="deck-lead">{slide.lead}</p>
           <div className="deck-byline">{slide.points?.map(p => <span key={p}>{p}</span>)}</div>
+          {slide.team && (
+            <div className="deck-team">
+              <span>導讀小組</span>
+              <ul>{slide.team.map(n => <li key={n}>{n}</li>)}</ul>
+            </div>
+          )}
           <img className="deck-cover" src="book-cover.jpg" alt="《Rewire－神經可塑性》書封" />
         </div>
       );
@@ -200,10 +207,9 @@ function SlideBody({ slide }: { slide: Slide }) {
         <>
           {head}
           <section className="deck-qa-book">
-            <h3>書中說法</h3>
-            <p>{markKeys(slide.book ?? "")}</p>
+            <p>{markKeys(slide.lead ?? "")}</p>
+            <ol>{slide.steps?.map(p => <li key={p}>{p}</li>)}</ol>
           </section>
-          <p className="deck-qa-hint">先想一想：你會怎麼分析？可以怎麼幫這個學生？</p>
         </>
       );
     case "qa-answer":
@@ -211,7 +217,14 @@ function SlideBody({ slide }: { slide: Slide }) {
         <>
           {head}
           <div className="deck-qa-answer">
-            <ol>{slide.points?.map(p => <li key={p}>{markKeys(p)}</li>)}</ol>
+            <div className="deck-qa-groups">
+              {groupPoints(slide.points ?? []).map(g => (
+                <section key={g.label}>
+                  <h3>{g.label}</h3>
+                  <ul>{g.items.map(p => <li key={p}>{markKeys(p)}</li>)}</ul>
+                </section>
+              ))}
+            </div>
             <aside>
               <section>
                 <h3>理論延伸<small>導讀補充</small></h3>

@@ -42,6 +42,10 @@
 .deck-title-slide h1 b{color:var(--coral)}.deck-title-slide h1 i{font-style:normal;color:var(--leaf-dark)}
 .deck-title-slide h1 small{display:block;margin-top:1.4cqw;font-size:3.6cqw;color:var(--ink)}
 .deck-byline{display:flex;flex-direction:column;gap:.4cqw;font-size:1.6cqw;color:var(--muted)}
+.deck-team{display:flex;align-items:center;gap:1.2cqw;margin-top:.6cqw;padding-top:1.2cqw;border-top:.15cqw dashed var(--card-line)}
+.deck-team span{flex:none;padding:.35cqw 1cqw;border-radius:999px;background:var(--coral);color:#fff;font-size:1.3cqw;font-weight:700}
+.deck-team ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:.4cqw 1.2cqw}
+.deck-team li{font-size:1.6cqw;font-weight:700;color:var(--ink)}
 .deck-cover{position:absolute;right:2cqw;top:50%;transform:translateY(-50%) rotate(3deg);width:26cqw;border-radius:1cqw;box-shadow:0 1.6cqw 3cqw rgba(0,0,0,.18)}
 /* 層封面 */
 .deck-cover-slide{height:100%;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:1.4cqw}
@@ -159,20 +163,22 @@
 /* 深度問答 */
 .s-qa{--sec:#8a6a4a;--sec-bg:#f3e9d6}
 .p-qa i{background:#8a6a4a}
-.k-qa .deck-head h2{font-size:3cqw;line-height:1.45}
+.k-qa .deck-head h2{font-size:3.2cqw;line-height:1.35}
 .deck-qa-book{padding:1.6cqw 2cqw;border-radius:1.6cqw;background:var(--card);border:.2cqw solid var(--card-line);box-shadow:0 .4cqw 0 #eadfbf}
-.deck-qa-book h3{margin:0 0 .6cqw;font-size:1.5cqw;color:var(--sec);letter-spacing:.08em}
-.deck-qa-book p{margin:0;font-size:1.9cqw;line-height:1.7}
-.deck-qa-hint{margin:auto 0 0;padding:1cqw 1.6cqw;border-radius:1.2cqw;background:#fff4dc;font-size:1.6cqw;color:#6b5634}
+.deck-qa-book p{margin:0;font-size:1.85cqw;line-height:1.7}
+.deck-qa-book ol{margin:1.2cqw 0 0;padding:1.2cqw 0 0;border-top:.15cqw dashed var(--card-line);list-style:none;display:grid;gap:.7cqw}
+.deck-qa-book li{font-size:1.95cqw;line-height:1.6;font-weight:700;color:var(--ink)}
 .k-qa-answer .deck-head h2{font-size:2.8cqw}
 .deck-qa-answer{display:grid;grid-template-columns:1.35fr 1fr;gap:2cqw;min-height:0}
-.deck-qa-answer ol{margin:0;padding:0;list-style:none;counter-reset:qa;display:grid;gap:.8cqw;align-content:start}
-.deck-qa-answer li{counter-increment:qa;position:relative;padding-left:2.8cqw;font-size:1.55cqw;line-height:1.6}
-.deck-qa-answer li::before{content:counter(qa);position:absolute;left:0;top:.15cqw;width:1.9cqw;height:1.9cqw;border-radius:50%;background:var(--sec);color:#fff;font-size:1.1cqw;font-weight:700;display:grid;place-items:center}
+.deck-qa-groups{display:grid;gap:1cqw;align-content:start}
+.deck-qa-groups h3{margin:0 0 .3cqw;font-size:1.45cqw;color:var(--sec)}
+.deck-qa-groups ul{margin:0;padding-left:1.6cqw;display:grid;gap:.5cqw}
+.deck-qa-groups li{font-size:1.45cqw;line-height:1.55}
+.deck-qa-groups li::marker{color:var(--sec)}
 .deck-qa-answer aside{display:grid;gap:1.2cqw;align-content:start}
-.deck-qa-answer section{padding:1.3cqw 1.6cqw;border-radius:1.4cqw;background:var(--sec-bg)}
-.deck-qa-answer section.pitfall{background:#fdeee4}
-.deck-qa-answer h3{margin:0 0 .5cqw;font-size:1.45cqw;color:var(--sec)}
+.deck-qa-answer aside section{padding:1.3cqw 1.6cqw;border-radius:1.4cqw;background:var(--sec-bg)}
+.deck-qa-answer aside section.pitfall{background:#fdeee4}
+.deck-qa-answer aside h3{margin:0 0 .5cqw;font-size:1.45cqw;color:var(--sec)}
 .deck-qa-answer h3 small{margin-left:.8cqw;font-size:1cqw;font-weight:600;color:var(--muted,#9a8269)}
 .deck-qa-answer section.pitfall h3{color:#c8673f}
-.deck-qa-answer section p{margin:0;font-size:1.35cqw;line-height:1.65}
+.deck-qa-answer aside section p{margin:0;font-size:1.35cqw;line-height:1.65}

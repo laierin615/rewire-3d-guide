@@ -3262,11 +3262,34 @@ section[id],
   font-weight: 600;
   cursor: pointer;
 }
+.qa-subquestions {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+.qa-subquestions li {
+  font-size: 19px;
+  line-height: 1.7;
+  color: var(--ink);
+  font-weight: 600;
+}
 .qa-points {
   margin: 16px 0 0;
-  padding-left: 1.6em;
   display: grid;
-  gap: 10px;
+  gap: 14px;
+}
+.qa-points h6 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  color: #a2452b;
+}
+.qa-points ul {
+  margin: 0;
+  padding-left: 1.4em;
+  display: grid;
+  gap: 8px;
 }
 .qa-points li {
   line-height: 1.8;
@@ -3274,7 +3297,6 @@ section[id],
 }
 .qa-points li::marker {
   color: #a2452b;
-  font-weight: 700;
 }
 .qa-notes {
   display: grid;
@@ -3476,6 +3498,9 @@ section[id],
   }
   .qa-question .qa-question-text {
     font-size: 19px;
+  }
+  .qa-subquestions li {
+    font-size: 17px;
   }
   .qa-practice-grid {
     grid-template-columns: 1fr;
