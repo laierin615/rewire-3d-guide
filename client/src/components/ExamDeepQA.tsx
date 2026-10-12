@@ -8,6 +8,7 @@ import {
   ExternalLink,
   GraduationCap,
   MessageCircleQuestion,
+  PenLine,
   School,
 } from "lucide-react";
 import {
@@ -171,8 +172,8 @@ export default function ExamDeepQAPanel() {
           <h3>深度問答</h3>
         </div>
         <p>
-          每一題都先整理「書中說法」，再補上教育心理學的相關理論與答題要點。
-          <strong>書中說法</strong>整理自作者的內容；<strong>理論延伸</strong>是導讀補充，不是作者的主張。
+          每一題先從一個教學現場的情境出發，提出沒有標準答案、值得討論的深度提問；下方再延伸成考題，作答後可對照答題要點。
+          情境皆為虛構；<strong>書中說法</strong>整理自作者的內容，<strong>理論延伸</strong>是導讀補充，不是作者的主張。
         </p>
       </header>
       <div className="exam-qa-groups" role="group" aria-label="依考點分類">
@@ -219,39 +220,28 @@ export default function ExamDeepQAPanel() {
             <h4>{active.topic}</h4>
             <p>相關學者：{active.scholars}</p>
           </div>
-          <div className="exam-qa-compare">
-            <section className="qa-book">
-              <h5>
-                <BookOpen size={18} aria-hidden="true" />
-                書中說法
-              </h5>
-              <p>{active.bookSays}</p>
-              <div className="qa-chapter-links">
-                {active.chapters.map(chapter => (
-                  <a key={chapter.id} href={`#chapter-${chapter.id}`}>
-                    回到 {topicLabel(chapter.id)} <ArrowRight size={15} aria-hidden="true" />
-                  </a>
-                ))}
-              </div>
-            </section>
-            <section className="qa-theory">
-              <h5>
-                <GraduationCap size={18} aria-hidden="true" />
-                理論延伸
-              </h5>
-              <p>{active.theory}</p>
-            </section>
-          </div>
-          <section className="qa-question">
+          <section className="qa-scenario">
+            <span className="qa-scenario-label">情境</span>
+            <p>{active.scenario}</p>
+          </section>
+          <section className="qa-deep">
             <h5>
               <MessageCircleQuestion size={18} aria-hidden="true" />
-              深度問答
+              深度提問
+            </h5>
+            <p className="qa-deep-text">{active.deepQuestion}</p>
+            <p className="qa-follow">追問｜{active.followUp}</p>
+          </section>
+          <section className="qa-question">
+            <h5>
+              <PenLine size={18} aria-hidden="true" />
+              考題延伸
             </h5>
             {(() => {
               const { stem, parts } = splitQuestion(active.question);
               return (
                 <>
-                  <p className="qa-question-text">{stem}</p>
+                  {stem && <p className="qa-question-text">{stem}</p>}
                   {parts.length > 0 && (
                     <ol className="qa-subquestions">
                       {parts.map(part => <li key={part}>{part}</li>)}
@@ -282,6 +272,29 @@ export default function ExamDeepQAPanel() {
               </div>
             )}
           </section>
+          <div className="exam-qa-compare">
+            <section className="qa-book">
+              <h5>
+                <BookOpen size={18} aria-hidden="true" />
+                書中說法
+              </h5>
+              <p>{active.bookSays}</p>
+              <div className="qa-chapter-links">
+                {active.chapters.map(chapter => (
+                  <a key={chapter.id} href={`#chapter-${chapter.id}`}>
+                    回到 {topicLabel(chapter.id)} <ArrowRight size={15} aria-hidden="true" />
+                  </a>
+                ))}
+              </div>
+            </section>
+            <section className="qa-theory">
+              <h5>
+                <GraduationCap size={18} aria-hidden="true" />
+                理論延伸
+              </h5>
+              <p>{active.theory}</p>
+            </section>
+          </div>
           <div className="qa-notes">
             <section className="qa-pitfall">
               <h5>

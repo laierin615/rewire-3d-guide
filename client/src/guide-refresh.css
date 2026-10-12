@@ -3234,6 +3234,49 @@ section[id],
   font-weight: 600;
   color: var(--sage);
 }
+.qa-scenario {
+  position: relative;
+  margin-top: 22px;
+  padding: 20px 24px 20px 92px;
+  border-radius: 16px;
+  background: #f7f1e6;
+  border: 1px solid #e6d6bb;
+}
+.qa-scenario-label {
+  position: absolute;
+  left: 22px;
+  top: 20px;
+  padding: 3px 12px;
+  border-radius: 20px;
+  background: #8a6a4a;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 650;
+}
+.exam-qa-detail .qa-scenario p {
+  font-size: 18px;
+  color: var(--ink);
+}
+.qa-deep {
+  margin-top: 16px;
+  padding: 4px 4px 0;
+}
+.qa-deep h5 {
+  color: #8a6a4a;
+}
+.exam-qa-detail .qa-deep .qa-deep-text {
+  font-size: 21px;
+  line-height: 1.75;
+  font-weight: 650;
+  color: var(--ink);
+}
+.exam-qa-detail .qa-deep .qa-follow {
+  margin-top: 10px;
+  padding-left: 12px;
+  border-left: 3px solid #d9c3a3;
+  font-size: 17px;
+  color: var(--ink-2);
+}
 .qa-question {
   margin-top: 22px;
   padding: 22px 24px;
@@ -3495,6 +3538,16 @@ section[id],
   }
   .qa-question {
     padding: 18px 16px;
+  }
+  .qa-scenario {
+    padding: 48px 16px 16px;
+  }
+  .qa-scenario-label {
+    left: 16px;
+    top: 14px;
+  }
+  .exam-qa-detail .qa-deep .qa-deep-text {
+    font-size: 19px;
   }
   .qa-question .qa-question-text {
     font-size: 19px;
