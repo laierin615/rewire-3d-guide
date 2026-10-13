@@ -716,7 +716,7 @@ function Home() {
               <div className="hero-actions"><button className="btn btn-primary" onClick={()=>scrollToId("journey")}><BookOpen size={18}/>開始閱讀<ArrowRight size={17}/></button></div>
               <div className="hero-meta"><div className="meta-item"><strong>Nicole Vignola</strong>作者</div><div className="meta-item"><strong>梁永安</strong>譯者</div></div>
             </div>
-            <div className="hero-team" aria-label="導讀小組成員"><span className="hero-team-label">導讀小組</span><ul>{guideTeam.map(([id, name]) => <li key={id}><b>{name}</b><small>{id}</small></li>)}</ul></div>
+            <div className="hero-team" aria-label="第七組導讀小組成員"><span className="hero-team-label">第七組　導讀小組</span><ul>{guideTeam.map(([id, name]) => <li key={id}><b>{name}</b><small>{id}</small></li>)}</ul></div>
             <div className="hero-book-world" aria-label="Rewire 書籍導讀視覺">
               <div className="book-world-ring ring-a"/><div className="book-world-ring ring-b"/>
               <span className="world-ball ball-coral"/><span className="world-ball ball-gold"/><span className="world-ball ball-teal"/>
