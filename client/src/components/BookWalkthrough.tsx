@@ -57,11 +57,15 @@ function NodeAnim({ layer, node, i }: { layer: GuideLayer; node: GuideLayer["nod
   );
 }
 
-/** 理論節點：每個節點下面直接接它的補充動畫 */
-function LayerNodes({ layer }: { layer: GuideLayer }) {
+/** 理論節點：每個節點下面直接接它的補充動畫；section 指定時只畫放進該小節的節點 */
+function LayerNodes({ layer, section, after = false }: { layer: GuideLayer; section?: number; after?: boolean }) {
+  const shown = layer.nodes
+    .map((node, i) => ({ node, i }))
+    .filter(({ node }) => node.section === section && !!node.after === after);
+  if (!shown.length) return null;
   return (
     <ol className="layer-nodes stacked">
-      {layer.nodes.map((node, i) => (
+      {shown.map(({ node, i }) => (
         <li key={node.title} className={node.anim ? "has-anim" : ""}>
           <div className="layer-node-card">
             <header>
@@ -325,6 +329,7 @@ export default function BookWalkthrough({ slots }: { slots?: Record<string, Reac
                         <p>{sec.question}</p>
                       </div>
                     </header>
+                    <LayerNodes layer={layer} section={si} />
                     {slots?.[`${layer.id}:${si}`]}
                     {layer.id === "layer1" && si === 0 && (
                       <p className="layer-transition">
@@ -337,6 +342,7 @@ export default function BookWalkthrough({ slots }: { slots?: Record<string, Reac
                         return ch ? renderTopic(ch) : null;
                       })}
                     </div>
+                    <LayerNodes layer={layer} section={si} after />
                     {!last && <p className="layer-bridge section-bridge">{sec.bridge}</p>}
                   </div>
                 );
