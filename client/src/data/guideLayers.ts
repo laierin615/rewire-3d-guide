@@ -137,17 +137,22 @@ export const guideLayers: GuideLayer[] = [
     title: "阻斷與重建",
     question: "如何設計成長迴路？",
     lead: { scene: "make-space", question: "下一次被觸發時，你想替自己留下哪一個暫停的動作？" },
+    leadChapters: ["make-space"],
     intro: "把作者散落在書中各處的方法收成一套：辨識提示、掌握公式、重新架構，再一步步練出新的反應。",
     nodes: [
       {
         title: "拆解觸發提示",
         anim: { lab: "regulation", id: "stress-animation" },
+        section: 0,
+        after: true,
         source: "1.7",
         text: "提示是提醒我們做某件事的訊號，可能來自環境、身邊的人（社交提示）、看到或感覺到的東西（感官提示），或特定的時間。提示本身不一定是負面的，同樣的機制也能替新習慣搭好提示。",
         note: "教師的任務：幫孩子辨識引發負面反應的提示，並刻意在教室裡創造正向的提示。",
       },
       {
         title: "重新架構",
+        section: 0,
+        after: true,
         source: "1.2・1.3",
         text: "用新的敘事反覆走新路，舊連結就會慢慢變弱；寫日記能把盤旋的念頭變成可以處理的故事。舊說法怎麼換成新說法，可以在 1.2 的翻面卡練習。",
         note: "對應輔導實務中認知行為取向的「認知重建」：先覺察自動化的想法，再用證據替它換一個說法。",
@@ -155,12 +160,12 @@ export const guideLayers: GuideLayer[] = [
     ],
     recap: { points: ["重複＋注意力＋刻意＝持久的改變。", "攔截舊反應：承認舊念頭、用生理性嘆息停一拍，在觸發和反應之間騰出空間。", "鋪路並撐住：保護早晨、在腦中彩排，事先想好挫折時的做法。"], key: "新路，是一次一次練出來的。" },
     sections: [
-      { title: "攔截舊反應", question: "舊反應冒出來的那一刻，可以做什麼？", chapters: ["neurotoolkit", "make-space"], recap: ["舊念頭出現時：承認它、用生理性嘆息攔截、事後分析，而且不自責。", "在觸發和反應之間騰出空間；練習愈久，空間愈大。"], bridge: "攔下舊路之後，要替新路鋪好條件。" },
-      { title: "鋪設新路", question: "怎麼讓新的反應更容易被選擇？", chapters: ["phone", "visualization"], recap: ["替早晨和資訊來源做一次大掃除，把注意力留給自己。", "在腦中彩排，連「想放棄的那一刻」也一起彩排。"], bridge: "新路剛鋪好時最脆弱，接下來要學會怎麼撐下去。" },
-      { title: "撐過挫折", question: "動機消退、挫折來時，怎麼不被打回原點？", chapters: ["boundaries", "strategy", "fear", "resilience"], recap: ["動機會消退，撐住的是紀律；改變也不是一條直線。", "事先想好挫折時的做法，帶著恐懼前進，在支持中練出韌性。"], bridge: "方法有了，最後回到教室：老師可以怎麼用？" },
+      { title: "攔截舊反應", question: "舊反應冒出來的那一刻，可以做什麼？", chapters: ["neurotoolkit"], recap: ["舊念頭出現時：承認它、用生理性嘆息攔截、事後分析，而且不自責。", "在觸發和反應之間騰出空間；練習愈久，空間愈大。"], bridge: "攔下舊路之後，要替新路鋪好條件。" },
+      { title: "鋪設新路", question: "怎麼讓新的反應更容易被選擇？", chapters: ["visualization", "phone"], recap: ["替早晨和資訊來源做一次大掃除，把注意力留給自己。", "在腦中彩排，連「想放棄的那一刻」也一起彩排。"], bridge: "新路剛鋪好時最脆弱，接下來要學會怎麼撐下去。" },
+      { title: "撐過挫折", question: "動機消退、挫折來時，怎麼不被打回原點？", chapters: ["strategy", "fear", "boundaries", "resilience"], recap: ["動機會消退，撐住的是紀律；改變也不是一條直線。", "事先想好挫折時的做法，帶著恐懼前進，在支持中練出韌性。"], bridge: "方法有了，最後回到教室：老師可以怎麼用？" },
     ],
     get chapters() {
-      return this.sections.flatMap(sec => sec.chapters);
+      return [...(this.leadChapters ?? []), ...this.sections.flatMap(sec => sec.chapters)];
     },
   },
   {

@@ -301,20 +301,7 @@ export default function BookWalkthrough({ slots }: { slots?: Record<string, Reac
                   })}
                 </div>
               )}
-              {layer.id === "layer3" && (
-                <>
-                  <FormulaShowcase />
-                  {allScenes.neurotoolkit && (
-                    <section className="layer-anim" id="anim-formula">
-                      <h3>
-                        <span>補充動畫</span>
-                        網球課上的妮可
-                      </h3>
-                      <IslandScene key="neurotoolkit" script={allScenes.neurotoolkit} question={guideChapters.find(ch => ch.id === "neurotoolkit")?.question ?? ""} />
-                    </section>
-                  )}
-                </>
-              )}
+              {layer.id === "layer3" && <FormulaShowcase />}
               <LayerNodes layer={layer} />
               {layer.sections.map((sec, si) => {
                 const last = si === layer.sections.length - 1;
@@ -330,6 +317,15 @@ export default function BookWalkthrough({ slots }: { slots?: Record<string, Reac
                       </div>
                     </header>
                     <LayerNodes layer={layer} section={si} />
+                    {layer.id === "layer3" && si === 0 && allScenes.neurotoolkit && (
+                      <section className="layer-anim" id="anim-formula">
+                        <h3>
+                          <span>補充動畫</span>
+                          網球課上的妮可
+                        </h3>
+                        <IslandScene key="neurotoolkit" script={allScenes.neurotoolkit} question={guideChapters.find(ch => ch.id === "neurotoolkit")?.question ?? ""} />
+                      </section>
+                    )}
                     {slots?.[`${layer.id}:${si}`]}
                     {layer.id === "layer1" && si === 0 && (
                       <p className="layer-transition">

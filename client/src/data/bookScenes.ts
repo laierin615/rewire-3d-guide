@@ -158,18 +158,6 @@ export const bookScenes: BookScene[] = [
     sourceLines: [1828, 1828],
   },
   {
-    id: "gym-water",
-    chapter: "make-space",
-    kind: "書中案例",
-    title: "買水只收硬幣：先停一下，再找解法",
-    story:
-      "移居新國家後，作者常因不熟悉的環境感到緊繃。一次單車課快開始，接待員說販賣機只收硬幣，她察覺怒氣後先暫停，改詢問能否借硬幣、隔天歸還。",
-    chain: ["規則不如預期", "察覺怒氣並暫停", "提出可行解法"],
-    insight: "暫停讓原本的反擊，多了一個可以重新選擇的時刻。",
-    question: "下次遇到不便時，你可以先問哪個尋找解法的問題？",
-    sourceLines: [1932, 1938],
-  },
-  {
     id: "field-road",
     chapter: "boundaries",
     kind: "書中比喻",
