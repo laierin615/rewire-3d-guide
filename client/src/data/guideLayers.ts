@@ -18,6 +18,8 @@ export type LayerNode = {
   section?: number;
   /** 放在該小節主題之後（預設在小節開頭） */
   after?: boolean;
+  /** 放在小節裡某個主題的後面（優先於 after） */
+  afterChapter?: string;
 };
 
 /** 層內的小節：一個引導問題、幾個主題，結尾一句橋接到下一節 */
@@ -176,6 +178,7 @@ export const guideLayers: GuideLayer[] = [
     title: "教育現場落地",
     question: "教師可以怎麼做？",
     lead: { scene: "growth", question: "你最常對學生說的一句讚美是什麼？它讚美的是天分，還是努力和方法？" },
+    leadChapters: ["growth"],
     intro: "把理論收束到教學與班級經營：課程怎麼安排專注與留白，回饋怎麼說，以及老師自己在孩子環境裡扮演的角色。",
     nodes: [
       {
@@ -187,12 +190,15 @@ export const guideLayers: GuideLayer[] = [
       },
       {
         title: "回饋語句的重塑",
+        section: 0,
         source: "3.2",
         text: "稱讚努力和方法，不稱讚天分；身分認同不等於表現。書中的研究細節見 4.1「成長型心態」。",
         note: "老師的每一句讚美和提問，都在幫孩子刻意練習某一條路：稱讚努力和方法，而不是天分。",
       },
       {
         title: "結尾定錨：科比的投籃",
+        section: 1,
+        afterChapter: "self-trust",
         source: "1.7",
         text: "籃球員科比．布萊恩青少年時每天投籃一千次，後來在球隊練習前先自己投八百球，投籃成了大腦的自動反應。",
         note: "給教育工作者：我們就是孩子學習環境中最重要的提示之一，每天重複的引導，會一點一點決定他們大腦的路徑。",
@@ -200,11 +206,11 @@ export const guideLayers: GuideLayer[] = [
     ],
     recap: { points: ["稱讚努力和方法，而不是天分；老師的每一句回饋，都在幫孩子練某一條路。", "守住對自己的小承諾，信心就會長出來。", "教室就是孩子大腦所處的環境，老師是其中最重要的提示之一。"], key: "我們每天的引導，會一點一點決定孩子大腦的路徑。" },
     sections: [
-      { title: "回饋與心態", question: "老師的一句話，會把孩子帶往哪條路？", chapters: ["growth"], recap: ["稱讚努力和方法，而不是天分；身分認同不等於表現。", "老師的每一句回饋，都在幫孩子練習某一條路。"], bridge: "心態改變之後，要靠一次次守住承諾，長出信心。" },
+      { title: "回饋與心態", question: "老師的一句話，會把孩子帶往哪條路？", chapters: [], recap: ["稱讚努力和方法，而不是天分；身分認同不等於表現。", "老師的每一句回饋，都在幫孩子練習某一條路。"], bridge: "心態改變之後，要靠一次次守住承諾，長出信心。" },
       { title: "信任與承諾", question: "怎麼讓改變真正站穩？", chapters: ["self-trust", "closing"], recap: ["守住對自己的小承諾，信心就會長出來。", "力量、承諾、寬恕：不用和時間賽跑，從一個小選擇開始。"], bridge: "" },
     ],
     get chapters() {
-      return this.sections.flatMap(sec => sec.chapters);
+      return [...(this.leadChapters ?? []), ...this.sections.flatMap(sec => sec.chapters)];
     },
   },
 ];

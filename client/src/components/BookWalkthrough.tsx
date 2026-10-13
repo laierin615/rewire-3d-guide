@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowLeft, ArrowRight, ChevronDown, Maximize2, X } from "lucide-react";
 import { guideChapters, type GuideChapter } from "../data/guideChapters";
 import Neuro3DLab from "./Neuro3DLab";
@@ -58,10 +58,14 @@ function NodeAnim({ layer, node, i }: { layer: GuideLayer; node: GuideLayer["nod
 }
 
 /** 理論節點：每個節點下面直接接它的補充動畫；section 指定時只畫放進該小節的節點 */
-function LayerNodes({ layer, section, after = false }: { layer: GuideLayer; section?: number; after?: boolean }) {
+function LayerNodes({ layer, section, after = false, afterChapter }: { layer: GuideLayer; section?: number; after?: boolean; afterChapter?: string }) {
   const shown = layer.nodes
     .map((node, i) => ({ node, i }))
-    .filter(({ node }) => node.section === section && !!node.after === after);
+    .filter(({ node }) =>
+      afterChapter
+        ? node.afterChapter === afterChapter
+        : node.section === section && !node.afterChapter && !!node.after === after
+    );
   if (!shown.length) return null;
   return (
     <ol className="layer-nodes stacked">
@@ -335,7 +339,12 @@ export default function BookWalkthrough({ slots }: { slots?: Record<string, Reac
                     <div className="walk-chapters">
                       {sec.chapters.map(id => {
                         const ch = guideChapters.find(item => item.id === id);
-                        return ch ? renderTopic(ch) : null;
+                        return ch ? (
+                          <Fragment key={id}>
+                            {renderTopic(ch)}
+                            <LayerNodes layer={layer} afterChapter={id} />
+                          </Fragment>
+                        ) : null;
                       })}
                     </div>
                     <LayerNodes layer={layer} section={si} after />
