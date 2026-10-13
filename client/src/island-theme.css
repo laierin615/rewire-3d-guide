@@ -2590,3 +2590,76 @@ input:focus-visible,
     padding: 0 4px 12px;
   }
 }
+
+/* 總結後的深度問題討論 */
+.guide-discuss {
+  margin-top: 28px;
+  padding: 30px 34px 34px;
+  border-radius: 28px;
+  background: #fbf4e6;
+  border: 2px solid #eadcc2;
+}
+.guide-discuss-tag {
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 999px;
+  background: #8a6a4a;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+}
+.guide-discuss h3 {
+  margin: 18px 0 20px;
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 800;
+  color: #5b4330;
+}
+.guide-discuss-scene {
+  position: relative;
+  padding: 20px 24px 20px 100px;
+  border-radius: 20px;
+  background: #fffdf7;
+  border: 2px solid #efe3c9;
+}
+.guide-discuss-scene span {
+  position: absolute;
+  left: 22px;
+  top: 22px;
+  padding: 4px 14px;
+  border-radius: 999px;
+  background: #8a6a4a;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+.guide-discuss-scene p {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.75;
+  color: #5b4330;
+}
+.guide-discuss-question {
+  margin: 22px 0 0;
+  font-size: 19px;
+  line-height: 1.85;
+  font-weight: 700;
+  color: #5b4330;
+}
+@media (max-width: 640px) {
+  .guide-discuss {
+    padding: 22px 16px 24px;
+  }
+  .guide-discuss-scene {
+    padding: 52px 16px 16px;
+  }
+  .guide-discuss-scene span {
+    left: 16px;
+    top: 14px;
+  }
+  .guide-discuss-scene p {
+    font-size: 17px;
+  }
+  .guide-discuss-question {
+    font-size: 17px;
+  }
+}

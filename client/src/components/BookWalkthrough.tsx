@@ -360,8 +360,23 @@ export default function BookWalkthrough({ slots }: { slots?: Record<string, Reac
                   </ol>
                 </aside>
               )}
+              {!next && (
+                <section className="guide-discuss" aria-labelledby="guide-discuss-title">
+                  <span className="guide-discuss-tag">深度問答</span>
+                  <h3 id="guide-discuss-title">我就是笨，數學怎麼學都不會？</h3>
+                  <div className="guide-discuss-scene">
+                    <span>情境</span>
+                    <p>
+                      小美每天放學都留下來訂正，作業本寫得滿滿的，數學還是不及格。老師在聯絡簿寫：「你很努力，加油！」隔天小美說：「我已經很努力了，所以我就是笨，數學怎麼學都不會。」
+                    </p>
+                  </div>
+                  <p className="guide-discuss-question">
+                    書中建議稱讚努力和方法，而不是天分，但研究也顯示，心態介入的平均效果其實很小。像小美這樣努力了卻還沒進步的孩子，聽到「你很努力」，反而可能得出「我已經盡力了，所以我就是笨」的結論。如果你是小美的老師，你會怎麼回應她？又會在教學或評量上做哪些調整，讓她相信「不會」是有可能改變的？
+                  </p>
+                </section>
+              )}
               <a className="walk-next layer-bridge-next" href={next ? `#${next.id}` : "#exam"}>
-                <span>{layer.sections[layer.sections.length - 1].bridge}</span>
+                {layer.sections[layer.sections.length - 1].bridge && <span>{layer.sections[layer.sections.length - 1].bridge}</span>}
                 <small>{next ? `接著讀：${next.label}　${next.title}` : "前往：延伸學習"}</small>
                 <ArrowRight size={19} />
               </a>

@@ -185,7 +185,7 @@ export const guideLayers: GuideLayer[] = [
     recap: { points: ["稱讚努力和方法，而不是天分；老師的每一句回饋，都在幫孩子練某一條路。", "守住對自己的小承諾，信心就會長出來。", "教室就是孩子大腦所處的環境，老師是其中最重要的提示之一。"], key: "我們每天的引導，會一點一點決定孩子大腦的路徑。" },
     sections: [
       { title: "回饋與心態", question: "老師的一句話，會把孩子帶往哪條路？", chapters: ["growth"], recap: ["稱讚努力和方法，而不是天分；身分認同不等於表現。", "老師的每一句回饋，都在幫孩子練習某一條路。"], bridge: "心態改變之後，要靠一次次守住承諾，長出信心。" },
-      { title: "信任與承諾", question: "怎麼讓改變真正站穩？", chapters: ["self-trust", "closing"], recap: ["守住對自己的小承諾，信心就會長出來。", "力量、承諾、寬恕：不用和時間賽跑，從一個小選擇開始。"], bridge: "最後，把這些概念接回教師資格考。" },
+      { title: "信任與承諾", question: "怎麼讓改變真正站穩？", chapters: ["self-trust", "closing"], recap: ["守住對自己的小承諾，信心就會長出來。", "力量、承諾、寬恕：不用和時間賽跑，從一個小選擇開始。"], bridge: "" },
     ],
     get chapters() {
       return this.sections.flatMap(sec => sec.chapters);
