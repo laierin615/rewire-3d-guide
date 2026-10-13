@@ -10,16 +10,31 @@ import { sceneByChapter as allScenes } from "../data/islandScenes";
 /** 主題卡上播放的情境：已移到層前導或理論節點的、或精簡掉的不再顯示 */
 const sceneByChapter = Object.fromEntries(Object.entries(allScenes).filter(([id]) => !relocatedScenes.has(id) && !hiddenScenes.has(id)));
 import IslandScene from "./IslandScene";
+import SecondaryFold from "./SecondaryFold";
 import StressCycle from "./StressCycle";
 import FormulaShowcase from "./FormulaShowcase";
 import { markKeys } from "./KeyMark";
 import { guideLayers, hiddenScenes, layerChapterOrder, relocatedScenes, topicNumber, type GuideLayer } from "../data/guideLayers";
 
-const chapterModels: Record<string, { mode: Mode; id: string }> = {
-  muscles: { mode: "muscle", id: "muscle-animation" },
-  sleep: { mode: "sleep", id: "sleep-animation" },
-  dopamine: { mode: "reward", id: "reward-animation" },
+const chapterModels: Record<string, { mode: Mode; id: string; label: string }> = {
+  muscles: { mode: "muscle", id: "muscle-animation", label: "肌肉與大腦" },
+  sleep: { mode: "sleep", id: "sleep-animation", label: "睡眠與記憶" },
+  dopamine: { mode: "reward", id: "reward-animation", label: "多巴胺與獎勵迴路" },
 };
+
+/** 次要主題：導讀時不一定會講，預設收合 */
+const secondaryTopics = new Set([
+  "confirmation-bias",
+  "creeping-normality",
+  "loss-grief",
+  "subconscious",
+  "muscles",
+  "sleep",
+  "phone",
+  "boundaries",
+  "resilience",
+  "self-trust",
+]);
 
 const orderedChapters = layerChapterOrder
   .map(id => guideChapters.find(ch => ch.id === id))
@@ -203,7 +218,16 @@ export default function BookWalkthrough({ slots }: { slots?: Record<string, Reac
     setPresented(orderedChapters.findIndex(ch => ch.id === id));
   };
 
-  const renderTopic = (ch: GuideChapter) => (
+  const renderTopic = (ch: GuideChapter) =>
+    secondaryTopics.has(ch.id) ? (
+      <SecondaryFold key={ch.id} label={ch.title} hint={`${topicNumber(ch.id)}・點開看`}>
+        {renderTopicBody(ch)}
+      </SecondaryFold>
+    ) : (
+      renderTopicBody(ch)
+    );
+
+  const renderTopicBody = (ch: GuideChapter) => (
     <div key={ch.id}>
       <article className="walk-chapter" id={`chapter-${ch.id}`}>
         <header>
@@ -227,9 +251,14 @@ export default function BookWalkthrough({ slots }: { slots?: Record<string, Reac
           </a>
         )}
       </article>
-      {chapterModels[ch.id] && (
-        <Neuro3DLab initialMode={chapterModels[ch.id].mode} embedded id={chapterModels[ch.id].id} />
-      )}
+      {chapterModels[ch.id] &&
+        (secondaryTopics.has(ch.id) ? (
+          <Neuro3DLab initialMode={chapterModels[ch.id].mode} embedded id={chapterModels[ch.id].id} />
+        ) : (
+          <SecondaryFold label={`立體示意：${chapterModels[ch.id].label}`} hint="點開看 3D 動畫">
+            <Neuro3DLab initialMode={chapterModels[ch.id].mode} embedded id={chapterModels[ch.id].id} />
+          </SecondaryFold>
+        ))}
     </div>
   );
 

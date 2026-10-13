@@ -1,3 +1,4 @@
+import SecondaryFold, { useOpenFoldsForHash } from "../components/SecondaryFold";
 import GuideFunnel from "../components/GuideFunnel";
 import HeroIntro, { RewireWordmark } from "../components/HeroIntro";
 import { guideLayers, layerChapterOrder, topicLabel, topicNumber } from "../data/guideLayers";
@@ -484,6 +485,7 @@ const guideTeam: [string, string][] = [
 ];
 
 function Home() {
+  useOpenFoldsForHash();
   const [scrolled, setScrolled] = useState(false);
   const [roadmapPhase, setRoadmapPhase] = useState(0);
   const [activeQuote, setActiveQuote] = useState(0);
@@ -579,6 +581,7 @@ function Home() {
   const layerSlots = {
     "layer1:1": <div className="layer-ref-visual"><BiasRuminationVisual /></div>,
     "layer2:1": (
+      <SecondaryFold wide label="參考資料：路徑如何變強">
         <section className="section plasticity-section" id="plasticity">
           <div className="container-wide plasticity-layout">
             <div className="reveal"><div className="section-label eyebrow">參考資料 / 路徑如何變強</div><h2 className="section-title serif">「一個訊息重複得愈多，<br /><span>傳達的路徑就會愈強。」</span></h2><p className="section-intro">書中以「羊腸小徑 → 土路 → 柏油大道」比喻反覆啟動的路徑。這個比喻的重點不是腦內真的長出道路，而是同一組神經活動反覆出現後，訊號傳遞與行為選擇會變得更有效率。</p><div className="plasticity-quote"><Quote size={20} /><p className="serif">「<mark className="key-mark">一起放電的神經元會彼此連結</mark>。」</p></div></div>
@@ -586,8 +589,10 @@ function Home() {
           </div>
           <div className="container-wide plasticity-principles stagger"><article><strong>長期增強</strong><p>共同啟動與有意義的重複，會提高之後再次啟動的效率。</p></article><article><strong>連結減弱</strong><p>舊反應不再被持續配對，連結可逐漸失去優勢；這通常需要時間與替代反應。</p></article><article><strong>經驗依賴</strong><p>新奇、重要、具回饋的經驗會提供預測誤差，促使大腦更新記憶與策略。</p></article><article><strong>生理底座</strong><p>睡眠、運動、壓力與注意資源會影響新連結是否有機會被穩定使用。</p></article></div>
         </section>
+      </SecondaryFold>
     ),
     layer2: (
+      <SecondaryFold wide label="參考資料：腦區與網絡">
         <section className="section brain-section" id="brain">
           <div className="brain-noise" />
           <div className="container-wide">
@@ -668,11 +673,14 @@ function Home() {
             </div>
           </div>
         </section>
+      </SecondaryFold>
     ),
     layer3: (
+      <SecondaryFold wide label="練習清單：把方法帶回日常">
         <section className="section tools-section" id="tools">
           <div className="container-wide"><div className="reveal"><div className="section-label eyebrow">練習清單 / 把方法帶回日常</div><h2 className="section-title serif">十個日常練習，<br /><span>都是在重複、注意、刻意。</span></h2><p className="section-intro">前面各主題提過的方法，收成一張清單。每一項都可以點回原本的主題複習；這些是日常練習，不是治療承諾。</p></div><PracticeTools /></div>
         </section>
+      </SecondaryFold>
     ),
     layer4: (
         <section className="section education-section" id="education">

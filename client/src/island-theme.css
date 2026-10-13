@@ -2522,3 +2522,79 @@ input:focus-visible,
 .formula.compact .formula-cell{flex:0 0 auto}
 .formula.compact .formula-term,.formula.compact .formula-result{flex:0 0 auto}
 .formula.compact strong{white-space:nowrap}
+
+/* 次要內容：預設收合 */
+.walk-secondary {
+  margin-top: 18px;
+  border-radius: 20px;
+  border: 2px dashed var(--card-line);
+  background: rgba(255, 252, 242, 0.7);
+}
+.walk-secondary-wide {
+  width: min(1200px, calc(100% - 40px));
+  margin: 24px auto 0;
+}
+.walk-secondary > summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 14px 20px;
+  cursor: pointer;
+  list-style: none;
+  color: var(--ink-2, #5b4a3a);
+  font-size: 17px;
+}
+.walk-secondary > summary::-webkit-details-marker {
+  display: none;
+}
+.walk-secondary-tag {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #ece3d2;
+  color: #7a6852;
+  font-size: 13px;
+  font-weight: 700;
+}
+.walk-secondary > summary strong {
+  font-weight: 650;
+}
+.walk-secondary > summary small {
+  color: var(--muted);
+  font-size: 14px;
+}
+.walk-secondary > summary svg {
+  margin-left: auto;
+  transition: transform 0.2s ease;
+}
+.walk-secondary[open] > summary svg {
+  transform: rotate(180deg);
+}
+.walk-secondary[open] {
+  border-style: solid;
+  background: transparent;
+}
+.walk-secondary-body {
+  padding: 0 12px 16px;
+}
+.walk-secondary-wide > .walk-secondary-body {
+  padding: 0;
+}
+.walk-secondary-wide > .walk-secondary-body > .section {
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+.walk-secondary-wide > .walk-secondary-body .container-wide {
+  width: calc(100% - 40px);
+}
+@media (max-width: 640px) {
+  .walk-secondary-wide {
+    width: calc(100% - 32px);
+  }
+  .walk-secondary > summary small {
+    display: none;
+  }
+  .walk-secondary-body {
+    padding: 0 4px 12px;
+  }
+}
