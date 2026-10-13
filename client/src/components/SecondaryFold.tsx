@@ -1,7 +1,7 @@
 import { useEffect, type ReactNode } from "react";
 import { ChevronDown } from "lucide-react";
 
-/** 次要內容：預設收合，點開才顯示；wide 用於滿版的參考資料區塊 */
+/** 預設收合的內容，點開才顯示；wide 用於滿版的參考資料區塊 */
 export default function SecondaryFold({
   label,
   hint = "點開看",
@@ -16,7 +16,6 @@ export default function SecondaryFold({
   return (
     <details className={`walk-secondary${wide ? " walk-secondary-wide" : ""}`}>
       <summary>
-        <span className="walk-secondary-tag">次要</span>
         <strong>{label}</strong>
         <small>{hint}</small>
         <ChevronDown size={18} aria-hidden="true" />
