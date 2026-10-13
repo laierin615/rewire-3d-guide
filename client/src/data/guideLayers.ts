@@ -37,6 +37,8 @@ export type GuideLayer = {
   nodes: LayerNode[];
   /** 放在層最前面的前導情境 */
   lead: { scene: string; question: string };
+  /** 緊接在前導情境後面、解說該情境的主題（排在小節之前，編號也排最前） */
+  leadChapters?: string[];
   /** 這一層的小結：幾句重點，加一句記住的話 */
   recap: { points: string[]; key: string };
   /** 這一層的小節（依導讀順序） */
@@ -87,6 +89,7 @@ export const guideLayers: GuideLayer[] = [
     title: "解碼大腦",
     question: "改變的底層生理機制是什麼？",
     lead: { scene: "thought-power", question: "閉上眼睛想像咬一口檸檬，嘴裡有什麼感覺？想法還能讓身體起哪些反應？" },
+    leadChapters: ["thought-power"],
     intro: "給改變一個生理學的基礎：神經元怎麼連結、怎麼鬆開，以及身體的狀態如何決定大腦有沒有電力去改變。",
     nodes: [
       {
@@ -110,12 +113,12 @@ export const guideLayers: GuideLayer[] = [
     ],
     recap: { points: ["大腦是可塑的：任何年紀都能走出新的路徑，想法本身也會讓身體起反應。", "一起放電的神經元會彼此連結；新路要靠一次又一次的重複。", "運動、睡眠和多巴胺，決定大腦有沒有電力去改變。"], key: "改變不是硬撐意志力，而是有機制可以依循。" },
     sections: [
-      { title: "大腦為什麼能改變", question: "大腦是怎麼被塑形的？", chapters: ["intro", "thought-power"], recap: ["大腦是可塑的：任何年紀都能改變、重組，走出新的路徑。", "想法本身就會讓身體起反應，也能參與大腦的重塑。"], bridge: "知道大腦能改，下一個問題是：新的路要怎麼走出來？" },
+      { title: "大腦為什麼能改變", question: "大腦是怎麼被塑形的？", chapters: ["intro"], recap: ["大腦是可塑的：任何年紀都能改變、重組，走出新的路徑。", "想法本身就會讓身體起反應，也能參與大腦的重塑。"], bridge: "知道大腦能改，下一個問題是：新的路要怎麼走出來？" },
       { title: "新路怎麼被走出來", question: "為什麼要重複那麼多次？", chapters: ["repetition"], recap: ["一起放電的神經元會彼此連結；分開放電的神經元會互不相干。", "新路要靠一次又一次的重複，第五到第七天最容易放棄。"], bridge: "重複需要電力。接著看身體怎麼替大腦充電。" },
       { title: "改變需要電力", question: "身體的狀態，如何決定大腦有沒有餘力改變？", chapters: ["muscles", "sleep", "dopamine"], recap: ["運動和睡眠，讓大腦這個硬體保持在良好的狀態。", "多巴胺讓我們想去追；去追需要努力的獎勵，也練習和無聊相處。"], bridge: "原理清楚了：路是重複走出來的，但要看見、要刻意。這三件事，就是下一層的公式。" },
     ],
     get chapters() {
-      return this.sections.flatMap(sec => sec.chapters);
+      return [...(this.leadChapters ?? []), ...this.sections.flatMap(sec => sec.chapters)];
     },
   },
   {

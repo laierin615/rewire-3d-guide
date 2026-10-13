@@ -38,7 +38,7 @@ export default function TopicIndex() {
       </p>
       {guideLayers.map(layer => {
         const sections = layer.sections
-          .map((sec, si) => ({ sec, si, ids: sec.chapters.filter(match) }))
+          .map((sec, si) => ({ sec, si, ids: (si === 0 ? [...(layer.leadChapters ?? []), ...sec.chapters] : sec.chapters).filter(match) }))
           .filter(x => x.ids.length);
         if (!sections.length) return null;
         return (

@@ -289,6 +289,14 @@ export default function BookWalkthrough({ slots }: { slots?: Record<string, Reac
                 <p>{layer.intro}</p>
               </header>
               <LayerLead layer={layer} />
+              {layer.leadChapters && (
+                <div className="walk-chapters lead-chapters">
+                  {layer.leadChapters.map(id => {
+                    const ch = guideChapters.find(item => item.id === id);
+                    return ch ? renderTopic(ch) : null;
+                  })}
+                </div>
+              )}
               {layer.id === "layer3" && (
                 <>
                   <FormulaShowcase />
