@@ -2663,3 +2663,14 @@ input:focus-visible,
     font-size: 17px;
   }
 }
+
+/* 1.1 打破循環：相關腦區 → 壓力循環 → 生理性嘆息，直接顯示 */
+.chapter-depth-inline {
+  margin-top: 22px;
+  display: grid;
+  gap: 22px;
+}
+.chapter-depth-inline > .depth-terms,
+.chapter-depth-inline > .depth-tool {
+  margin-top: 0;
+}

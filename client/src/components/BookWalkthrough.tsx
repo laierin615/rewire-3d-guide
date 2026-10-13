@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight, ChevronDown, Maximize2, X } from "lucide-react";
 import { guideChapters, type GuideChapter } from "../data/guideChapters";
 import Neuro3DLab from "./Neuro3DLab";
 import ChapterExamples from "./ChapterExamples";
-import ChapterDepth from "./ChapterDepth";
+import ChapterDepth, { DepthTerms, DepthTool } from "./ChapterDepth";
 import type { Mode } from "../data/neuroLessons";
 import { sceneByChapter as allScenes } from "../data/islandScenes";
 
@@ -140,7 +140,7 @@ function ChapterMore({ chapter }: { chapter: GuideChapter }) {
           <h4>重要概念</h4>
           <p>{chapter.concepts}</p>
         </div>
-        <ChapterDepth chapterId={chapter.id} />
+        <ChapterDepth chapterId={chapter.id} omit={chapter.id === "break-cycle" ? ["terms", "tool"] : []} />
         <ChapterExamples chapterId={chapter.id} />
       </div>
     </details>
@@ -242,6 +242,13 @@ export default function BookWalkthrough({ slots }: { slots?: Record<string, Reac
         <SceneOrGist chapter={ch} />
         {sceneByChapter[ch.id] && <ChapterGist chapter={ch} />}
         {ch.id === "intro" && introEssentials}
+        {ch.id === "break-cycle" && (
+          <div className="chapter-depth-inline">
+            <DepthTerms chapterId={ch.id} />
+            <StressCycle />
+            <DepthTool chapterId={ch.id} />
+          </div>
+        )}
         <ChapterMore chapter={ch} />
         {chapterModels[ch.id] && (
           <a className="example-model-link" href={`#${chapterModels[ch.id].id}`}>
@@ -312,12 +319,9 @@ export default function BookWalkthrough({ slots }: { slots?: Record<string, Reac
                     </header>
                     {slots?.[`${layer.id}:${si}`]}
                     {layer.id === "layer1" && si === 0 && (
-                      <>
-                        <p className="layer-transition">
-                          自動駕駛本來是為了省力。但長期壓力沒有恢復時，大腦會進入作者說的「低電量模式」：只顧撐過眼前，最熟悉的老路跑得最快。
-                        </p>
-                        <StressCycle />
-                      </>
+                      <p className="layer-transition">
+                        自動駕駛本來是為了省力。但長期壓力沒有恢復時，大腦會進入作者說的「低電量模式」：只顧撐過眼前，最熟悉的老路跑得最快。
+                      </p>
                     )}
                     <div className="walk-chapters">
                       {sec.chapters.map(id => {

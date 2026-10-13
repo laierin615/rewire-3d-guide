@@ -18,7 +18,70 @@ export function openExamQA(id: string) {
   window.dispatchEvent(new CustomEvent("rewire:open-qa", { detail: id }));
 }
 
-export default function ChapterDepth({ chapterId }: { chapterId: string }) {
+type DepthPart = "terms" | "tool";
+
+/** 相關腦區：可單獨放在主題卡外面 */
+export function DepthTerms({ chapterId }: { chapterId: string }) {
+  const depth = chapterDepth[chapterId];
+  if (!depth?.terms) return null;
+  return (
+    <div className="depth-terms">
+      <h5>
+        <Brain size={20} aria-hidden="true" />
+        {depth.termsTitle ?? "相關腦區"}
+      </h5>
+      <div className="depth-terms-grid">
+        {depth.terms.map((term, i) => (
+          <article key={term.name} className={`term-${i}`}>
+            <header>
+              <strong>{term.name}</strong>
+              <small>{term.en}</small>
+            </header>
+            <p className="term-where">{term.where}</p>
+            <dl>
+              <dt>{depth.termLabels?.[0] ?? "平常"}</dt>
+              <dd>{term.role}</dd>
+              <dt>{depth.termLabels?.[1] ?? "慢性壓力下"}</dt>
+              <dd>{term.stress}</dd>
+            </dl>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** 書中方法（含生理性嘆息動畫）：可單獨放在主題卡外面 */
+export function DepthTool({ chapterId }: { chapterId: string }) {
+  const depth = chapterDepth[chapterId];
+  if (!depth?.tool) return null;
+  return (
+    <div className="depth-tool">
+      <div className="depth-tool-head">
+        <ListChecks size={20} aria-hidden="true" />
+        <h5>{depth.tool.title}</h5>
+        <SourceTag kind={depth.tool.kind} />
+      </div>
+      {depth.tool.animation === "sigh" ? (
+        <SighAnimation />
+      ) : depth.tool.display === "cards" ? (
+        <StepCards steps={depth.tool.steps} />
+      ) : depth.tool.display === "checklist" ? (
+        <Checklist steps={depth.tool.steps} />
+      ) : (
+        <ol>
+          {depth.tool.steps.map(step => (
+            <li key={step}>{step}</li>
+          ))}
+        </ol>
+      )}
+      {depth.tool.note && <p className="depth-note">{depth.tool.note}</p>}
+    </div>
+  );
+}
+
+/** omit：已經拉到主題卡外面顯示的區塊，這裡不再重複 */
+export default function ChapterDepth({ chapterId, omit = [] }: { chapterId: string; omit?: DepthPart[] }) {
   const depth = chapterDepth[chapterId];
   if (!depth) return null;
   const examLinks = (depth.exam ?? [])
@@ -42,54 +105,8 @@ export default function ChapterDepth({ chapterId }: { chapterId: string }) {
       {depth.space && <SpaceTimeline />}
       {depth.reframe && <ReframeCards {...depth.reframe} />}
       {depth.compare && <CompareCards {...depth.compare} />}
-      {depth.terms && (
-        <div className="depth-terms">
-          <h5>
-            <Brain size={20} aria-hidden="true" />
-            {depth.termsTitle ?? "相關腦區"}
-          </h5>
-          <div className="depth-terms-grid">
-            {depth.terms.map((term, i) => (
-              <article key={term.name} className={`term-${i}`}>
-                <header>
-                  <strong>{term.name}</strong>
-                  <small>{term.en}</small>
-                </header>
-                <p className="term-where">{term.where}</p>
-                <dl>
-                  <dt>{depth.termLabels?.[0] ?? "平常"}</dt>
-                  <dd>{term.role}</dd>
-                  <dt>{depth.termLabels?.[1] ?? "慢性壓力下"}</dt>
-                  <dd>{term.stress}</dd>
-                </dl>
-              </article>
-            ))}
-          </div>
-        </div>
-      )}
-      {depth.tool && (
-        <div className="depth-tool">
-          <div className="depth-tool-head">
-            <ListChecks size={20} aria-hidden="true" />
-            <h5>{depth.tool.title}</h5>
-            <SourceTag kind={depth.tool.kind} />
-          </div>
-          {depth.tool.animation === "sigh" ? (
-            <SighAnimation />
-          ) : depth.tool.display === "cards" ? (
-            <StepCards steps={depth.tool.steps} />
-          ) : depth.tool.display === "checklist" ? (
-            <Checklist steps={depth.tool.steps} />
-          ) : (
-            <ol>
-              {depth.tool.steps.map(step => (
-                <li key={step}>{step}</li>
-              ))}
-            </ol>
-          )}
-          {depth.tool.note && <p className="depth-note">{depth.tool.note}</p>}
-        </div>
-      )}
+      {!omit.includes("terms") && <DepthTerms chapterId={chapterId} />}
+      {!omit.includes("tool") && <DepthTool chapterId={chapterId} />}
       {depth.basics && (
         <div className="depth-basics">
           <h5>
