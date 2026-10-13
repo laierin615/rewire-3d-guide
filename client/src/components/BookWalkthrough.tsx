@@ -16,10 +16,10 @@ import FormulaShowcase from "./FormulaShowcase";
 import { markKeys } from "./KeyMark";
 import { guideLayers, hiddenScenes, layerChapterOrder, relocatedScenes, topicNumber, type GuideLayer } from "../data/guideLayers";
 
-const chapterModels: Record<string, { mode: Mode; id: string; label: string }> = {
-  muscles: { mode: "muscle", id: "muscle-animation", label: "肌肉與大腦" },
-  sleep: { mode: "sleep", id: "sleep-animation", label: "睡眠與記憶" },
-  dopamine: { mode: "reward", id: "reward-animation", label: "多巴胺與獎勵迴路" },
+const chapterModels: Record<string, { mode: Mode; id: string }> = {
+  muscles: { mode: "muscle", id: "muscle-animation" },
+  sleep: { mode: "sleep", id: "sleep-animation" },
+  dopamine: { mode: "reward", id: "reward-animation" },
 };
 
 /** 次要主題：導讀時不一定會講，預設收合 */
@@ -28,8 +28,6 @@ const secondaryTopics = new Set([
   "creeping-normality",
   "loss-grief",
   "subconscious",
-  "muscles",
-  "sleep",
   "phone",
   "boundaries",
   "resilience",
@@ -251,14 +249,9 @@ export default function BookWalkthrough({ slots }: { slots?: Record<string, Reac
           </a>
         )}
       </article>
-      {chapterModels[ch.id] &&
-        (secondaryTopics.has(ch.id) ? (
-          <Neuro3DLab initialMode={chapterModels[ch.id].mode} embedded id={chapterModels[ch.id].id} />
-        ) : (
-          <SecondaryFold label={`立體示意：${chapterModels[ch.id].label}`} hint="點開看 3D 動畫">
-            <Neuro3DLab initialMode={chapterModels[ch.id].mode} embedded id={chapterModels[ch.id].id} />
-          </SecondaryFold>
-        ))}
+      {chapterModels[ch.id] && (
+        <Neuro3DLab initialMode={chapterModels[ch.id].mode} embedded id={chapterModels[ch.id].id} />
+      )}
     </div>
   );
 
