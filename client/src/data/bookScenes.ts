@@ -74,30 +74,6 @@ export const bookScenes: BookScene[] = [
     sourceLines: [740, 748],
   },
   {
-    id: "lemon",
-    chapter: "thought-power",
-    kind: "書中練習",
-    title: "只是想像咬檸檬，也可能開始流口水",
-    story:
-      "作者邀請讀者想像冷檸檬被切開，再咬下一口多汁果肉，接著留意自己是否分泌唾液。這個小練習用來說明，想像也可能喚起身體反應。",
-    chain: ["想像感官細節", "留意身體", "看見思想的影響"],
-    insight: "思想與身體會互相牽動；這不是想什麼就一定會成真的證明。",
-    question: "你想到某件事時，最先出現的身體感覺是什麼？",
-    sourceLines: [954, 956],
-  },
-  {
-    id: "josh-jokes",
-    chapter: "thought-power",
-    kind: "書中案例",
-    title: "喬許的自嘲，反覆說成了自己的故事",
-    story:
-      "喬許常拿收入比妻子少開玩笑，並把自己描述成將被離開的失敗者。作者提醒他留意這些話與羞愧、退縮的關係；減少負面自我描述後，他開始察覺行為與自尊的轉變。",
-    chain: ["反覆自嘲", "羞愧與退縮", "調整內在語言"],
-    insight: "一句玩笑也值得檢查：它是否在鞏固你深信的標籤？",
-    question: "你最常自嘲的那句話，真的符合完整的你嗎？",
-    sourceLines: [960, 964],
-  },
-  {
     id: "samantha",
     chapter: "creeping-normality",
     kind: "書中案例",
@@ -180,18 +156,6 @@ export const bookScenes: BookScene[] = [
     insight: "把想像細化成行動，也替不順利的時刻做好準備。",
     question: "你的目標裡，哪個阻力需要先在心裡彩排？",
     sourceLines: [1828, 1828],
-  },
-  {
-    id: "daily-reminder",
-    chapter: "repetition",
-    kind: "書中練習",
-    title: "幾天後忘記新練習，先替自己安排提醒",
-    story:
-      "作者說明，新反應需要持續保持在注意裡，大腦卻可能很快想回到熟悉的自動模式。她提出日記、每日意向與同伴聯繫等方式，支持反覆練習。",
-    chain: ["開始新練習", "又想回到自動模式", "每日提醒與支持"],
-    insight: "把持續練習安排進環境，比只等待記得更可靠。",
-    question: "你可以把提醒放在每天一定會看見的哪裡？",
-    sourceLines: [1904, 1920],
   },
   {
     id: "gym-water",
@@ -288,18 +252,6 @@ export const bookScenes: BookScene[] = [
     insight: "提供具體的過程回饋，可以幫助討論怎麼改進。",
     question: "你能把一句能力評語，改成對過程的具體觀察嗎？",
     sourceLines: [2322, 2324],
-  },
-  {
-    id: "walk-start",
-    chapter: "muscles",
-    kind: "書中練習",
-    title: "運動的起點，也可以是走路與遛狗",
-    story:
-      "作者提醒，活動不必每次都拚到氣喘吁吁。她用可邊動邊說話的強度說明中等程度活動，也提到自己遛狗與在平路騎車的經驗，鼓勵從能持續的方式開始。",
-    chain: ["找到可承受的活動", "身體持續活動", "支持腦部健康"],
-    insight: "運動的價值也包含身心支持，不必只以外表衡量。",
-    question: "哪一種活動，是你願意持續做而不是勉強忍受的？",
-    sourceLines: [2524, 2526],
   },
   {
     id: "language-sleep",

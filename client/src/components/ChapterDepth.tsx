@@ -75,6 +75,19 @@ export function DepthTool({ chapterId }: { chapterId: string }) {
           ))}
         </ol>
       )}
+      {depth.tool.levels && (
+        <div className="depth-levels">
+          <strong>{depth.tool.levels.title}</strong>
+          <ul>
+            {depth.tool.levels.items.map(item => (
+              <li key={item.name} className={item.highlight ? "is-highlight" : undefined}>
+                <b>{item.name}</b>
+                <span>{item.text}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       {depth.tool.note && <p className="depth-note">{depth.tool.note}</p>}
     </div>
   );

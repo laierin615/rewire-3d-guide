@@ -32,6 +32,8 @@ export type ChapterTool = {
   animation?: "sigh";
   /** 呈現方式：條列（預設）、編號卡片、可勾選清單 */
   display?: "list" | "cards" | "checklist";
+  /** 強度分級說明（例如運動的第 1–5 區）；highlight 標出方案裡用到的級別 */
+  levels?: { title: string; items: { name: string; text: string; highlight?: boolean }[] };
 };
 
 /** 應付慢性壓力的基本功：原理加上幾件要回頭顧好的事 */
@@ -741,6 +743,16 @@ export const chapterDepth: Record<string, ChapterDepthEntry> = {
         "重量訓練：每週 2 到 3 回。",
         "神經運動：盡可能加入平衡、協調的訓練。"
       ],
+      "levels": {
+        "title": "運動強度怎麼分？",
+        "items": [
+          { "name": "第 1 區", "text": "非常輕鬆，例如伸展、散步。" },
+          { "name": "第 2 區", "text": "輕鬆的有氧運動，能邊做邊說話，例如快走、緩步慢跑、爬樓梯。", "highlight": true },
+          { "name": "第 3 區", "text": "增加有氧耐力的中度運動，例如中速慢跑、騎自行車。" },
+          { "name": "第 4 區", "text": "高強度，例如拳擊、間歇跑、大重量舉重。" },
+          { "name": "第 5 區", "text": "極高強度，時間短但很吃力，例如衝刺短跑、塔巴塔間歇訓練。", "highlight": true }
+        ]
+      },
       "note": "這是寫給一般讀者的建議，不是個人運動處方；身體有狀況時，請先諮詢醫療專業人員。"
     },
     "exam": [

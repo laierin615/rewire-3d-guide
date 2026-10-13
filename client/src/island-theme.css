@@ -2674,3 +2674,40 @@ input:focus-visible,
 .chapter-depth-inline > .depth-tool {
   margin-top: 0;
 }
+
+/* 工具的強度分級（例如運動第 1–5 區） */
+.depth-levels {
+  margin-top: 16px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: #fffdf5;
+  border: 1px solid var(--card-line);
+}
+.depth-levels > strong {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 17px;
+}
+.depth-levels ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+.depth-levels li {
+  display: grid;
+  grid-template-columns: 4.5em 1fr;
+  gap: 10px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.depth-levels li b {
+  color: var(--ink-2, #5b4a3a);
+}
+.depth-levels li.is-highlight {
+  background: #fff1d6;
+  color: var(--ink-2, #5b4a3a);
+}
